@@ -26,9 +26,14 @@ public class DBConnectionPool  {
 		String db = "pokédex";
 		String username = "root";
 		String password = "";
-
+		
+		//String url = "jdbc:mysql://root@localhost:3306/pokédex?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+		
+		//newConnection = DriverManager.getConnection(url);
 		newConnection = DriverManager.getConnection("jdbc:mysql://"+ ip+":"+ port+"/"+db+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", username, password);
-		newConnection.setAutoCommit(false);
+		
+		
+		newConnection.setAutoCommit(true);
 		return newConnection;
 	}
 
