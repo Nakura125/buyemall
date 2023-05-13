@@ -41,6 +41,11 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo>{
 		String insertSQL = "INSERT INTO " + IndirizzoDAO.TABLE_NAME
 				+ " (idIndirizzo,VIA, Citta, provincia, n_civico) VALUES (?,?, ?, ?, ?)";
 
+		
+
+
+
+
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(insertSQL);
@@ -109,6 +114,17 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo>{
 
 			ResultSet rs = preparedStatement.executeQuery();
 
+			
+//			'CREATE TABLE `indirizzo` (
+//			  `idIndirizzo` int NOT NULL,
+//			  `via` varchar(200) NOT NULL,
+//			  `citta` varchar(45) NOT NULL,
+//			  `provincia` varchar(45) NOT NULL,
+//			  `n_civico` varchar(5) NOT NULL,
+//			  PRIMARY KEY (`idIndirizzo`),
+//			  UNIQUE KEY `idIndirizzo_UNIQUE` (`idIndirizzo`)
+//			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci'
+//			
 			while (rs.next()) {
 				bean.setIdIndirizzo((rs.getInt("idIndirizzo")));
 				bean.setVia(rs.getString("via"));
