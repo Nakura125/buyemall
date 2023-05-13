@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 import it.unisa.bean.Indirizzo;
 import it.unisa.interfaces.IBeanDao;
 
-public class IndirizzoDAO implements IBeanDao<Indirizzo>{
+public class IndirizzoDAO implements IBeanDao<Indirizzo> {
 
 	private static DataSource ds;
 
@@ -31,8 +31,7 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo>{
 	}
 
 	private static final String TABLE_NAME = "Indirizzo";
-	
-	
+
 	@Override
 	public void doSave(Indirizzo product) throws SQLException {
 		Connection connection = null;
@@ -40,11 +39,6 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo>{
 
 		String insertSQL = "INSERT INTO " + IndirizzoDAO.TABLE_NAME
 				+ " (idIndirizzo,VIA, Citta, provincia, n_civico) VALUES (?,?, ?, ?, ?)";
-
-		
-
-
-
 
 		try {
 			connection = ds.getConnection();
@@ -67,7 +61,7 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo>{
 					connection.close();
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -115,16 +109,6 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo>{
 			ResultSet rs = preparedStatement.executeQuery();
 
 			
-//			'CREATE TABLE `indirizzo` (
-//			  `idIndirizzo` int NOT NULL,
-//			  `via` varchar(200) NOT NULL,
-//			  `citta` varchar(45) NOT NULL,
-//			  `provincia` varchar(45) NOT NULL,
-//			  `n_civico` varchar(5) NOT NULL,
-//			  PRIMARY KEY (`idIndirizzo`),
-//			  UNIQUE KEY `idIndirizzo_UNIQUE` (`idIndirizzo`)
-//			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci'
-//			
 			while (rs.next()) {
 				bean.setIdIndirizzo((rs.getInt("idIndirizzo")));
 				bean.setVia(rs.getString("via"));
@@ -150,7 +134,7 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<Indirizzo> products = new LinkedList<Indirizzo>();
+		Collection<Indirizzo> products = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + IndirizzoDAO.TABLE_NAME;
 
@@ -186,5 +170,5 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo>{
 		}
 		return products;
 	}
-	
+
 }
