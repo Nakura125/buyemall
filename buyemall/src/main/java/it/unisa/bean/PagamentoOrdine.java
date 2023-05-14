@@ -1,16 +1,16 @@
 package it.unisa.bean;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class PagamentoOrdine {
 	private Ordine ordine;
 	private Date data;
 	private String tipo, numero_carta, cvc;
 	Account user;
-	public Ordine getIdOrdine() {
+	public Ordine getOrdine() {
 		return ordine;
 	}
-	public void setIdOrdine(Ordine ordine) {
+	public void setOrdine(Ordine ordine) {
 		this.ordine = ordine;
 	}
 	public Date getData() {

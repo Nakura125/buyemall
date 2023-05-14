@@ -7,6 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-Tua madre angelo bello ooooo
+	<form action="ProvaServ">
+		<input type="text" name="username" >
+		
+		<input type="text" name="password" >
+		<input type="submit">
+	</form>
 </body>
 </html>
