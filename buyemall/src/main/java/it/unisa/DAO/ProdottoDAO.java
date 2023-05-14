@@ -11,11 +11,13 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import it.unisa.bean.Indirizzo;
+
+import it.unisa.bean.Prodotto;
+import it.unisa.bean.Tipo;
 import it.unisa.interfaces.IBeanDao;
 
-public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
-
+public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
+	
 	private static DataSource ds;
 
 	static {
@@ -30,25 +32,27 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 		}
 	}
 
-	private static final String TABLE_NAME = "indirizzo";
+	private static final String TABLE_NAME = "Prodotto";
 	
-	
+
 	@Override
-	public synchronized void doSave(Indirizzo product) throws SQLException {
+	public synchronized void doSave(Prodotto product) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO " + IndirizzoDAO.TABLE_NAME
-				+ " (idIndirizzo,VIA, Citta, provincia, n_civico) VALUES (?,?, ?, ?, ?)";
+		String insertSQL = "INSERT INTO " + ProdottoDAO.TABLE_NAME
+				+ " (idProdotti,tipo, quantita, nome, descrizione,prezzo,generazione) VALUES (?,?, ?, ?, ?,?,?)";
 
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(insertSQL);
-			preparedStatement.setInt(1, product.getIdIndirizzo());
-			preparedStatement.setString(2, product.getVia());
-			preparedStatement.setString(3, product.getCitta());
-			preparedStatement.setString(4, product.getProvincia());
-			preparedStatement.setString(5, product.getN_civico());
+			preparedStatement.setInt(1, product.getIdProdotto());
+			preparedStatement.setString(2, product.getTipo().toString());
+			preparedStatement.setInt(3, product.getQuantita());
+			preparedStatement.setString(4, product.getNome());
+			preparedStatement.setString(5, product.getDescrizione());
+			preparedStatement.setFloat(6,product.getPrezzo() );
+			preparedStatement.setInt(7,product.getGenerazione() );
 
 			preparedStatement.executeUpdate();
 
@@ -67,40 +71,18 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 
 	@Override
 	public synchronized boolean doDelete(Integer code) throws SQLException {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-
-		int result = 0;
-
-		String deleteSQL = "DELETE FROM " + IndirizzoDAO.TABLE_NAME + " WHERE idindirizzo = ?";
-
-		try {
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(deleteSQL);
-			preparedStatement.setInt(1, code);
-
-			result = preparedStatement.executeUpdate();
-
-		} finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} finally {
-				if (connection != null)
-					connection.close();
-			}
-		}
-		return (result != 0);
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
-	public synchronized Indirizzo doRetrieveByKey(Integer code) throws SQLException {
+	public synchronized Prodotto doRetrieveByKey(Integer code) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Indirizzo bean = new Indirizzo();
+		Prodotto bean = new Prodotto();
 
-		String selectSQL = "SELECT * FROM " + IndirizzoDAO.TABLE_NAME + " WHERE idindirizzo = ?";
+		String selectSQL = "SELECT * FROM " + ProdottoDAO.TABLE_NAME + " WHERE idProdotti = ?";
 
 		try {
 			connection = ds.getConnection();
@@ -110,11 +92,13 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				bean.setIdIndirizzo((rs.getInt("idIndirizzo")));
-				bean.setVia(rs.getString("via"));
-				bean.setCitta(rs.getString("citta"));
-				bean.setProvincia(rs.getString("provincia"));
-				bean.setN_civico(rs.getString("n_civico"));
+				bean.setIdProdotto((rs.getInt("idProdotti")));
+				bean.setTipo(Tipo.valueOf(rs.getString("tipo")));
+				bean.setQuantita(rs.getInt("quantita"));
+				bean.setNome(rs.getString("Nome"));
+				bean.setDescrizione(rs.getString("Descrizione"));
+				bean.setPrezzo(rs.getFloat("Prezzo"));
+				bean.setGenerazione(rs.getInt("generazione"));
 			}
 
 		} finally {
@@ -128,18 +112,20 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 		}
 		return bean;
 	}
+	
+	
 
 	@Override
-	public synchronized Collection<Indirizzo> doRetrieveAll(String order) throws SQLException {
+	public synchronized Collection<Prodotto> doRetrieveAll(String order) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<Indirizzo> products = new LinkedList<Indirizzo>();
+		Collection<Prodotto> products = new LinkedList<Prodotto>();
 
-		String selectSQL = "SELECT * FROM " + IndirizzoDAO.TABLE_NAME;
+		String selectSQL = "SELECT * FROM " + ProdottoDAO.TABLE_NAME;
 
 		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
+			selectSQL += " ORDER BY " + order + "DESC";
 		}
 
 		try {
@@ -149,13 +135,16 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Indirizzo bean = new Indirizzo();
-
-				bean.setIdIndirizzo(rs.getInt("idIndirizzo"));
-				bean.setVia(rs.getString("via"));
-				bean.setCitta(rs.getString("citta"));
-				bean.setProvincia(rs.getString("provincia"));
-				bean.setN_civico(rs.getString("n_civico"));
+				Prodotto bean=new Prodotto();
+				
+				bean.setIdProdotto((rs.getInt("idProdotti")));
+				bean.setTipo(Tipo.valueOf(rs.getString("tipo")));
+				bean.setQuantita(rs.getInt("quantita"));
+				bean.setNome(rs.getString("Nome"));
+				bean.setDescrizione(rs.getString("Descrizione"));
+				bean.setPrezzo(rs.getFloat("Prezzo"));
+				bean.setGenerazione(rs.getInt("generazione"));
+				
 				products.add(bean);
 			}
 
@@ -170,5 +159,6 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 		}
 		return products;
 	}
+	
 	
 }

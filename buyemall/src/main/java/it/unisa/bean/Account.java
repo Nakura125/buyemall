@@ -1,14 +1,16 @@
 package it.unisa.bean;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+
 public class Account {
-	private String username,nome,cognome,email;
+	private String username,nome,cognome,email,password;
 	private Indirizzo i;
 	private List<Prodotto> carrello;
 	private List<MetodiPagamento> pag;
-	public Account(){carrello=new ArrayList<>();pag=new ArrayList<>();}
+	public Account(){carrello=new ArrayList<>();pag=new ArrayList<>(); }
 	public List<MetodiPagamento> getPag() {
 		return pag;
 	}
@@ -19,8 +21,15 @@ public class Account {
 	public void addPag(MetodiPagamento pg) {
 		pag.add(pg);
 	}
+	
+	public void addPag(Collection<MetodiPagamento> pg) {
+		pag.addAll(pg);
+	}
 	public void addCart(Prodotto pr) {
 		carrello.add(pr);
+	}
+	public void addCart(Collection<Prodotto> pg) {
+		carrello.addAll(pg);
 	}
 	public String getNome() {
 		return nome;
@@ -59,6 +68,12 @@ public class Account {
 	public void setUsername(String username) {
 		if(username.length()<= 45)
 			this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	
