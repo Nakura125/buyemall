@@ -1,6 +1,6 @@
 package it.unisa.bean;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class MetodiPagamento {
 	private String tipo_pagamento, numero_carta, cvc;

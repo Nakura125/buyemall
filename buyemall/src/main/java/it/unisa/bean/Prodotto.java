@@ -18,6 +18,10 @@ public class Prodotto {
 	public void addSprites(Sprites pr) {
 		sprites.add(pr);
 	}
+	public void setIdProdotto(int idProdotto) {
+		this.idProdotto = idProdotto;
+	}
+
 	public Tipo getTipo() {
 		return tipo;
 	}
