@@ -91,6 +91,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 				bean.setCognome(rs.getString("cognome"));
 				bean.setEmail(rs.getString("email"));
 				bean.setPassword(rs.getString("Password"));
+				bean.setActive(rs.getBoolean("attivo"));
 
 				bean.setI(new IndirizzoDAO().doRetrieveByKey(rs.getInt("idIndirizzo")));
 
@@ -136,6 +137,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 				bean.setCognome(rs.getString("cognome"));
 				bean.setEmail(rs.getString("email"));
 				bean.setPassword(rs.getString("Password"));
+				bean.setActive(rs.getBoolean("attivo"));
 
 				bean.addPag(new MetodiPagamentoDAO().doRetrieveAByUsername(bean.getUsername()));
 
@@ -157,7 +159,131 @@ public class AccountDAO implements IBeanDao<Account,String>{
 	}
 	
 	
+	public synchronized void UpdateInfo(String nome,String cognome,String email,Account pr) throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		String insertSQL ="UPDATE account"
+				+ "SET nome = ?, cognome=?,email=? "
+				+ "WHERE username = ? ";
+				
+				
+				try {
+					connection = ds.getConnection();
+					preparedStatement = connection.prepareStatement(insertSQL);
+					preparedStatement.setString(1, nome);
+
+					preparedStatement.setString(2, cognome);
+
+					preparedStatement.setString(3, email);
+
+					preparedStatement.setString(4, pr.getUsername());
+					preparedStatement.executeUpdate();
+
+					connection.commit();
+				} finally {
+					try {
+						if (preparedStatement != null)
+							preparedStatement.close();
+					} finally {
+						if (connection != null)
+							connection.close();
+					}
+				}
+	} 
 	
+	public synchronized void UpdatePassword(String password,Account pr) throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		String insertSQL ="UPDATE account"
+				+ "SET password=? "
+				+ "WHERE username = ? ";
+				
+				
+				try {
+					connection = ds.getConnection();
+					preparedStatement = connection.prepareStatement(insertSQL);
+					preparedStatement.setString(1, password);
+
+					
+
+					preparedStatement.setString(2, pr.getUsername());
+					preparedStatement.executeUpdate();
+
+					connection.commit();
+				} finally {
+					try {
+						if (preparedStatement != null)
+							preparedStatement.close();
+					} finally {
+						if (connection != null)
+							connection.close();
+					}
+				}
+	} 
+	
+	public synchronized void UpdateIndirizzo(Indirizzo id,Account pr) throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		String insertSQL ="UPDATE account"
+				+ "SET idindirizzo=? "
+				+ "WHERE username = ? ";
+				
+				
+				try {
+					connection = ds.getConnection();
+					preparedStatement = connection.prepareStatement(insertSQL);
+					preparedStatement.setInt(1, id.getIdIndirizzo());
+
+					
+
+					preparedStatement.setString(2, pr.getUsername());
+					preparedStatement.executeUpdate();
+
+					connection.commit();
+				} finally {
+					try {
+						if (preparedStatement != null)
+							preparedStatement.close();
+					} finally {
+						if (connection != null)
+							connection.close();
+					}
+				}
+	} 
+	
+	public synchronized void UpdateActive(Boolean id,Account pr) throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		String insertSQL ="UPDATE account"
+				+ "SET active=? "
+				+ "WHERE username = ? ";
+				
+				
+				try {
+					connection = ds.getConnection();
+					preparedStatement = connection.prepareStatement(insertSQL);
+					preparedStatement.setBoolean(1, id);
+
+					
+
+					preparedStatement.setString(2, pr.getUsername());
+					preparedStatement.executeUpdate();
+
+					connection.commit();
+				} finally {
+					try {
+						if (preparedStatement != null)
+							preparedStatement.close();
+					} finally {
+						if (connection != null)
+							connection.close();
+					}
+				}
+	} 
 	
 	@Override
 	public synchronized boolean doDelete(String code) throws SQLException {
@@ -187,6 +313,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 				bean.setCognome(rs.getString("cognome"));
 				bean.setEmail(rs.getString("email"));
 				bean.setPassword(rs.getString("Password"));
+				bean.setActive(rs.getBoolean("attivo"));
 
 				bean.addPag(new MetodiPagamentoDAO().doRetrieveAByUsername(bean.getUsername()));
 
@@ -213,7 +340,8 @@ public class AccountDAO implements IBeanDao<Account,String>{
 
 		Collection<Prodotto> products = new LinkedList<>();
 
-		String selectSQL = "select idProdotti,tipo,P.nome,quantita,descrizione,prezzo,Generazione from carrello as C, `account` as AC,prodotti as P\r\n"
+		//TODO
+		String selectSQL = "select idProdotti,tipo,P.nome,quantita,descrizione,prezzo,Nazionalita,Generazione from carrello as C, `account` as AC,prodotti as P\r\n"
 				+ "where ac.username=c.username and p.idProdotti=c.idprodotto  and AC.username= ?;";
 		try {
 			connection = ds.getConnection();
@@ -231,6 +359,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 				bean.setNome(rs.getString("Nome"));
 				bean.setDescrizione(rs.getString("Descrizione"));
 				bean.setPrezzo(rs.getFloat("Prezzo"));
+				bean.setNazionalita(rs.getString("Nazionalita"));
 				bean.setGenerazione(rs.getInt("generazione"));
 				
 				products.add(bean);

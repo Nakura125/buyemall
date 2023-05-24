@@ -6,6 +6,7 @@ public class Sprites {
 	
 	private String link;
 	private String link_small;
+	private Prodotto prodotto;
 	public int getIdSprites() {
 		return idSprites;
 	}
@@ -28,6 +29,12 @@ public class Sprites {
 	}
 	public void setLink_small(String link_small) {
 		this.link_small = link_small;
+	}
+	public Prodotto getProdotto() {
+		return prodotto;
+	}
+	public void setProdotto(Prodotto prodotto) {
+		this.prodotto = prodotto;
 	}
 
 }

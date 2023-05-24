@@ -137,16 +137,17 @@ public class MetodiPagamentoDAO implements IBeanDao<MetodiPagamento, String>{
 
 		Collection<MetodiPagamento> products = new LinkedList<MetodiPagamento>();
 
-		String selectSQL = "SELECT * FROM " + MetodiPagamentoDAO.TABLE_NAME;
+		String selectSQL = "SELECT * FROM " + MetodiPagamentoDAO.TABLE_NAME + " ORDER BY ?";
 
-		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
+		if (order == null || order.equals("")) {
+			order="numero_carta";
 		}
 
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
-
+			preparedStatement.setString(1, order);
+			
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
