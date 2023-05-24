@@ -11,6 +11,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import it.unisa.bean.Prodotto;
 import it.unisa.bean.Sprites;
 import it.unisa.interfaces.IBeanDao;
 
@@ -39,7 +41,7 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO " + SpritesDAO.TABLE_NAME
-				+ " (idSprites,link,link_small) VALUES (?,?,?)";
+				+ " (idSprites,link,link_small,idprodotto) VALUES (?,?,?,?)";
 
 		try {
 			connection = ds.getConnection();
@@ -47,6 +49,8 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 			preparedStatement.setInt(1, product.getIdSprites());
 			preparedStatement.setString(2, product.getLink());
 			preparedStatement.setString(3, product.getLink_small());
+
+			preparedStatement.setInt(4, product.getProdotto().getIdProdotto());
 
 			preparedStatement.executeUpdate();
 
@@ -106,13 +110,13 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 			preparedStatement.setInt(1, code);
 
 			ResultSet rs = preparedStatement.executeQuery();
-
+			
 						
 			while (rs.next()) {
 				bean.setIdSprites(rs.getInt("idSprites"));
 				bean.setLink(rs.getString("link"));
 				bean.setLink_small(rs.getString("link_small"));
-
+				bean.setProdotto(new ProdottoDAO().doRetrieveByKey((rs.getInt("idProdotto"))));
 			}
 
 		} finally {
@@ -126,24 +130,21 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 		}
 		return bean;
 	}
-
-	@Override
-	public synchronized Collection<Sprites> doRetrieveAll(String order) throws SQLException {
+	
+	public synchronized Collection<Sprites> doRetrieveByProdotto(Prodotto pd) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
 		Collection<Sprites> products = new LinkedList<>();
 
-		String selectSQL = "SELECT * FROM " + SpritesDAO.TABLE_NAME;
+		String selectSQL = "SELECT * FROM " + SpritesDAO.TABLE_NAME + " WHERE idprodotto=?";
 
-		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
-		}
+		
 
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
-
+			preparedStatement.setInt(1, pd.getIdProdotto());
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -152,6 +153,48 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 				bean.setIdSprites(rs.getInt("idSprites"));
 				bean.setLink(rs.getString("link"));
 				bean.setLink(rs.getString("link_small"));
+				bean.setProdotto(new ProdottoDAO().doRetrieveByKey((rs.getInt("idProdotto"))));
+				products.add(bean);
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return products;
+	}
+
+	@Override
+	public synchronized Collection<Sprites> doRetrieveAll(String order) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		Collection<Sprites> products = new LinkedList<>();
+
+		String selectSQL = "SELECT * FROM " + SpritesDAO.TABLE_NAME + " ORDER BY ? Limit 100";
+
+		if (order == null || order.equals("")) {
+			order="idsprites";
+		}
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, order);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				Sprites bean = new Sprites();
+
+				bean.setIdSprites(rs.getInt("idSprites"));
+				bean.setLink(rs.getString("link"));
+				bean.setLink(rs.getString("link_small"));
+				bean.setProdotto(new ProdottoDAO().doRetrieveByKey((rs.getInt("idProdotto"))));
 				products.add(bean);
 			}
 

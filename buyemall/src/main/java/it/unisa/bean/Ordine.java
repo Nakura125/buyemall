@@ -34,6 +34,8 @@ public class Ordine {
 	
 	public void addList(Prodotto pr) {
 		list.add(pr);
+	}public void addList(List<Prodotto> pr) {
+		list.addAll(pr);
 	}
 	public float getPrezzo() {
 		return prezzo;

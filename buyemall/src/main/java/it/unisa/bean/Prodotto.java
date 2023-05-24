@@ -1,6 +1,7 @@
 package it.unisa.bean;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ public class Prodotto {
 	private float prezzo;
 	private String nome, descrizione;
 	private Tipo tipo;
+	private String Nazionalita;
 	private List<Sprites> sprites;
 	
 	
@@ -17,6 +19,9 @@ public class Prodotto {
 	
 	public void addSprites(Sprites pr) {
 		sprites.add(pr);
+	}
+	public void addSprites(Collection<Sprites> pr) {
+		sprites.addAll(pr);
 	}
 	public void setIdProdotto(int idProdotto) {
 		this.idProdotto = idProdotto;
@@ -87,5 +92,13 @@ public class Prodotto {
 
 	public void setData(Date data) {
 		this.data = data;
+	}
+
+	public String getNazionalita() {
+		return Nazionalita;
+	}
+
+	public void setNazionalita(String nazionalita) {
+		Nazionalita = nazionalita;
 	}
 }

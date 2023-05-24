@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Account {
 	private String username,nome,cognome,email,password;
+	private boolean active;
 	private Indirizzo i;
 	private List<Prodotto> carrello;
 	private List<MetodiPagamento> pag;
@@ -74,6 +75,12 @@ public class Account {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 	
 	

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.LinkedList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -108,6 +109,44 @@ public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
 		return bean;
 	}
 
+	public synchronized Collection<PagamentoOrdine> doRetrieveByOrdine(Integer idordine) throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		Collection<PagamentoOrdine> products = new LinkedList<PagamentoOrdine>();
+
+		String selectSQL = "SELECT * FROM " + PagamentoOrdineDAO.TABLE_NAME +" where idordine= ?";
+
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setInt(1, idordine);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				PagamentoOrdine bean = new PagamentoOrdine();
+
+				
+				bean.setTipo(rs.getString("tipo_pagamento"));
+				bean.setNumero_carta(rs.getString("numero_carta"));
+				bean.setData(rs.getDate("data"));
+				bean.setCvc(rs.getString("cvc"));
+				products.add(bean);
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return products;
+	}
+	
 	@Override
 	public synchronized Collection<PagamentoOrdine> doRetrieveAll(String order) throws SQLException {
 		// TODO Auto-generated method stub

@@ -122,6 +122,8 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 				bean.setIndirizzo(new IndirizzoDAO().doRetrieveByKey(rs.getInt("idindirizzo")));
 
 				bean.setU(new AccountDAO().doRetrieveByKey(rs.getString("username")));
+
+				bean.addList(new ProdottoDAO().doRetrieveByKey(rs.getInt("idindirizzo")));
 			}
 
 		} finally {
@@ -135,6 +137,37 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 		}
 		return bean;
 	}
+	
+	public synchronized void UpdateStato(Stato st,Ordine ordine) throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		String insertSQL ="UPDATE ordine\r\n"
+				+ "SET stato = ?"
+				+ "WHERE idOrdine = ? "
+				+ "  AND username = '?';";
+				
+				try {
+					connection = ds.getConnection();
+					preparedStatement = connection.prepareStatement(insertSQL);
+					preparedStatement.setString(1, st.toString());
+					preparedStatement.setInt(2, ordine.getIdOrdine());
+					preparedStatement.setString(3, ordine.getU().getUsername());
+					preparedStatement.executeUpdate();
+
+					connection.commit();
+				} finally {
+					try {
+						if (preparedStatement != null)
+							preparedStatement.close();
+					} finally {
+						if (connection != null)
+							connection.close();
+					}
+				}
+	} 
+	
+	
 
 	@Override
 	public synchronized Collection<Ordine> doRetrieveAll(String order) throws SQLException {

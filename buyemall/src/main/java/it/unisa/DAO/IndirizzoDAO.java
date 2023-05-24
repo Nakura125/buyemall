@@ -136,15 +136,17 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 
 		Collection<Indirizzo> products = new LinkedList<Indirizzo>();
 
-		String selectSQL = "SELECT * FROM " + IndirizzoDAO.TABLE_NAME;
+		String selectSQL = "SELECT * FROM " + IndirizzoDAO.TABLE_NAME + " ORDER BY ? Limit 100";
 
-		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
+		if (order == null || order.equals("")) {
+			order="idindirizzo";
 		}
+		
 
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, order);
 
 			ResultSet rs = preparedStatement.executeQuery();
 
