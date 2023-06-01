@@ -4,5 +4,6 @@ public enum Tipo {
 	carta,
 	box,
 	set,
-	rom
+	rom,
+	none
 }

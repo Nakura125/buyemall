@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -19,6 +20,8 @@ import it.unisa.interfaces.IBeanDao;
 public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 
 	private static DataSource ds;
+	
+	
 
 	static {
 		try {
@@ -131,11 +134,11 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 		return bean;
 	}
 	
-	public synchronized Collection<Sprites> doRetrieveByProdotto(Prodotto pd) throws SQLException {
+	public synchronized List<Sprites> doRetrieveByProdotto(Prodotto pd) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<Sprites> products = new LinkedList<>();
+		List<Sprites> products = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + SpritesDAO.TABLE_NAME + " WHERE idprodotto=?";
 
@@ -152,8 +155,8 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 
 				bean.setIdSprites(rs.getInt("idSprites"));
 				bean.setLink(rs.getString("link"));
-				bean.setLink(rs.getString("link_small"));
-				bean.setProdotto(new ProdottoDAO().doRetrieveByKey((rs.getInt("idProdotto"))));
+				bean.setLink_small(rs.getString("link_small"));
+				//bean.setProdotto(new ProdottoDAO().doRetrieveByKey((rs.getInt("idProdotto"))));
 				products.add(bean);
 			}
 

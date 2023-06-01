@@ -33,12 +33,22 @@
 </head>
 
 <body>
+
+	<script src="js/ajax-json.js"></script>
     
 	<%@include file="src/Header.jsp" %>
 	
 	
-	<%if(true){%>
+	<%if(pageName.equals("Home")){%>
 		<%@include file="src/Home/Home.jsp" %>
+	<%} %>	
+	
+	<%if(pageName.equals("Detail")){%>
+		<%@include file="src/Detail/Detail.jsp" %>
+	<%} %>	
+	
+	<%if(pageName.equals("Shop")){%>
+		<%@include file="src/Shop/Shop.jsp" %>
 	<%} %>	
     
     <%@include file="src/Footer.jsp" %>

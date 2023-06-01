@@ -1,5 +1,21 @@
+<%@page import="java.util.LinkedList"%>
+<%@page import="it.unisa.bean.Prodotto"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
+    
+    <%
+    	List<Prodotto> carousel=(List<Prodotto>)request.getAttribute("carousel");
+    
+    	if(carousel==null || carousel.size()<=0)
+    	{
+    		carousel=new LinkedList<>();
+    		for(int i=0;i<5;i++)
+    			carousel.add(Prodotto.nullProduct());
+    	}		
+    %>
+    
 	<!-- Topbar Start -->
     <div class="container-fluid">
         <div class="row bg-secondary py-2 px-xl-5">
@@ -114,9 +130,9 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="index.html" class="nav-item nav-link <%if(pageName.equals("Home")){%> active<%} %>">Home</a>
-                            <a href="shop.html" class="nav-item nav-link <%if(pageName.equals("Shop")){%> active<%} %>">Shop</a>
-                            <a href="detail.html" class="nav-item nav-link <%if(pageName.equals("Detail")){%> active<%} %>">Shop Detail</a>
+                            <a href="Home" class="nav-item nav-link <%if(pageName.equals("Home")){%> active<%} %>">Home</a>
+                            <a href="Shop" class="nav-item nav-link <%if(pageName.equals("Shop")){%> active<%} %>">Shop</a>
+                            <a href="Detail" class="nav-item nav-link <%if(pageName.equals("Detail")){%> active<%} %>">Shop Detail</a>
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle " data-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu rounded-0 m-0">
@@ -130,28 +146,26 @@
                     </div>
                 </nav>
                 
-                
+                <!-- Carousel -->
                 <%if(pageName.equals("Home")){%> 
+                
                 <div id="header-carousel" class="carousel slide" data-ride="carousel">
+                
                     <div class="carousel-inner">
-                        <div class="carousel-item active" style="height: 410px;">
-                            <img class="img-fluid" src="img/25_hires.png" alt="Image" style="object-fit: contain">
+                    <%for(int i=0;i<5;i++){
+                    	Prodotto carou=carousel.get(i);
+                    	%>
+                        <div class="carousel-item <%if(i==0) {%>active<%} %>" style="height: 410px;">
+                            <img class="img-fluid" src=<%=carou.getSprites().get(0).getLink() %> alt="Image" style="object-fit: contain">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px;">
-                                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Charizard</h3>
-                                    <a href="" class="btn btn-primary px-3">Compra Ora</a>
+                                    <h3 class="display-4 text-white font-weight-semi-bold mb-4"><%=carou.getNome() %></h3>
+                                    <a href="Detail?idProdotto=<%=carou.getIdProdotto() %>" class="btn btn-primary px-3">Compra Ora</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="carousel-item" style="height: 410px;">
-                            <img class="img-fluid" src="img/pokemon-collezione-v-box-mimikyuex-in-italiano.png" alt="Image" style="object-fit: contain">
-                            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                <div class="p-3" style="max-width: 700px;">
-                                    <h3 class="display-4 text-white font-weight-semi-bold mb-4">Box Mimikyuex</h3>
-                                    <a href="" class="btn btn-primary px-3">Compra Ora</a>
-                                </div>
-                            </div>
-                        </div>
+                        <%} %>
+                        
                     </div>
                     <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
                         <div class="btn btn-dark" style="width: 45px; height: 45px;">
@@ -164,6 +178,7 @@
                         </div>
                     </a>
                 </div>
+            	
             	<%} %>
             </div>
         </div>

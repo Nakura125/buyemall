@@ -7,6 +7,15 @@ public class Sprites {
 	private String link;
 	private String link_small;
 	private Prodotto prodotto;
+	
+	public static Sprites nullSprites() {
+		Sprites p=new Sprites();
+		
+		String urlimgnull="https://www.pngall.com/wp-content/uploads/2/Question-Mark-PNG.png";
+		p.setLink(urlimgnull);
+		return p;
+	}
+	
 	public int getIdSprites() {
 		return idSprites;
 	}
