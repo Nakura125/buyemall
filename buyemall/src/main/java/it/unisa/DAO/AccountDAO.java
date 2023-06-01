@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -334,11 +335,11 @@ public class AccountDAO implements IBeanDao<Account,String>{
 		return bean;
 	}
 	
-	private synchronized static Collection<Prodotto> recoverCart(String username) throws SQLException {
+	private synchronized static List<Prodotto> recoverCart(String username) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<Prodotto> products = new LinkedList<>();
+		List<Prodotto> products = new LinkedList<>();
 
 		//TODO
 		String selectSQL = "select idProdotti,tipo,P.nome,quantita,descrizione,prezzo,Nazionalita,Generazione from carrello as C, `account` as AC,prodotti as P\r\n"
@@ -380,7 +381,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 	}
 
 	@Override
-	public synchronized Collection<Account> doRetrieveAll(String order) throws SQLException {
+	public synchronized List<Account> doRetrieveAll(String order) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

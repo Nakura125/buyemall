@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -14,6 +15,7 @@ import javax.sql.DataSource;
 
 import it.unisa.bean.Ordine;
 import it.unisa.bean.Prodotto;
+import it.unisa.bean.Sprites;
 import it.unisa.bean.Stato;
 import it.unisa.bean.Tipo;
 import it.unisa.interfaces.IBeanDao;
@@ -34,7 +36,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		}
 	}
 
-	private static final String TABLE_NAME = "Prodotto";
+	private static final String TABLE_NAME = "Prodotti";
 	
 
 	@Override
@@ -105,7 +107,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		
-		String insertSQL ="UPDATE prodotti"
+		String insertSQL ="UPDATE prodotti "
 				+ "SET visitato = ? "
 				+ "WHERE idProdotti = ? ";
 				
@@ -117,7 +119,6 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 					preparedStatement.setInt(2, pr.getIdProdotto());
 					preparedStatement.executeUpdate();
 
-					connection.commit();
 				} finally {
 					try {
 						if (preparedStatement != null)
@@ -165,8 +166,12 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 
 				bean.addSprites(new SpritesDAO().doRetrieveByProdotto(bean));
 
+				bean.addSprites(Sprites.nullSprites());
+
 				bean.setNazionalita(rs.getString("Nazionalita"));
+				
 			}
+			
 
 		} finally {
 			try {
@@ -184,47 +189,59 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		Collection<Prodotto> products = new LinkedList<Prodotto>();
-		
+		int count=1;
 		if(generazione ==null&&tipo==null&&prezzo ==null&&nazione==null)
 			return doRetrieveAllClient("visitato");
 
-		String selectSQL = "SELECT * FROM " + ProdottoDAO.TABLE_NAME+ "Where ";
+		String selectSQL = "SELECT * FROM " + ProdottoDAO.TABLE_NAME+ " Where ";
 		if(nome!=null) {
-			selectSQL+=" nome LIKE  = %?%";
+			selectSQL+=" nome LIKE  ? AND";
 		}
 		if(generazione!=null) {
-			selectSQL+=" generazione = ?";
+			selectSQL+=" generazione = ? AND ";
 		}
 		if(tipo!=null) {
-			selectSQL+=" AND tipo = ?";
+			selectSQL+=" tipo = ? AND ";
 		}
 		if(prezzo!=null) {
-			selectSQL+=" AND prezzo = ?";
+			selectSQL+="prezzo = ? AND ";
 		}
 		if(nazione!=null) {
-			selectSQL+=" AND nazione = ?";
+			selectSQL+=" nazione = ? AND";
 		}
 
-		selectSQL+=" orderby visitato DESC";
-		
+		selectSQL+="  Quantita > 0 order by visitato DESC limit 100";
+		//System.out.println(selectSQL);
 
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
 			
 			
-			ResultSet rs = preparedStatement.executeQuery();
-			if(nome!=null)
-				preparedStatement.setString(1, nome);
-			if(generazione!=null)
-			preparedStatement.setInt(2, generazione);
+			if(nome!=null) {
+				nome="%"+nome+"%";
+				preparedStatement.setString(count, nome);
+				count+=1;
+			}
+			if(generazione!=null) {
+				preparedStatement.setInt(count, generazione);
+				count+=1;
+			}
 			if(tipo!=null)
-			preparedStatement.setString(3, tipo.toString());
-			if(prezzo!=null) 
-			preparedStatement.setFloat(4, prezzo);
+			{
+				preparedStatement.setString(count, tipo.toString());
+				count+=1;
+			}if(prezzo!=null) 
+			{
+				preparedStatement.setFloat(count, prezzo);
+				count+=1;
+			}
 			if(nazione!=null)
-			preparedStatement.setString(5, nazione);
-
+			{
+				preparedStatement.setString(count, nazione);
+				count+=1;
+			}
+			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
 				Prodotto bean=new Prodotto();
 				
@@ -240,8 +257,12 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 				bean.setNazionalita(rs.getString("Nazionalita"));
 
 				bean.addSprites(new SpritesDAO().doRetrieveByProdotto(bean));
+
+				bean.addSprites(Sprites.nullSprites());
 				
 				products.add(bean);
+				
+				//System.out.println(bean);
 			}
 
 		} finally {
@@ -293,6 +314,8 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 				bean.setNazionalita(rs.getString("Nazionalita"));
 
 				bean.addSprites(new SpritesDAO().doRetrieveByProdotto(bean));
+
+				bean.addSprites(Sprites.nullSprites());
 				
 				products.add(bean);
 			}
@@ -315,16 +338,16 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 
 		Collection<Prodotto> products = new LinkedList<Prodotto>();
 
-		String selectSQL = "SELECT * FROM " + ProdottoDAO.TABLE_NAME + "WHERE Quantita >0 ORDER BY ? DESC Limit 100";
+		String selectSQL = "SELECT * FROM " + ProdottoDAO.TABLE_NAME + " WHERE Quantita >0 ORDER BY visitato DESC Limit 100";
 
 		if (order == null || order.equals("")) {
 			order="idProdotto";
 		}
-
+		
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
-			preparedStatement.setString(1, order);
+			//preparedStatement.setString(1, order);
 			
 			ResultSet rs = preparedStatement.executeQuery();
 
@@ -343,6 +366,8 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 				bean.setNazionalita(rs.getString("Nazionalita"));
 
 				bean.addSprites(new SpritesDAO().doRetrieveByProdotto(bean));
+
+				bean.addSprites(Sprites.nullSprites());
 				
 				products.add(bean);
 			}
@@ -359,5 +384,297 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		return products;
 	}
 	
+	
+	public synchronized Collection<Prodotto> doRetrieveAllRAND() throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		Collection<Prodotto> products = new LinkedList<Prodotto>();
+
+		String selectSQL = "SELECT * FROM " + ProdottoDAO.TABLE_NAME + " WHERE Quantita >0 ORDER BY RAND() DESC Limit 100";
+
+		
+		
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				Prodotto bean=new Prodotto();
+				
+				bean.setIdProdotto((rs.getInt("idProdotti")));
+				bean.setTipo(Tipo.valueOf(rs.getString("tipo")));
+				bean.setQuantita(rs.getInt("quantita"));
+				bean.setNome(rs.getString("Nome"));
+				bean.setDescrizione(rs.getString("Descrizione"));
+				bean.setPrezzo(rs.getFloat("Prezzo"));
+				bean.setGenerazione(rs.getInt("generazione"));
+
+				bean.setVisitato(rs.getInt("visitato"));
+				bean.setNazionalita(rs.getString("Nazionalita"));
+
+				bean.addSprites(new SpritesDAO().doRetrieveByProdotto(bean));
+
+				bean.addSprites(Sprites.nullSprites());
+				
+				products.add(bean);
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return products;
+	}
+	
+	// query particolari di filtro
+	
+	public synchronized List<String> selectAllType() throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		List<String> products = new LinkedList<String>();
+
+		String selectSQL = "SELECT distinct tipo FROM  "+ProdottoDAO.TABLE_NAME+" where Quantita> 0";
+
+		
+		
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				products.add(rs.getString("tipo"));
+				
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return products;
+	}
+	
+	public synchronized List<Integer> selectAllGeneration() throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		List<Integer> products = new LinkedList<Integer>();
+
+		String selectSQL = "SELECT distinct generazione FROM "+ProdottoDAO.TABLE_NAME+" where Quantita> 0";
+
+		
+		
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				products.add(rs.getInt("generazione"));
+				
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return products;
+	}
+	
+	public synchronized Integer countForFilter(String nome,Integer generazione,Tipo tipo,Float  prezzo,String nazione) throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		Integer products = null;
+		int count=1;
+		
+
+		String selectSQL = "SELECT Count(*) as conteggio  FROM " + ProdottoDAO.TABLE_NAME+ " Where ";
+		if(nome!=null) {
+			selectSQL+=" nome LIKE  ? AND";
+		}
+		if(generazione!=null) {
+			selectSQL+=" generazione = ? AND ";
+		}
+		if(tipo!=null) {
+			selectSQL+=" tipo = ? AND ";
+		}
+		if(prezzo!=null) {
+			selectSQL+="prezzo = ? AND ";
+		}
+		if(nazione!=null) {
+			selectSQL+=" nazione = ? AND";
+		}
+
+		selectSQL+="  Quantita > 0";
+		//System.out.println(selectSQL);
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			
+			
+			if(nome!=null) {
+				nome="%"+nome+"%";
+				preparedStatement.setString(count, nome);
+				count+=1;
+			}
+			if(generazione!=null) {
+				preparedStatement.setInt(count, generazione);
+				count+=1;
+			}
+			if(tipo!=null)
+			{
+				preparedStatement.setString(count, tipo.toString());
+				count+=1;
+			}if(prezzo!=null) 
+			{
+				preparedStatement.setFloat(count, prezzo);
+				count+=1;
+			}
+			if(nazione!=null)
+			{
+				preparedStatement.setString(count, nazione);
+				count+=1;
+			}
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				
+				
+				
+				
+				products=rs.getInt("conteggio");
+				
+				//System.out.println(bean);
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return products;
+	}
+	
+	
+	public synchronized Collection<Prodotto> RetrieveByFiltersPaged(String nome,Integer generazione,Tipo tipo,Float  prezzo,String nazione,Integer offset,Integer page) throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		Collection<Prodotto> products = new LinkedList<Prodotto>();
+		int count=1;
+		
+
+		String selectSQL = "SELECT * FROM " + ProdottoDAO.TABLE_NAME+ " Where ";
+		if(nome!=null) {
+			selectSQL+=" nome LIKE  ? AND";
+		}
+		if(generazione!=null) {
+			selectSQL+=" generazione = ? AND ";
+		}
+		if(tipo!=null) {
+			selectSQL+=" tipo = ? AND ";
+		}
+		if(prezzo!=null) {
+			selectSQL+="prezzo = ? AND ";
+		}
+		if(nazione!=null) {
+			selectSQL+=" nazione = ? AND";
+		}
+
+		selectSQL+="  Quantita > 0 order by visitato DESC LIMIT ? OFFSET ? ";
+		//System.out.println(selectSQL);
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			
+			
+			if(nome!=null) {
+				nome="%"+nome+"%";
+				preparedStatement.setString(count, nome);
+				count+=1;
+			}
+			if(generazione!=null) {
+				preparedStatement.setInt(count, generazione);
+				count+=1;
+			}
+			if(tipo!=null)
+			{
+				preparedStatement.setString(count, tipo.toString());
+				count+=1;
+			}if(prezzo!=null) 
+			{
+				preparedStatement.setFloat(count, prezzo);
+				count+=1;
+			}
+			if(nazione!=null)
+			{
+				preparedStatement.setString(count, nazione);
+				count+=1;
+			}
+			
+			preparedStatement.setInt(count, offset);
+
+			preparedStatement.setInt(count+1, page);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				Prodotto bean=new Prodotto();
+				
+				bean.setIdProdotto((rs.getInt("idProdotti")));
+				bean.setTipo(Tipo.valueOf(rs.getString("tipo")));
+				bean.setQuantita(rs.getInt("quantita"));
+				bean.setNome(rs.getString("Nome"));
+				bean.setDescrizione(rs.getString("Descrizione"));
+				bean.setPrezzo(rs.getFloat("Prezzo"));
+				bean.setGenerazione(rs.getInt("generazione"));
+
+				bean.setVisitato(rs.getInt("visitato"));
+				bean.setNazionalita(rs.getString("Nazionalita"));
+
+				bean.addSprites(new SpritesDAO().doRetrieveByProdotto(bean));
+
+				bean.addSprites(Sprites.nullSprites());
+				
+				products.add(bean);
+				
+				//System.out.println(bean);
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return products;
+	}
 	
 }

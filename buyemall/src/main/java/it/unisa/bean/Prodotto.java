@@ -15,6 +15,23 @@ public class Prodotto {
 	private List<Sprites> sprites;
 	
 	
+	
+	public static Prodotto nullProduct() {
+		Prodotto nullpr=new Prodotto();
+		nullpr.setIdProdotto(0);
+		nullpr.setNome("Not Found");
+		nullpr.setDescrizione("Error not FOund Product");
+		nullpr.setGenerazione(0);
+		nullpr.setQuantita(0);
+		nullpr.setTipo(Tipo.none);
+		String urlimgnull="https://www.pngall.com/wp-content/uploads/2/Question-Mark-PNG.png";
+		Sprites sp=new Sprites();
+		sp.setLink(urlimgnull);
+		nullpr.addSprites(sp);
+		
+		return nullpr;
+	}
+	
 	public Prodotto() {sprites=new ArrayList<>();}
 	
 	public void addSprites(Sprites pr) {
