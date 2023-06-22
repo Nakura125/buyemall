@@ -48,7 +48,7 @@ public class AmministratoreDAO implements IBeanDao<Amministratore, String> {
 
 			preparedStatement.executeUpdate();
 
-			connection.commit();
+			//connection.commit();
 		} finally {
 			try {
 				if (preparedStatement != null)

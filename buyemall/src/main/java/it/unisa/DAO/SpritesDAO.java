@@ -57,7 +57,7 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 
 			preparedStatement.executeUpdate();
 
-			connection.commit();
+			//connection.commit();
 		} finally {
 			try {
 				if (preparedStatement != null)

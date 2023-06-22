@@ -71,7 +71,7 @@ public class Prodotto {
 		return prezzo;
 	}
 	public void setPrezzo(float prezzo) {
-		this.prezzo = prezzo;
+		this.prezzo = (float) (prezzo*1.22);
 	}
 	
 	public String getNome() {

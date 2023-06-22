@@ -1,3 +1,5 @@
+<%@page import="java.sql.SQLException"%>
+<%@page import="it.unisa.DAO.AccountDAO"%>
 <%@page import="java.util.LinkedList"%>
 <%@page import="it.unisa.bean.Prodotto"%>
 <%@page import="java.util.List"%>
@@ -58,11 +60,11 @@
                 <form action="">
                     <div class="input-group" style="width: max-content;">
                         <input type="text" class="form-control" placeholder="Cerca Prodotti">
-                        <div class="input-group-append">
+                        <a href="Shop" class="input-group-append">
                             <span class="input-group-text bg-transparent text-primary">
                                 <i class="fa fa-search"></i>
                             </span>
-                        </div>
+                        </a>
                     </div>
                 </form>
             </div>
@@ -71,20 +73,62 @@
                     <tr>
                         <td>
                             <div class="nav-item dropdown" style="width: min-content">
-                                <a href="#" class="nav-link dropdown-toggle border" data-toggle="dropdown">Account<img
-                                        src="img/Icon Account.png" width="25" height="20"></a>
+                            <%Cookie[] cookies = request.getCookies();
+                            Cookie account=null;
+                            Boolean cs=false;
+                            Integer count=0;
+                            if (cookies != null) {
+                                for (Cookie cookie : cookies) {
+                                    if (cookie.getName().equals("Account")) {
+                                        // Il cookie desiderato è presente
+                                        account=cookie;
+                                        cs=true;
+                                        
+                                        
+                                        try{
+                                        count =new AccountDAO().doRetrieveByKey(account.getValue()).getCarrello().size();
+                                        }catch(SQLException e){
+                                        	e.printStackTrace();
+                                        	count=0;
+                                        }
+                                        break;  // Esci dal ciclo, poiché hai trovato il cookie
+                                        
+                                    }
+                                }
+                            } %>
+                            
+                            <%if(cs){%>
+                                <a href="#" class="nav-link dropdown-toggle border" data-toggle="dropdown"><%=account.getValue() %>
+                                <img src="img/Icon Account.png" width="25" height="20"></a>
                                 <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="login.html" class="dropdown-item">Login</a>
-                                    <a href="register.html" class="dropdown-item">Register</a>
+                                    <a href="Profilo" class="dropdown-item">Profilo</a>
+                                    <a href="Logout" class="dropdown-item">Logout</a>
                                 </div>
+                                <%}else{ %>
+                            
+                                <a href="#" class="nav-link dropdown-toggle border" data-toggle="dropdown">Guest 
+                                <img src="img/Icon Account.png" width="25" height="20"></a>
+                                <div class="dropdown-menu rounded-0 m-0">
+                                    <a href="LgForward" class="dropdown-item">Login</a>
+                                    <a href="RgForward" class="dropdown-item">Register</a>
+                                </div>
+                                <%} %>
                             </div>
                         </td>
                         <td>
                             <div>
-                                <a href="cart.html" class="btn border">
+                            <%if(!cs){%>
+                                <a href="Login" class="btn border">
                                         <img src="img/cart.png" width="25" height="25">
                                     <span class="badge">0</span>
                                 </a>
+                               <%}else{  %>
+                               
+                               <a href="Cart" class="btn border">
+                                        <img src="img/cart.png" width="25" height="25">
+                                    <span class="badge"><%= count %></span>
+                                </a>
+                                <%} %>
                             </div>
                         </td>
                     </tr>
@@ -113,10 +157,10 @@
                                 <a href="" class="dropdown-item">Baby's Dresses</a>
                             </div>/-->
                         </div>
-                        <a href="" class="nav-item nav-link">Carte</a>
-                        <a href="" class="nav-item nav-link">Boxex</a>
-                        <a href="" class="nav-item nav-link">Sets</a>
-                        <a href="" class="nav-item nav-link">Rom</a>
+                        <a href="Shop" class="nav-item nav-link">Carte</a>
+                        <a href="Shop" class="nav-item nav-link">Boxex</a>
+                        <a href="Shop" class="nav-item nav-link">Sets</a>
+                        <a href="Shop" class="nav-item nav-link">Rom</a>
                     </div>
                 </nav>
             </div>

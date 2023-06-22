@@ -3,6 +3,12 @@ package it.unisa.bean;
 public class Indirizzo {
 	private int idIndirizzo;
 	private String via, citta, provincia, n_civico;
+	
+	public static Indirizzo nullIndirizzo() {
+		Indirizzo n=new Indirizzo();
+		n.setIdIndirizzo(0);
+		return n;
+	}
 	public String getVia() {
 		return via;
 	}

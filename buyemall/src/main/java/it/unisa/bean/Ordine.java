@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 
+import it.unisa.utils.UtilityFunction;
+
 public class Ordine {
 	private int idOrdine;
 	private float prezzo;
@@ -11,6 +13,22 @@ public class Ordine {
 	private Date data;
 	private Account u;
 	private Indirizzo indirizzo;
+	private Indirizzo spedizione;	
+	private List<Prodotto> list;
+	private PagamentoOrdine po;
+	
+	public static Ordine nullOrdine() {
+		Ordine o=new Ordine();
+		o.setIdOrdine(0);
+		o.setPrezzo(0);
+		o.setData(UtilityFunction.getToday());
+		o.setPo(null);
+		o.setStato(Stato.annullato);
+		o.setSpedizione(Indirizzo.nullIndirizzo());
+		o.addList(Prodotto.nullProduct());
+		
+		return o;
+	}
 	public void setIdOrdine(int idOrdine) {
 		this.idOrdine = idOrdine;
 	}
@@ -19,10 +37,7 @@ public class Ordine {
 		this.u = u;
 	}
 
-	private Indirizzo spedizione;
 	
-	private List<Prodotto> list;
-	private PagamentoOrdine po;
 	
 	public Ordine() {
 		list=new ArrayList<>();

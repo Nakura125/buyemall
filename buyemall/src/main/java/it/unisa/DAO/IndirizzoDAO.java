@@ -52,7 +52,7 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 
 			preparedStatement.executeUpdate();
 
-			connection.commit();
+			//connection.commit();
 		} finally {
 			try {
 				if (preparedStatement != null)

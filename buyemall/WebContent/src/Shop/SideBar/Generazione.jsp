@@ -36,7 +36,7 @@
                 </div>
                 <!-- Generation End -->
                 
-                <script>
+                <script src="js/Generazione.js">
 	                function genFilter(checkbox) {
 	                	console.log(checkbox)
 	                	var checkboxes = document.querySelectorAll('input[type="checkbox"][name="generazioneForm"]');

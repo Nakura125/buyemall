@@ -35,6 +35,13 @@
 <body>
 
 	<script src="js/ajax-json.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
     
 	<%@include file="src/Header.jsp" %>
 	
@@ -50,6 +57,24 @@
 	<%if(pageName.equals("Shop")){%>
 		<%@include file="src/Shop/Shop.jsp" %>
 	<%} %>	
+	
+	<%if(pageName.equals("LgForward")){%>
+		<%@include file="src/Login/Login.jsp" %>
+	<%} %>	
+	<%if(pageName.equals("RgForward")){%>
+		<%@include file="src/Register/Register.jsp" %>
+	<%} %>	
+	
+	<%if(pageName.equals("Cart")){%>
+		<%@include file="src/Cart/cart.jsp" %>
+	<%} %>	
+    <%if(pageName.equals("Pagamento")){%>
+		<%@include file="src/Pagamento/pagamento.jsp" %>
+	<%} %>	
+	
+	<%if(pageName.equals("Profilo")){%>
+		<%@include file="src/Profilo/profilo.jsp" %>
+	<%} %>	
     
     <%@include file="src/Footer.jsp" %>
 
@@ -58,13 +83,7 @@
 
 <!-- da mettere nell'head*-->
     <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-
-    <!-- Contact Javascript File -->
-    <script src="mail/jqBootstrapValidation.min.js"></script>
+    
     <script src="mail/contact.js"></script>
 
     <!-- Template Javascript -->

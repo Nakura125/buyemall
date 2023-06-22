@@ -32,6 +32,7 @@
                 </div>-->
                 <h3 class="font-weight-semi-bold mb-4">$<%=productDetail.getPrezzo() %></h3>
                 <p class="mb-4">Generazione:<%= productDetail.getGenerazione() %></p>
+                <p class="mb-4">Quantità:<%= productDetail.getQuantita() %></p>
                 <!--<div class="d-flex mb-3">
                     <p class="text-dark font-weight-medium mb-0 mr-3">Sizes:</p>
                     <form>
@@ -83,24 +84,13 @@
                     </form>
                 </div>-->
                 <div class="d-flex align-items-center mb-4 pt-2">
-                    <div class="input-group quantity mr-3" style="width: 130px;">
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary btn-minus" >
-                            <i class="fa fa-minus"></i>
-                            </button>
-                        </div>
-                        <input type="text" class="form-control bg-secondary text-center" value="1">
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary btn-plus">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div id="cambiocart">
+                    
+                    <form action="addCart" id="cambiocart">
+                    <input type="hidden" name="idProdotto" value=<%= productDetail.getIdProdotto() %>>
                     <button class="btn btn-primary px-3 cambiocart d-flex">
                             <img class="cartb" src="img/cart black.png" width="25" height="25">
                             <img class="cartw" src="img/cart white.png" width="25" height="25">Acquista</button>
-                        </div>      
+                        </form>      
                 </div>
                 <!--<div class="d-flex pt-2">
                     <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
