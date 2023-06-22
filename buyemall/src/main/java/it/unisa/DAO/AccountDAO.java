@@ -57,7 +57,34 @@ public class AccountDAO implements IBeanDao<Account,String>{
 
 			preparedStatement.executeUpdate();
 
-			connection.commit();
+			//connection.commit();
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+	}
+	
+	public synchronized void doSaveCart(Account product,Prodotto pd) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		String insertSQL = "INSERT INTO carrello"
+				+ " (username,idProdotto) VALUES (?,?)";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(insertSQL);
+			preparedStatement.setString(1, product.getUsername());
+			preparedStatement.setInt(2, pd.getIdProdotto());
+
+			preparedStatement.executeUpdate();
+
+			//connection.commit();
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -139,7 +166,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 				bean.setEmail(rs.getString("email"));
 				bean.setPassword(rs.getString("Password"));
 				bean.setActive(rs.getBoolean("attivo"));
-
+				
 				bean.addPag(new MetodiPagamentoDAO().doRetrieveAByUsername(bean.getUsername()));
 
 				bean.addCart(AccountDAO.recoverCart(bean.getUsername()));
@@ -165,7 +192,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 		PreparedStatement preparedStatement = null;
 		
 		String insertSQL ="UPDATE account"
-				+ "SET nome = ?, cognome=?,email=? "
+				+ " SET nome = ?, cognome=?, email=? "
 				+ "WHERE username = ? ";
 				
 				
@@ -181,7 +208,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 					preparedStatement.setString(4, pr.getUsername());
 					preparedStatement.executeUpdate();
 
-					connection.commit();
+					//connection.commit();
 				} finally {
 					try {
 						if (preparedStatement != null)
@@ -197,7 +224,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		
-		String insertSQL ="UPDATE account"
+		String insertSQL ="UPDATE account "
 				+ "SET password=? "
 				+ "WHERE username = ? ";
 				
@@ -212,7 +239,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 					preparedStatement.setString(2, pr.getUsername());
 					preparedStatement.executeUpdate();
 
-					connection.commit();
+					//connection.commit();
 				} finally {
 					try {
 						if (preparedStatement != null)
@@ -243,7 +270,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 					preparedStatement.setString(2, pr.getUsername());
 					preparedStatement.executeUpdate();
 
-					connection.commit();
+					//connection.commit();
 				} finally {
 					try {
 						if (preparedStatement != null)
@@ -274,7 +301,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 					preparedStatement.setString(2, pr.getUsername());
 					preparedStatement.executeUpdate();
 
-					connection.commit();
+					//connection.commit();
 				} finally {
 					try {
 						if (preparedStatement != null)
@@ -315,7 +342,8 @@ public class AccountDAO implements IBeanDao<Account,String>{
 				bean.setEmail(rs.getString("email"));
 				bean.setPassword(rs.getString("Password"));
 				bean.setActive(rs.getBoolean("attivo"));
-
+				
+				bean.setI(new IndirizzoDAO().doRetrieveByKey(rs.getInt("idindirizzo")));
 				bean.addPag(new MetodiPagamentoDAO().doRetrieveAByUsername(bean.getUsername()));
 
 				bean.addCart(AccountDAO.recoverCart(bean.getUsername()));
@@ -335,7 +363,49 @@ public class AccountDAO implements IBeanDao<Account,String>{
 		return bean;
 	}
 	
-	private synchronized static List<Prodotto> recoverCart(String username) throws SQLException {
+	
+	public synchronized Account doRetrieveByEmail(String code) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		Account bean = new Account();
+
+		String selectSQL = "SELECT * FROM " + AccountDAO.TABLE_NAME + " WHERE email = ?";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, code);
+
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				bean.setUsername((rs.getString("username")));
+				bean.setNome(rs.getString("nome"));
+				bean.setCognome(rs.getString("cognome"));
+				bean.setEmail(rs.getString("email"));
+				bean.setPassword(rs.getString("Password"));
+				bean.setActive(rs.getBoolean("attivo"));
+
+				bean.addPag(new MetodiPagamentoDAO().doRetrieveAByUsername(bean.getUsername()));
+
+				bean.addCart(AccountDAO.recoverCart(bean.getUsername()));
+			}
+			
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return bean;
+	}
+	public synchronized static List<Prodotto> recoverCart(String username) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -355,13 +425,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 				Prodotto bean=new Prodotto();
 				
 				bean.setIdProdotto((rs.getInt("idProdotti")));
-				bean.setTipo(Tipo.valueOf(rs.getString("tipo")));
-				bean.setQuantita(rs.getInt("quantita"));
-				bean.setNome(rs.getString("Nome"));
-				bean.setDescrizione(rs.getString("Descrizione"));
-				bean.setPrezzo(rs.getFloat("Prezzo"));
-				bean.setNazionalita(rs.getString("Nazionalita"));
-				bean.setGenerazione(rs.getInt("generazione"));
+				bean=new ProdottoDAO().doRetrieveByKey(bean.getIdProdotto());
 				
 				products.add(bean);
 			}
@@ -379,11 +443,71 @@ public class AccountDAO implements IBeanDao<Account,String>{
 		
 		return products;
 	}
+	
+	
+	
+	
 
 	@Override
 	public synchronized List<Account> doRetrieveAll(String order) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public synchronized boolean DeleteCart(Account username) throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		int result = 0;
+
+		String deleteSQL = "DELETE FROM carrello WHERE  username=?";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(deleteSQL);
+			
+			preparedStatement.setString(1, username.getUsername());
+
+			result = preparedStatement.executeUpdate();
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return (result != 0);
+	}
+	
+	public synchronized boolean DeleteCart(Prodotto code,Account username) throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		int result = 0;
+
+		String deleteSQL = "DELETE FROM carrello WHERE idprodotto = ? AND username=?";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(deleteSQL);
+			preparedStatement.setInt(1, code.getIdProdotto());
+			preparedStatement.setString(2, username.getUsername());
+
+			result = preparedStatement.executeUpdate();
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return (result != 0);
 	}
 
 }

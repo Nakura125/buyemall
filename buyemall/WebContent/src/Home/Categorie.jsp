@@ -53,7 +53,7 @@
             <div class="col-lg-3 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4 backmacrocat bg-card" style="padding: 30px;">
                     <h5 class="font-weight-semi-bold m-0" style="text-align: center;">Carte</h5>
-                        <a href="" class="cat-img position-relative overflow-hidden mb-3 text-center"> 
+                        <a href="Shop" class="cat-img position-relative overflow-hidden mb-3 text-center"> 
                         <img class="img-fluid" src=<%= Card.get(0).getLink()%> alt="" style="height: 300px; object-fit: contain;">
                     </a>
                 </div>
@@ -61,7 +61,7 @@
             <div class="col-lg-3 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4 backmacrocat bg-card" style="padding: 30px;">
                     <h5 class="font-weight-semi-bold m-0" style="text-align: center;">Boxes</h5>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3 text-center">
+                    <a href="Shop" class="cat-img position-relative overflow-hidden mb-3 text-center">
                         <img class="img-fluid" src=<%= Box.get(0).getLink()%> alt="" style="height: 300px; object-fit: contain;">
                         
                     </a>
@@ -70,7 +70,7 @@
             <div class="col-lg-3 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4 backmacrocat bg-card" style="padding: 30px;">
                     <h5 class="font-weight-semi-bold m-0" style="text-align: center;">Sets</h5>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3 text-center">
+                    <a href="Shop" class="cat-img position-relative overflow-hidden mb-3 text-center">
                         <img class="img-fluid" src=<%= Set.get(0).getLink()%> alt="" style="height: 300px; object-fit: contain; z-index:1;">
                     </a>
                 </div>
@@ -78,7 +78,7 @@
             <div class="col-lg-3 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4 backmacrocat bg-card" style="padding: 30px;">
                     <h5 class="font-weight-semi-bold m-0" style="text-align: center;">Rom</h5>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3 text-center">
+                    <a href="Shop" class="cat-img position-relative overflow-hidden mb-3 text-center">
                         <img class="img-fluid" src=<%= Rom.get(0).getLink()%> alt="" style="height: 300px; object-fit: contain;">
                     </a>
                 </div>

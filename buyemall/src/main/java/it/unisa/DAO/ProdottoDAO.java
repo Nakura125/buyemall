@@ -61,7 +61,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 
 			preparedStatement.executeUpdate();
 
-			connection.commit();
+			//connection.commit();
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -79,7 +79,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		
-		String insertSQL ="UPDATE prodotti"
+		String insertSQL ="UPDATE prodotti "
 				+ "SET Quantita = ? "
 				+ "WHERE idProdotti = ? ";
 				
@@ -91,7 +91,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 					preparedStatement.setInt(2, pr.getIdProdotto());
 					preparedStatement.executeUpdate();
 
-					connection.commit();
+					//connection.commit();
 				} finally {
 					try {
 						if (preparedStatement != null)

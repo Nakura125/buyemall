@@ -55,7 +55,7 @@ public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
 
 			preparedStatement.executeUpdate();
 
-			connection.commit();
+			//connection.commit();
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -91,7 +91,7 @@ public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				bean.setTipo(rs.getString("tipo_pagamento"));
+				bean.setTipo(rs.getString("tipo"));
 				bean.setNumero_carta(rs.getString("numero_carta"));
 				bean.setData(rs.getDate("data"));
 				bean.setCvc(rs.getString("cvc"));

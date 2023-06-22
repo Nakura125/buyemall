@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -54,7 +55,7 @@ public class MetodiPagamentoDAO implements IBeanDao<MetodiPagamento, String>{
 
 			preparedStatement.executeUpdate();
 
-			connection.commit();
+			//connection.commit();
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -128,6 +129,79 @@ public class MetodiPagamentoDAO implements IBeanDao<MetodiPagamento, String>{
 			}
 		}
 		return bean;
+	}
+	
+	
+	public synchronized MetodiPagamento doRetrieveByKey(String code,String username) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		MetodiPagamento bean = new MetodiPagamento();
+
+		String selectSQL = "SELECT * FROM " + MetodiPagamentoDAO.TABLE_NAME + " WHERE numero_carta = ? and username=?";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, code);
+			preparedStatement.setString(2, username);
+
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				bean.setTipo_pagamento(rs.getString("tipo_pagamento"));
+				bean.setNumero_carta(rs.getString("numero_carta"));
+				bean.setData_scadenza(rs.getDate("data_scadenza"));
+				bean.setCvc(rs.getString("cvc"));
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return bean;
+	}
+	
+	public synchronized List<MetodiPagamento> doRetrieveByUsername(String code) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		List<MetodiPagamento> ls=new LinkedList<>();
+
+		String selectSQL = "SELECT * FROM " + MetodiPagamentoDAO.TABLE_NAME + " WHERE username = ?";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, code);
+
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				MetodiPagamento bean = new MetodiPagamento();
+				bean.setTipo_pagamento(rs.getString("tipo_pagamento"));
+				bean.setNumero_carta(rs.getString("numero_carta"));
+				bean.setData_scadenza(rs.getDate("data_scadenza"));
+				bean.setCvc(rs.getString("cvc"));
+				
+				ls.add(bean);
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return ls;
 	}
 
 	@Override
