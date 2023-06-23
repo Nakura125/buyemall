@@ -39,27 +39,13 @@ public class addMetodo extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 AccountDAO conn=new AccountDAO();
 		
-		Cookie[] cookies = request.getCookies();
-        Cookie account=null;
-        Account accountBean=null;
-        
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("Account")) {
-                    // Il cookie desiderato è presente
-                    account=cookie;
-                    try {
-						accountBean=conn.doRetrieveByKey(account.getValue());
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						accountBean=null;
-					}
-                    break;  // Esci dal ciclo, poiché hai trovato il cookie
-                    
-                }
-            }
-        }
+Account accountBean=null;
+try {
+accountBean=(Account)request.getAttribute("accountBean");
+}catch(NullPointerException e) {
+	e.printStackTrace();
+	accountBean=null;
+}
         
         String numerocarta=request.getParameter("numcarta");
         

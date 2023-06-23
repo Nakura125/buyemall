@@ -1,3 +1,4 @@
+<%@page import="it.unisa.bean.Account"%>
 <%@page import="java.sql.SQLException"%>
 <%@page import="it.unisa.DAO.AccountDAO"%>
 <%@page import="java.util.LinkedList"%>
@@ -73,32 +74,25 @@
                     <tr>
                         <td>
                             <div class="nav-item dropdown" style="width: min-content">
-                            <%Cookie[] cookies = request.getCookies();
-                            Cookie account=null;
+                            <%
+                            Account accountBean=null;
                             Boolean cs=false;
                             Integer count=0;
-                            if (cookies != null) {
-                                for (Cookie cookie : cookies) {
-                                    if (cookie.getName().equals("Account")) {
-                                        // Il cookie desiderato è presente
-                                        account=cookie;
-                                        cs=true;
-                                        
-                                        
-                                        try{
-                                        count =new AccountDAO().doRetrieveByKey(account.getValue()).getCarrello().size();
-                                        }catch(SQLException e){
-                                        	e.printStackTrace();
-                                        	count=0;
-                                        }
-                                        break;  // Esci dal ciclo, poiché hai trovato il cookie
-                                        
-                                    }
-                                }
-                            } %>
+                            try {
+                            	accountBean=(Account)request.getAttribute("accountBean");
+                            	cs=true;
+                            	
+                                count =accountBean.getCarrello().size();
+                                
+                            }catch(NullPointerException e) {
+                            	e.printStackTrace();
+                            	accountBean=null;
+                            }
+                            
+                             %>
                             
                             <%if(cs){%>
-                                <a href="#" class="nav-link dropdown-toggle border" data-toggle="dropdown"><%=account.getValue() %>
+                                <a href="#" class="nav-link dropdown-toggle border" data-toggle="dropdown"><%=accountBean.getUsername() %>
                                 <img src="img/Icon Account.png" width="25" height="20"></a>
                                 <div class="dropdown-menu rounded-0 m-0">
                                     <a href="Profilo" class="dropdown-item">Profilo</a>
