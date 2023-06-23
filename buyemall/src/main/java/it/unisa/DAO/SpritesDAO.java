@@ -44,16 +44,16 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO " + SpritesDAO.TABLE_NAME
-				+ " (idSprites,link,link_small,idprodotto) VALUES (?,?,?,?)";
+				+ " (link,link_small,idprodotto) VALUES (?,?,?)";
 
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(insertSQL);
-			preparedStatement.setInt(1, product.getIdSprites());
-			preparedStatement.setString(2, product.getLink());
-			preparedStatement.setString(3, product.getLink_small());
+			
+			preparedStatement.setString(1, product.getLink());
+			preparedStatement.setString(2, product.getLink_small());
 
-			preparedStatement.setInt(4, product.getProdotto().getIdProdotto());
+			preparedStatement.setInt(3, product.getProdotto().getIdProdotto());
 
 			preparedStatement.executeUpdate();
 

@@ -66,7 +66,7 @@ public class AccountSet extends HttpFilter implements Filter {
                 }
             }
         }
-        System.out.println("Something");
+        //System.out.println("Something");
         request.setAttribute("accountBean", accountBean);
 		chain.doFilter(request, response);
 	}

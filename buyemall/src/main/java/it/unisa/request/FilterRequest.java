@@ -68,7 +68,7 @@ public class FilterRequest extends HttpServlet {
 		}catch(IllegalArgumentException e) {
 			tipo=null;
 		}
-		if(search.trim()=="") {
+		if(search!=null && search.trim()=="") {
 			search=null;
 		}
 		

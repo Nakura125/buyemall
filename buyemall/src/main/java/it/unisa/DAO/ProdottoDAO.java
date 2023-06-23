@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -74,6 +75,50 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		
 	}
 	
+	public synchronized Integer doSaveGenerator(Prodotto product) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet generatedKeys = null;
+		Integer generatedId = null;
+		
+
+		String insertSQL = "INSERT INTO " + ProdottoDAO.TABLE_NAME
+				+ " (tipo, quantita, nome, descrizione,prezzo,generazione, nazionalita) VALUES (?, ?, ?, ?,?,?,?)";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
+			preparedStatement.setString(1, product.getTipo().toString());
+			preparedStatement.setInt(2, product.getQuantita());
+			preparedStatement.setString(3, product.getNome());
+			preparedStatement.setString(4, product.getDescrizione());
+			preparedStatement.setFloat(5,product.getPrezzo() );
+			preparedStatement.setInt(6,product.getGenerazione() );
+			preparedStatement.setString(7,product.getNazionalita() );
+
+			preparedStatement.executeUpdate();
+
+			
+	        generatedKeys = preparedStatement.getGeneratedKeys();
+	        if (generatedKeys.next()) {
+	             generatedId = generatedKeys.getInt(1);
+	            // Puoi utilizzare l'id generato per ulteriori operazioni
+//	            System.out.println("Id dell'ordine inserito: " + generatedId);
+	        }
+			} finally {
+			try {
+				if (generatedKeys != null)
+	                generatedKeys.close();
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return generatedId;
+}
+	
 	
 	public synchronized void UpdateQuantita(Integer it,Prodotto pr) throws SQLException{
 		Connection connection = null;
@@ -92,6 +137,90 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 					preparedStatement.executeUpdate();
 
 					//connection.commit();
+				} finally {
+					try {
+						if (preparedStatement != null)
+							preparedStatement.close();
+					} finally {
+						if (connection != null)
+							connection.close();
+					}
+				}
+	} 
+	
+	public synchronized void UpdateNome(String n,Prodotto pr) throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		String insertSQL ="UPDATE prodotti "
+				+ "SET nome = ? "
+				+ "WHERE idProdotti = ? ";
+				
+				
+				try {
+					connection = ds.getConnection();
+					preparedStatement = connection.prepareStatement(insertSQL);
+					preparedStatement.setString(1, n);
+					preparedStatement.setInt(2, pr.getIdProdotto());
+					preparedStatement.executeUpdate();
+
+					
+				} finally {
+					try {
+						if (preparedStatement != null)
+							preparedStatement.close();
+					} finally {
+						if (connection != null)
+							connection.close();
+					}
+				}
+	} 
+	
+	public synchronized void UpdatePrezzo(Float prezzo,Prodotto pr) throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		String insertSQL ="UPDATE prodotti "
+				+ "SET prezzo = ? "
+				+ "WHERE idProdotti = ? ";
+				
+				
+				try {
+					connection = ds.getConnection();
+					preparedStatement = connection.prepareStatement(insertSQL);
+					preparedStatement.setFloat(1, prezzo);
+					preparedStatement.setInt(2, pr.getIdProdotto());
+					preparedStatement.executeUpdate();
+
+					
+				} finally {
+					try {
+						if (preparedStatement != null)
+							preparedStatement.close();
+					} finally {
+						if (connection != null)
+							connection.close();
+					}
+				}
+	} 
+	
+	public synchronized void UpdateDescrizione(String descr,Prodotto pr) throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		
+		String insertSQL ="UPDATE prodotti "
+				+ "SET descrizione = ? "
+				+ "WHERE idProdotti = ? ";
+				
+				
+				try {
+					connection = ds.getConnection();
+					preparedStatement = connection.prepareStatement(insertSQL);
+					preparedStatement.setString(1, descr);
+					preparedStatement.setInt(2, pr.getIdProdotto());
+					preparedStatement.executeUpdate();
+
+					
 				} finally {
 					try {
 						if (preparedStatement != null)
@@ -133,8 +262,29 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 
 	@Override
 	public synchronized boolean doDelete(Integer code) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
+		Connection connection = null;
+	    PreparedStatement PreparedStatement = null;
+
+
+	    String deleteSQL = "DELETE FROM " + ProdottoDAO.TABLE_NAME + " WHERE idProdotti = ?";
+
+	    try {
+	        connection = ds.getConnection();
+	        PreparedStatement = connection.prepareStatement(deleteSQL);
+	        PreparedStatement.setInt(1, code);
+	        PreparedStatement.executeUpdate();
+
+	        
+	        return true;
+	    } finally {
+	        try {
+	            if (PreparedStatement != null)
+	                PreparedStatement.close();
+	        } finally {
+	            if (connection != null)
+	                connection.close();
+	        }
+	    }
 	}
 
 	@Override
