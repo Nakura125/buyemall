@@ -29,7 +29,7 @@ public class Detail extends HttpServlet {
      */
     public Detail() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
@@ -61,7 +61,7 @@ public class Detail extends HttpServlet {
 				p=Prodotto.nullProduct();
 				e.printStackTrace();
 			}
-		};
+		}
 
 		
 		request.setAttribute("ProductDetail",p);
@@ -72,11 +72,11 @@ public class Detail extends HttpServlet {
 		try {
 			prAdvice=new ProdottoDAO().RetrieveByFilters(null, p.getGenerazione(), p.getTipo(), null, null);
 			
-			//prAdvice.stream().forEach(System.out::println);
+			
 		} catch (SQLException e) {
 			prAdvice=new LinkedList<>();
 			prAdvice.add(Prodotto.nullProduct());
-			//System.out.println("Questo è l'errore:");
+			
 			e.printStackTrace();
 		}
 		
@@ -97,7 +97,7 @@ public class Detail extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 

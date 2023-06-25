@@ -6,7 +6,7 @@
 <%@ page import="it.unisa.bean.Stato" %>
 
 <!DOCTYPE html>
-<html>
+<html lang = "en">
 <head>
 <meta charset="UTF-8">
 <title>Visualizza Ordini</title>
@@ -47,6 +47,7 @@
             %>
             <div class="text-center mb-4">
             <table class="table table-bordered text-center mb-0">
+            <caption></caption>
         	<thead class="bg-secondary text-dark">	
                 <tr>
                     <th>ID Ordine</th>

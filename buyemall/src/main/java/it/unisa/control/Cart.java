@@ -26,7 +26,7 @@ public class Cart extends HttpServlet {
      */
     public Cart() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
@@ -34,7 +34,7 @@ public class Cart extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		AccountDAO conn=new AccountDAO();
+
 		
 		Account accountBean=null;
 		try {
@@ -59,7 +59,7 @@ public class Cart extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		doGet(request, response);
 	}
 

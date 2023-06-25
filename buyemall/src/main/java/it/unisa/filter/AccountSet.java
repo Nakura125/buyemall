@@ -29,14 +29,14 @@ public class AccountSet extends HttpFilter implements Filter {
      */
     public AccountSet() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
 	 * @see Filter#destroy()
 	 */
 	public void destroy() {
-		// TODO Auto-generated method stub
+
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class AccountSet extends HttpFilter implements Filter {
         	try {
 				isAdmin=new AdminDAO().doRetrieveByKey(accountBean.getUsername());
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 				isAdmin=false;
 			}
@@ -99,14 +99,13 @@ public class AccountSet extends HttpFilter implements Filter {
         request.setAttribute("isAdmin", isAdmin);
         request.setAttribute("accountBean", accountBean);
 		chain.doFilter(request, response);
-        //System.out.println("Something");
+
         
 	}
 
 	/**
 	 * @see Filter#init(FilterConfig)
 	 */
-	public void init(FilterConfig fConfig) throws ServletException {
-	}
+	
 
 }

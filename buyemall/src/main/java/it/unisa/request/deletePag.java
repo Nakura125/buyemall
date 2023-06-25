@@ -27,14 +27,14 @@ public class deletePag extends HttpServlet {
      */
     public deletePag() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AccountDAO conn=new AccountDAO();
+
 		
 		Account accountBean=null;
 		try {
@@ -50,11 +50,11 @@ public class deletePag extends HttpServlet {
         }
         
         String num=request.getParameter("num");
-        //System.out.println(num);
+       
         if(accountBean!=null && accountBean.getUsername()!=null && num!=null) {
         	try {
 				MetodiPagamento o=new MetodiPagamentoDAO().doRetrieveByKey(num, accountBean.getUsername());
-				System.out.println(o);
+				
 				new MetodiPagamentoDAO().doDelete(o.getNumero_carta());
 			} catch (SQLException e) {
 				
@@ -69,7 +69,7 @@ public class deletePag extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 

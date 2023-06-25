@@ -28,7 +28,7 @@ public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
+			System.err.println("Error:" + e.getMessage());
 		}
 	}
 
@@ -55,7 +55,7 @@ public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
 
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -70,7 +70,7 @@ public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
 
 	@Override
 	public synchronized boolean doDelete(Integer code) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
@@ -113,7 +113,7 @@ public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<PagamentoOrdine> products = new LinkedList<PagamentoOrdine>();
+		Collection<PagamentoOrdine> products = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + PagamentoOrdineDAO.TABLE_NAME +" where idordine= ?";
 
@@ -149,7 +149,7 @@ public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
 	
 	@Override
 	public synchronized Collection<PagamentoOrdine> doRetrieveAll(String order) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

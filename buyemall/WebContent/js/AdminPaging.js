@@ -6,7 +6,7 @@ callRequest()
 
 function callRequest(page){
         			console.log(page)
-        			var params=""
+        			let params=""
         			if(page !=undefined){
         				params+="pageForm="+page+"&";
         			}else{
@@ -17,17 +17,17 @@ function callRequest(page){
         		}
 
  function handleFilter(request){
-            		//alert("Risposta: \n" + request.responseText);
-            		//console.log(request.responseText);
+
+            	
             		let response = JSON.parse(request.responseText);
-            		//alert("Risposta: \n" + request.responseText);
-            		//console.log(response)
+            		
+            		
             		document.getElementById("Selettore").innerHTML=""
             		
             		    
             		    for(let i=0; i< response.result.length; i++){
             		    	let element=response.result[i];
-            		    	//console.log(element);
+            	
             		    	document.getElementById("Selettore").innerHTML+=
             		    		'<tr>' +
 								    '<td>' + element.idProdotto + '</td>' +
@@ -51,10 +51,10 @@ function callRequest(page){
                             '  </nav>' +
                             '</div>';
             		    
-            		    var count=response.count;
+            		    let count=response.count;
             		    
             		    document.getElementById("Trivia").innerHTML=""
-            		    for(var i=response.page-1; i< count/8 && i < (response.page+2)  ; i++){
+            		    for(let i=response.page-1; i< count/8 && i < (response.page+2)  ; i++){
             		    	if(response.page==i)
             		    		document.getElementById("Trivia").innerHTML+=
             		    			'<li class="page-item active"><a class="page-link" onclick=pageSwap(this) >'+(i+1)+'</a></li>';
@@ -71,7 +71,5 @@ function callRequest(page){
             	}
             	
             	function pageSwap(event){
-            		//event.preventDefault();
-            		//console.log(event.textContent)
             		callRequest(event.textContent)
             	}

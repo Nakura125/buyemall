@@ -15,7 +15,7 @@
 
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Admin</title>
@@ -172,7 +172,8 @@
 
     <h2>Elenco Prodotti</h2>
     <div class="text-center mb-4">
-    <table class="table table-bordered text-center mb-0">
+    	<table class="table table-bordered text-center mb-0">
+    	<caption></caption>
         <thead class="bg-secondary text-dark">
         <tr>
             <th>ID Prodotto</th>
@@ -192,11 +193,10 @@
 <%--                 <td><%= product.getDescrizione() %></td> --%>
 <%--                 <td><%= product.getPrezzo() %></td> --%>
 <%--                 <td><%= product.getQuantita() %></td> --%>
-<!--             </tr> -->
+
 <%--         <% } %> --%>
         </tbody>
-    </table>
-
+    </table>    
 </div>
 
 
@@ -323,6 +323,7 @@
 	<h2>Elenco Ordini</h2>
 	<div class="text-center mb-4">
 		<table class="table table-bordered text-center mb-0">
+		<caption></caption>
 			<thead class="bg-secondary text-dark">
 				<tr>
 					<th>Idordine</th>

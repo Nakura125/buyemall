@@ -28,7 +28,7 @@ public class MetodiPagamentoDAO implements IBeanDao<MetodiPagamento, String>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
+			System.err.println("Error:" + e.getMessage());
 		}
 	}
 
@@ -55,7 +55,7 @@ public class MetodiPagamentoDAO implements IBeanDao<MetodiPagamento, String>{
 
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -209,7 +209,7 @@ public class MetodiPagamentoDAO implements IBeanDao<MetodiPagamento, String>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<MetodiPagamento> products = new LinkedList<MetodiPagamento>();
+		Collection<MetodiPagamento> products = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + MetodiPagamentoDAO.TABLE_NAME + " ORDER BY ?";
 
@@ -251,7 +251,7 @@ public class MetodiPagamentoDAO implements IBeanDao<MetodiPagamento, String>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<MetodiPagamento> products = new LinkedList<MetodiPagamento>();
+		Collection<MetodiPagamento> products = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + MetodiPagamentoDAO.TABLE_NAME +" where username= ?";
 

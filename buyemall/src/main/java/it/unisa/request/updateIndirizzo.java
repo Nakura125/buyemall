@@ -66,7 +66,7 @@ public class updateIndirizzo extends HttpServlet {
         if(!Validator.hasOnlyAlphanumeric(n_civico)) {
         	n_civico=null;
         }
-        System.out.println(provincia+via+citta+n_civico);
+        
         if(provincia != null && via!=null  &&n_civico!=null && citta!=null && accountBean!=null && accountBean.getUsername()!=null) {
         	try {
         		
@@ -95,7 +95,7 @@ public class updateIndirizzo extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 

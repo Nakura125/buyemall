@@ -23,8 +23,8 @@ public class PasswordHash {
             // Restituzione dell'hash come stringa
             this.sha512= hashBuilder.toString();
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Hash non eseguito");
+
+			System.err.println("Hash non eseguito");
 		}
 	}
 	
@@ -48,7 +48,7 @@ public class PasswordHash {
             return hashBuilder.toString();
             
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("Algoritmo di hash non supportato: " + e.getMessage());
+            System.err.println("Algoritmo di hash non supportato: " + e.getMessage());
         }
         
         return null;

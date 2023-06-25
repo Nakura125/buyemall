@@ -27,7 +27,7 @@ public class DeleteCart extends HttpServlet {
      */
     public DeleteCart() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
@@ -69,7 +69,7 @@ public class DeleteCart extends HttpServlet {
 		if(pd!=null && pd.getTipo() != null && accountBean!=null && accountBean.getUsername()!=null) {
 			try {
 				conn.DeleteCart(pd, accountBean);
-				//System.out.println("Query fatta");
+	
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -84,7 +84,7 @@ public class DeleteCart extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		doGet(request, response);
 	}
 

@@ -26,7 +26,7 @@ public class AmministratoreDAO implements IBeanDao<Amministratore, String> {
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
+			System.err.println("Error:" + e.getMessage());
 		}
 	}
 
@@ -48,7 +48,7 @@ public class AmministratoreDAO implements IBeanDao<Amministratore, String> {
 
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -131,7 +131,7 @@ public class AmministratoreDAO implements IBeanDao<Amministratore, String> {
 
 	@Override
 	public synchronized Collection<Amministratore> doRetrieveAll(String order) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	

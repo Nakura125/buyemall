@@ -28,7 +28,7 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
+			System.err.println("Error:" + e.getMessage());
 		}
 	}
 
@@ -54,7 +54,7 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -90,9 +90,9 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 	        if (generatedKeys.next()) {
 	             generatedId = generatedKeys.getInt(1);
 	            // Puoi utilizzare l'id generato per ulteriori operazioni
-	            System.out.println("Id dell'ordine inserito: " + generatedId);
+	            System.err.println("Id dell'ordine inserito: " + generatedId);
 	        }
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (generatedKeys != null)
@@ -176,7 +176,7 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<Indirizzo> products = new LinkedList<Indirizzo>();
+		Collection<Indirizzo> products = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + IndirizzoDAO.TABLE_NAME + " ORDER BY ? Limit 100";
 

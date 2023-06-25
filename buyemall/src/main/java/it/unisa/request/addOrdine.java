@@ -37,14 +37,14 @@ public class addOrdine extends HttpServlet {
      */
     public addOrdine() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-AccountDAO conn=new AccountDAO();
+
 		
 Account accountBean=null;
 try {
@@ -72,10 +72,10 @@ accountBean=(Account)request.getAttribute("accountBean");
         	date = Date.valueOf(dataString);
         	
         }catch(IllegalArgumentException e) {
-        	//System.out.println("Pesce2");
+
         	date=null;
         }
-        //System.out.println(date+"\n"+accountBean+"\n"+numerocarta+"\n"+cvc);
+
         if(date!=null && accountBean!=null && accountBean.getUsername()!=null && numerocarta!=null && cvc!=null) {
 			try {
 				
@@ -132,7 +132,7 @@ accountBean=(Account)request.getAttribute("accountBean");
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		doGet(request, response);
 	}
 

@@ -10,7 +10,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import it.unisa.bean.Account;
+
 
 public class AdminDAO {
 	private static DataSource ds;
@@ -23,7 +23,7 @@ public class AdminDAO {
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
+			System.err.println("Error:" + e.getMessage());
 		}
 	}
 
@@ -47,7 +47,7 @@ public class AdminDAO {
 			
 			while (rs.next()) {
 				u=rs.getString("idamministratore");
-				//System.out.println(u);
+				
 			}
 			
 			

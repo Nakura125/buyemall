@@ -28,7 +28,7 @@ public class addCart extends HttpServlet {
      */
     public addCart() {
         super();
-        // TODO Auto-generated constructor stub
+  
     }
 
 	/**
@@ -64,12 +64,12 @@ public class addCart extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		//System.out.println(pd);
+
 		//System.out.println(accountBean);
 		if(pd!=null && pd.getTipo() != null && accountBean!=null && accountBean.getUsername()!=null) {
 			try {
 				conn.doSaveCart(accountBean,pd );
-				//System.out.println("Query fatta");
+		
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -77,9 +77,8 @@ public class addCart extends HttpServlet {
             
 		}
 		
-		//request.setAttribute("pageName", "Shop");
-		//RequestDispatcher dispatcher =getServletContext().getRequestDispatcher("/index.jsp");
-		//dispatcher.forward(request, response);
+
+
 		
 		response.sendRedirect("Detail?idProdotto="+parameter);
 	}
@@ -88,7 +87,7 @@ public class addCart extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		doGet(request, response);
 	}
 

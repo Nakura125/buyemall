@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Dettagli del prodotto</title>
@@ -30,6 +30,7 @@
     <h1>Dettagli del prodotto</h1>
     <div class="text-center mb-4">
 	<table class="table table-bordered text-center mb-0">
+	<caption></caption>
         <thead class="bg-secondary text-dark">
         <tr>
         	<th>ID</th>

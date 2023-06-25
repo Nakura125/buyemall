@@ -27,7 +27,7 @@ public class updateInfo extends HttpServlet {
      */
     public updateInfo() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
@@ -62,12 +62,12 @@ accountBean=(Account)request.getAttribute("accountBean");
         	try {
 				conn.UpdateInfo(nome, cognome, accountBean.getEmail(), accountBean);
 				
-				if(password!=null && password.trim()!="") {
+				if(password!=null && password.equals("")) {
 					String pshs=PasswordHash.hashPassword(password);
 					conn.UpdatePassword(pshs, accountBean);
 				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
         }
@@ -80,7 +80,7 @@ accountBean=(Account)request.getAttribute("accountBean");
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	
 		doGet(request, response);
 	}
 

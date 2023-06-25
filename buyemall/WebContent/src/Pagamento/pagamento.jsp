@@ -15,6 +15,7 @@
                     <h2 id="Ordini" class="section-title px-5"><span class="px-2">Metodi Pagamento che possiedi</span></h2>
                     <div class="contact-form">
                     	  <table class="table table-bordered text-center mb-0">
+                    	   <caption></caption>
 		                    <thead class="bg-secondary text-dark">
 		                        <tr>
 		                            <th>numero</th>

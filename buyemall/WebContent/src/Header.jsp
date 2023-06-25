@@ -54,7 +54,7 @@
         <div class=".back row align-items-center py-3 px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
                 <a href="Home" class="text-decoration-none">
-                    <img src="img/Logo Grande.png" width="300" height="90">
+                    <img src="img/Logo Grande.png" alt="Logo Grande" width="300" height="90">
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
@@ -71,6 +71,7 @@
             </div>
             <div class="container-fluid col-lg-auto text-right">
                 <table>
+                <caption></caption>
                     <tr>
                         <td>
                             <div class="nav-item dropdown" style="width: min-content">
@@ -94,7 +95,7 @@
                             
                             <%if(cs){%>
                                 <a href="#" class="nav-link dropdown-toggle border" data-toggle="dropdown"><%=accountBean.getUsername() %>
-                                <img src="img/Icon Account.png" width="25" height="20"></a>
+                                <img src="img/Icon Account.png" alt="Icon_Account" width="25" height="20"></a>
                                 <div class="dropdown-menu rounded-0 m-0">
                                     <a href="Profilo" class="dropdown-item">Profilo</a>
                                     <a href="Logout" class="dropdown-item">Logout</a>
@@ -102,7 +103,7 @@
                                 <%}else{ %>
                             
                                 <a href="#" class="nav-link dropdown-toggle border" data-toggle="dropdown">Guest 
-                                <img src="img/Icon Account.png" width="25" height="20"></a>
+                                <img src="img/Icon Account.png" alt="Icon_Account" width="25" height="20"></a>
                                 <div class="dropdown-menu rounded-0 m-0">
                                     <a href="LgForward" class="dropdown-item">Login</a>
                                     <a href="RgForward" class="dropdown-item">Register</a>
@@ -114,13 +115,13 @@
                             <div>
                             <%if(!cs){%>
                                 <a href="Login" class="btn border">
-                                        <img src="img/cart.png" width="25" height="25">
+                                        <img src="img/cart.png" alt="cart" width="25" height="25">
                                     <span class="badge">0</span>
                                 </a>
                                <%}else{  %>
                                
                                <a href="Cart" class="btn border">
-                                        <img src="img/cart.png" width="25" height="25">
+                                        <img src="img/cart.png" alt="cart" width="25" height="25">
                                     <span class="badge"><%= count %></span>
                                 </a>
                                 <%} %>
@@ -145,12 +146,7 @@
                 <nav class="collapse <%if(pageName.equals("Home")){%> show<%} %> navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0" id="navbar-vertical">
                     <div class="navbar-nav w-100 overflow-hidden">
                         <div class="nav-item dropdown">
-                            <!--<a href="#" class="nav-link" data-toggle="dropdown">Dresses <i class="fa fa-angle-down float-right mt-1"></i></a>
-                            <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
-                                <a href="" class="dropdown-item">Men's Dresses</a>
-                                <a href="" class="dropdown-item">Women's Dresses</a>
-                                <a href="" class="dropdown-item">Baby's Dresses</a>
-                            </div>/-->
+
                         </div>
                         <a href="Shop" class="nav-item nav-link">Carte</a>
                         <a href="Shop" class="nav-item nav-link">Boxex</a>
@@ -162,7 +158,7 @@
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
                     <a href="index.html" class="text-decoration-none d-block d-lg-none">
-                        <img src="img/Logo Grande.png" width="300" height="90">
+                        <img src="img/Logo Grande.png" alt="Logo Grande" width="300" height="90">
                     </a>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>

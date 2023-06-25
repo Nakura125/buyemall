@@ -31,7 +31,7 @@ public class FilterRequest extends HttpServlet {
      */
     public FilterRequest() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
@@ -68,7 +68,7 @@ public class FilterRequest extends HttpServlet {
 		}catch(IllegalArgumentException e) {
 			tipo=null;
 		}
-		if(search!=null && search.trim()=="") {
+		if(search!=null && search.equals("")) {
 			search=null;
 		}
 		

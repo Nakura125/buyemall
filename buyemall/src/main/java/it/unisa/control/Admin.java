@@ -121,9 +121,9 @@ public class Admin extends HttpServlet {
 
             // Salvataggio dello sprites nel database
             SpritesDAO spritesDAO = new SpritesDAO();
-//            sprites.setIdSprites(generatedId);
+
             sprites.setProdotto(product);
-            //sprites.getProdotto().setIdProdotto(generatedId);
+
             spritesDAO.doSave(sprites);
 
             request.setAttribute("AddSuccess", true);
@@ -175,27 +175,27 @@ public class Admin extends HttpServlet {
                 request.setAttribute("modificaSuccess", true);
                 
                 // Reindirizza alla pagina di successo
-//                response.sendRedirect("admin/DashboardAdmin.jsp?modificaSuccess=true");
+
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin/DashboardAdmin.jsp");
                 dispatcher.forward(request, response);
             } else {
             	request.setAttribute("prodottoNonTrovato", true);
             	
                 // Il prodotto non esiste
-//                response.sendRedirect("admin/DashboardAdmin.jsp?prodottoNonTrovato=true");
+
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin/DashboardAdmin.jsp?prodottoNonTrovato=true");
                 dispatcher.forward(request, response);
             
             }
             
         } catch (NumberFormatException e) {
-//        	e.printStackTrace();
+
             response.sendRedirect("admin/error.jsp");
         } catch (SQLException e) {
-//        	e.printStackTrace();
+
             response.sendRedirect("admin/error.jsp");
         } catch (Exception e) {
-//        	e.printStackTrace();
+
             response.sendRedirect("admin/error.jsp");
         }
     }
@@ -247,12 +247,12 @@ public class Admin extends HttpServlet {
             if (product != null) {
                 // Prodotto trovato
                 request.setAttribute("product", product);
-//                request.getRequestDispatcher("admin/productDetails.jsp").forward(request, response);
+
         		RequestDispatcher dispatcher =getServletContext().getRequestDispatcher("/admin/productDetails.jsp");
         		dispatcher.forward(request, response);
             } else {
                 // Prodotto non trovato
-//                response.sendRedirect("admin/DashboardAdmin.jsp?ProductnotFound=true");
+
         		RequestDispatcher dispatcher =getServletContext().getRequestDispatcher("/admin/DashboardAdmin.jsp?ProductnotFound=true");
         		dispatcher.forward(request, response);
             }
@@ -265,22 +265,6 @@ public class Admin extends HttpServlet {
         }
     }
     
-//visualizza tutti i prodotti
-//    private void visualizzaAllProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        try {
-//            // Recupera tutti i prodotti dal database
-//            ProdottoDAO productDAO = new ProdottoDAO();
-//            List<Prodotto> productList = (List<Prodotto>) productDAO.doRetrieveAll("idProdotti");
-//
-//            // Imposta l'attributo nella richiesta per visualizzare i prodotti nella pagina JSP
-//            request.setAttribute("productList", productList);
-//
-//            request.getRequestDispatcher("DashboardAdmin.jsp").forward(request, response); 
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            response.sendRedirect("admin/error.jsp");
-//        }
-//    }
 
 
     //Elimina ordine 
@@ -297,7 +281,7 @@ public class Admin extends HttpServlet {
                 RequestDispatcher dispatcher =getServletContext().getRequestDispatcher("/admin/DashboardAdmin.jsp");
         		dispatcher.forward(request, response);
             } else {
-//                response.sendRedirect("admin/DashboardAdmin.jsp?OrderError=true");
+
             	request.setAttribute("ordineNonTrovato", true);
                 RequestDispatcher dispatcher =getServletContext().getRequestDispatcher("/admin/DashboardAdmin.jsp");
         		dispatcher.forward(request, response);
@@ -350,7 +334,7 @@ public class Admin extends HttpServlet {
                 dispatcher.forward(request, response);
             } else {
                 // L'ordine non si trova nello stato di attesa o non esiste
-//                response.sendRedirect("admin/DashboardAdmin.jsp?confermaError=true");
+
             	request.setAttribute("confermaErrors", true);
             	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin/DashboardAdmin.jsp");
                 dispatcher.forward(request, response);
@@ -389,7 +373,7 @@ public class Admin extends HttpServlet {
     
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		doGet(request, response);
 	}
 }

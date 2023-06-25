@@ -28,14 +28,14 @@ public class updateOrdineStato extends HttpServlet {
      */
     public updateOrdineStato() {
         super();
-        // TODO Auto-generated constructor stub
+   
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-AccountDAO conn=new AccountDAO();
+
 		
 Account accountBean=null;
 try {
@@ -45,7 +45,7 @@ accountBean=(Account)request.getAttribute("accountBean");
 	accountBean=null;
 }
         
-        if(accountBean==null) response.sendRedirect("Home");
+        if (accountBean==null) response.sendRedirect("Home");
         
         String idstr=request.getParameter("idordine");
         Integer id=null;
@@ -59,7 +59,7 @@ accountBean=(Account)request.getAttribute("accountBean");
 			if(id!=null)
 			o = new OrdineDAO().doRetrieveByKey(id);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
         if(o!=null) {

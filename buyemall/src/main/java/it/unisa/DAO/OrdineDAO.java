@@ -36,7 +36,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
+			System.err.println("Error:" + e.getMessage());
 		}
 	}
 
@@ -64,7 +64,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -95,7 +95,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 			preparedStatement.setInt(6, pd.getSprites().get(0).getIdSprites());
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -113,7 +113,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 
 		List<Prodotto> products = new LinkedList<>();
 
-		//TODO
+		
 		String selectSQL = "select * from composto where idordine= ?";
 		try {
 			connection = ds.getConnection();
@@ -172,9 +172,9 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 	        if (generatedKeys.next()) {
 	             generatedId = generatedKeys.getInt(1);
 	            // Puoi utilizzare l'id generato per ulteriori operazioni
-	            System.out.println("Id dell'ordine inserito: " + generatedId);
+	            System.err.println("Id dell'ordine inserito: " + generatedId);
 	        }
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (generatedKeys != null)
@@ -264,7 +264,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		List<Ordine> ls = new LinkedList<Ordine>();
+		List<Ordine> ls = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + OrdineDAO.TABLE_NAME + " WHERE username = ? order by `data` DESC";
 
@@ -322,7 +322,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 					preparedStatement.setString(3, ordine.getU().getUsername());
 					preparedStatement.executeUpdate();
 
-					//connection.commit();
+				
 				} finally {
 					try {
 						if (preparedStatement != null)
@@ -426,7 +426,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		List<Ordine> ls = new LinkedList<Ordine>();
+		List<Ordine> ls = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + OrdineDAO.TABLE_NAME + " WHERE data >= ? AND data<=?";
 

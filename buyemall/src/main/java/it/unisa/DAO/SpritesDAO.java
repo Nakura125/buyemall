@@ -31,7 +31,7 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
+			System.err.println("Error:" + e.getMessage());
 		}
 	}
 
@@ -57,7 +57,7 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)

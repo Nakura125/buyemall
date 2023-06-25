@@ -3,12 +3,12 @@
  */
 
  function handleFilter(request){
-            		//alert("Risposta: \n" + request.responseText);
+            	
             		//console.log(request.responseText);
-            		var response = JSON.parse(request.responseText);
-            		//alert("Risposta: \n" + request.responseText);
+            		let response = JSON.parse(request.responseText);
+            		
             		//console.log(response)
-            		var search = document.querySelector('input[type="text"][name="SearchForm"]');
+            		let search = document.querySelector('input[type="text"][name="SearchForm"]');
         			console.log(search)
             		
             		document.getElementById("Selettore").innerHTML=""
@@ -29,9 +29,9 @@
             		    '    </div>' +
             		    '</div>';
             		    
-            		    for(var i=0; i< response.result.length; i++){
-            		    	var element=response.result[i];
-            		    	//console.log(element);
+            		    for(let i=0; i< response.result.length; i++){
+            		    	let element=response.result[i];
+            		    	
             		    	document.getElementById("Selettore").innerHTML+=
             		    		'<div class="col-lg-4 col-md-6 col-sm-12 pb-1">' +
             		    	    '    <div class="card product-item border-0 mb-4">' +
@@ -64,10 +64,10 @@
                             '  </nav>' +
                             '</div>';
             		    
-            		    var count=response.count;
+            		    let count=response.count;
             		    
             		    document.getElementById("Trivia").innerHTML=""
-            		    for(var i=response.page-1; i< count/8 && i < (response.page+2) ; i++){
+            		    for(let i=response.page-1; i< count/8 && i < (response.page+2) ; i++){
             		    	if(response.page==i)
             		    		document.getElementById("Trivia").innerHTML+=
             		    			'<li class="page-item active"><a class="page-link" onclick=pageSwap(this) >'+(i+1)+'</a></li>';
@@ -83,9 +83,9 @@
             	}
             	
             	function pageSwap(event){
-            		//event.preventDefault();
+            		
             		//console.log(event.textContent)
             		callRequest(event.textContent)
-            		btn=document.querySelector(".back-to-top");
+            		let btn=document.querySelector(".back-to-top");
             		btn.click();
             	}

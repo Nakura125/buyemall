@@ -33,7 +33,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
+			System.err.println("Error:" + e.getMessage());
 		}
 	}
 
@@ -62,7 +62,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -103,7 +103,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 	        if (generatedKeys.next()) {
 	             generatedId = generatedKeys.getInt(1);
 	            // Puoi utilizzare l'id generato per ulteriori operazioni
-//	            System.out.println("Id dell'ordine inserito: " + generatedId);
+
 	        }
 			} finally {
 			try {
@@ -136,7 +136,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 					preparedStatement.setInt(2, pr.getIdProdotto());
 					preparedStatement.executeUpdate();
 
-					//connection.commit();
+				
 				} finally {
 					try {
 						if (preparedStatement != null)
@@ -263,23 +263,23 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 	@Override
 	public synchronized boolean doDelete(Integer code) throws SQLException {
 		Connection connection = null;
-	    PreparedStatement PreparedStatement = null;
+	    PreparedStatement preparedStatement = null;
 
 
 	    String deleteSQL = "DELETE FROM " + ProdottoDAO.TABLE_NAME + " WHERE idProdotti = ?";
 
 	    try {
 	        connection = ds.getConnection();
-	        PreparedStatement = connection.prepareStatement(deleteSQL);
-	        PreparedStatement.setInt(1, code);
-	        PreparedStatement.executeUpdate();
+	        preparedStatement = connection.prepareStatement(deleteSQL);
+	        preparedStatement.setInt(1, code);
+	        preparedStatement.executeUpdate();
 
 	        
 	        return true;
 	    } finally {
 	        try {
-	            if (PreparedStatement != null)
-	                PreparedStatement.close();
+	            if (preparedStatement != null)
+	            	preparedStatement.close();
 	        } finally {
 	            if (connection != null)
 	                connection.close();
@@ -338,7 +338,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 	public synchronized Collection<Prodotto> RetrieveByFilters(String nome,Integer generazione,Tipo tipo,Float  prezzo,String nazione) throws SQLException{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		Collection<Prodotto> products = new LinkedList<Prodotto>();
+		Collection<Prodotto> products = new LinkedList<>();
 		int count=1;
 		if(generazione ==null&&tipo==null&&prezzo ==null&&nazione==null)
 			return doRetrieveAllClient("visitato");
@@ -361,7 +361,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		}
 
 		selectSQL+="  Quantita > 0 order by visitato DESC limit 100";
-		//System.out.println(selectSQL);
+		
 
 		try {
 			connection = ds.getConnection();
@@ -381,7 +381,8 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 			{
 				preparedStatement.setString(count, tipo.toString());
 				count+=1;
-			}if(prezzo!=null) 
+			}
+			if(prezzo!=null) 
 			{
 				preparedStatement.setFloat(count, prezzo);
 				count+=1;
@@ -412,7 +413,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 				
 				products.add(bean);
 				
-				//System.out.println(bean);
+				
 			}
 
 		} finally {
@@ -434,7 +435,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<Prodotto> products = new LinkedList<Prodotto>();
+		Collection<Prodotto> products = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + ProdottoDAO.TABLE_NAME ;
 
@@ -445,7 +446,6 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
-			preparedStatement.setString(1, order);
 			
 			ResultSet rs = preparedStatement.executeQuery();
 
@@ -486,7 +486,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<Prodotto> products = new LinkedList<Prodotto>();
+		Collection<Prodotto> products = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + ProdottoDAO.TABLE_NAME + " WHERE Quantita >0 ORDER BY visitato DESC Limit 100";
 
@@ -497,7 +497,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
-			//preparedStatement.setString(1, order);
+			
 			
 			ResultSet rs = preparedStatement.executeQuery();
 
@@ -539,7 +539,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<Prodotto> products = new LinkedList<Prodotto>();
+		Collection<Prodotto> products = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + ProdottoDAO.TABLE_NAME + " WHERE Quantita >0 ORDER BY RAND() DESC Limit 100";
 
@@ -590,7 +590,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		List<String> products = new LinkedList<String>();
+		List<String> products = new LinkedList<>();
 
 		String selectSQL = "SELECT distinct tipo FROM  "+ProdottoDAO.TABLE_NAME+" where Quantita> 0";
 
@@ -623,7 +623,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		List<Integer> products = new LinkedList<Integer>();
+		List<Integer> products = new LinkedList<>();
 
 		String selectSQL = "SELECT distinct generazione FROM "+ProdottoDAO.TABLE_NAME+" where Quantita> 0";
 
@@ -677,7 +677,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		}
 
 		selectSQL+="  Quantita > 0";
-		//System.out.println(selectSQL);
+		
 
 		try {
 			connection = ds.getConnection();
@@ -697,7 +697,8 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 			{
 				preparedStatement.setString(count, tipo.toString());
 				count+=1;
-			}if(prezzo!=null) 
+			}
+			if(prezzo!=null) 
 			{
 				preparedStatement.setFloat(count, prezzo);
 				count+=1;
@@ -715,7 +716,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 				
 				products=rs.getInt("conteggio");
 				
-				//System.out.println(bean);
+				
 			}
 
 		} finally {
@@ -734,7 +735,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 	public synchronized Collection<Prodotto> RetrieveByFiltersPaged(String nome,Integer generazione,Tipo tipo,Float  prezzo,String nazione,Integer offset,Integer page) throws SQLException{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		Collection<Prodotto> products = new LinkedList<Prodotto>();
+		Collection<Prodotto> products = new LinkedList<>();
 		int count=1;
 		
 
@@ -756,7 +757,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 		}
 
 		selectSQL+="  Quantita > 0 order by visitato DESC LIMIT ? OFFSET ? ";
-		//System.out.println(selectSQL);
+		
 
 		try {
 			connection = ds.getConnection();
@@ -776,7 +777,8 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 			{
 				preparedStatement.setString(count, tipo.toString());
 				count+=1;
-			}if(prezzo!=null) 
+			}
+			if(prezzo!=null) 
 			{
 				preparedStatement.setFloat(count, prezzo);
 				count+=1;
@@ -812,7 +814,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 				
 				products.add(bean);
 				
-				//System.out.println(bean);
+
 			}
 
 		} finally {

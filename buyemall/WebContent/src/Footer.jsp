@@ -5,7 +5,7 @@
         <div class="row px-xl-5 pt-5">
             <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
                 <a href="index.html" class="text-decoration-none">
-                    <img src="img/Logo Grande.png" width="300" height="90">
+                    <img src="img/Logo Grande.png" alt="Logo Grande" width="300" height="90">
                 </a>
                 <p>Gotta Buy 'em All! Con il nostro ecommerce di prodotti Pokémon, i tuoi sogni da allenatore diventano realtà. Entra nel mondo Pokémon con noi!</p>
                 <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Università Dario Greggio, Addis Ababa, Etiopia</p>

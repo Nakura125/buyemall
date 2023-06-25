@@ -3,6 +3,9 @@ package it.unisa.utils;
 import java.util.regex.Pattern;
 
 public class Validator {
+	
+	private Validator() {}
+	
 	public static boolean isValidEmail(String email) {
 		if(email==null)return false;
 		String EMAIL_PATTERN = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";

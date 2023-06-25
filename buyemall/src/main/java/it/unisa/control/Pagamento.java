@@ -32,14 +32,14 @@ public class Pagamento extends HttpServlet {
      */
     public Pagamento() {
         super();
-        // TODO Auto-generated constructor stub
+  
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-AccountDAO conn=new AccountDAO();
+
 		
 Account accountBean=null;
 try {
@@ -82,7 +82,7 @@ accountBean=(Account)request.getAttribute("accountBean");
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		doGet(request, response);
 	}
 
