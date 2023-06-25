@@ -41,6 +41,7 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
+<a href="Home">Torna alla Home</a>
 	<div class="container-fluid mb-5">
 	<div class="text-center mb-4">
     <h1 class="section-title px-5"><span class="px-2">welcome Admin!</span></h1>
@@ -175,11 +176,11 @@
         <thead class="bg-secondary text-dark">
         <tr>
             <th>ID Prodotto</th>
-            <th>Tipo</th>
             <th>Nome</th>
-            <th>Descrizione</th>
             <th>Prezzo</th>
+            <th>Descrizione</th>
             <th>Quantità</th>
+            <th>Tipo</th>
         </tr>
         </thead>
         <tbody id="Selettore">
@@ -326,8 +327,8 @@
 				<tr>
 					<th>Idordine</th>
 					<th>Data</th>
-					<th>Prezzo</th>
 					<th>Stato</th>
+					<th>Prezzo</th>
 					
 				</tr>
 			</thead>
@@ -348,7 +349,7 @@
 	</div>
 
 
-	<a href="Home">Torna alla Home</a>
+	
     <script src="js/ajax-json.js" ></script>
     <script src="js/AdminPaging.js"></script>
     

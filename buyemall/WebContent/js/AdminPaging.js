@@ -33,7 +33,7 @@ function callRequest(page){
 								    '<td>' + element.idProdotto + '</td>' +
 								    '<td>' + element.Nome + '</td>' +
 								    '<td>' + element.Prezzo + '</td>' +
-								    '<td>' + element.sprites[0].link+ '</td>' +
+								    '<td>' + element.Descrizione+ '</td>' +
 								    '<td>' + element.Quantita + '</td>' +
 								    '<td>' + element.Tipo + '</td>' +
 							    '</tr>';
@@ -54,13 +54,16 @@ function callRequest(page){
             		    var count=response.count;
             		    
             		    document.getElementById("Trivia").innerHTML=""
-            		    for(var i=response.page-1; i< count/8 && i < (response.page+2) ; i++){
+            		    for(var i=response.page-1; i< count/8 && i < (response.page+2)  ; i++){
             		    	if(response.page==i)
             		    		document.getElementById("Trivia").innerHTML+=
             		    			'<li class="page-item active"><a class="page-link" onclick=pageSwap(this) >'+(i+1)+'</a></li>';
-            		    	else
+            		    	else{
+								if(i!=-1){
             		    		document.getElementById("Trivia").innerHTML+=
             		    			'<li class="page-item "><a class="page-link" onclick=pageSwap(this)>'+(i+1)+'</a></li>';
+            		    		}
+            		    	}
             		    }
             		    	
             		    

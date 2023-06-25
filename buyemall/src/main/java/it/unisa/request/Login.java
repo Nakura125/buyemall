@@ -76,14 +76,14 @@ public class Login extends HttpServlet {
 			if (ricordami != null && ricordami.equals("on")) {
 		        // Il checkbox è stato selezionato
 				// Imposta un cookie con durata lunga (es. 7 giorni)
-		        Cookie cookie = new Cookie("Account", ac.getUsername());
+				request.getSession().setAttribute("Account", ac.getUsername());
+				Cookie cookie = new Cookie("Account", ac.getUsername());
 		        cookie.setMaxAge(7 * 24 * 60 * 60); // Durata in secondi
 		        response.addCookie(cookie);
 
 		    } else {
 		        // Il checkbox non è stato selezionato
-		    	Cookie cookie = new Cookie("Account", ac.getUsername());
-		        response.addCookie(cookie);
+		    	request.getSession().setAttribute("Account", ac.getUsername());
 		    }
 			
 			//request.setAttribute("pageName", "Home");

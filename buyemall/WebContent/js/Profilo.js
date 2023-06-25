@@ -23,4 +23,9 @@
             $(".container-fluid.pt-5").hide();
             $("#MetodoPagamento").show();
         });
+        
+        $('[href="#linkIndirizzo"]').click(function () {
+            $(".container-fluid.pt-5").hide();
+            $("#Indirizzo").show();
+        });
     });

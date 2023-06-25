@@ -11,10 +11,12 @@ public class Validator {
     }
 	
 	public static boolean hasOnlyAlphanumeric(String input) {
-		if(input==null)return false;
-        String alphanumericPattern = "^[a-zA-Z0-9]+$";
-        return input.matches(alphanumericPattern);
-    }
+	    if (input == null) {
+	        return false;
+	    }
+	    String alphanumericPattern = "^[a-zA-Z0-9\\s]+$";
+	    return input.matches(alphanumericPattern);
+	}
 	
 	public static boolean isCvcValid(String cvc) {
 		if(cvc==null) return false;

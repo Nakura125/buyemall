@@ -255,7 +255,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		
-		String insertSQL ="UPDATE account"
+		String insertSQL ="UPDATE account "
 				+ "SET idindirizzo=? "
 				+ "WHERE username = ? ";
 				

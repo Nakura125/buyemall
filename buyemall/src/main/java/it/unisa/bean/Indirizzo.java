@@ -6,7 +6,13 @@ public class Indirizzo {
 	
 	public static Indirizzo nullIndirizzo() {
 		Indirizzo n=new Indirizzo();
-		n.setIdIndirizzo(0);
+		n.setIdIndirizzo(1);
+		n.setCitta("CIttà");
+
+		n.setProvincia("provincia");
+
+		n.setN_civico("civ");
+		n.setVia("via");
 		return n;
 	}
 	public String getVia() {
@@ -42,7 +48,7 @@ public class Indirizzo {
 		return n_civico;
 	}
 	public void setN_civico(String n_civico) {
-		if(n_civico.length()<= 3)
+		
 		this.n_civico = n_civico;
 	}
 	public int getIdIndirizzo() {

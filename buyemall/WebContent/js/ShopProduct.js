@@ -72,8 +72,10 @@
             		    		document.getElementById("Trivia").innerHTML+=
             		    			'<li class="page-item active"><a class="page-link" onclick=pageSwap(this) >'+(i+1)+'</a></li>';
             		    	else
+            		    		if(i!=-1){
             		    		document.getElementById("Trivia").innerHTML+=
-            		    			'<li class="page-item "><a class="page-link"  onclick=pageSwap(this)>'+(i+1)+'</a></li>';
+            		    			'<li class="page-item "><a class="page-link" onclick=pageSwap(this)>'+(i+1)+'</a></li>';
+            		    		}
             		    }
             		    	
             		    

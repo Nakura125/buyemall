@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -12,6 +13,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import it.unisa.bean.Indirizzo;
+import it.unisa.bean.Ordine;
 import it.unisa.interfaces.IBeanDao;
 
 public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
@@ -63,6 +65,46 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 			}
 		}
 		
+	}
+	
+	public synchronized Integer doSaveGenerator(Indirizzo product) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet generatedKeys = null;
+		Integer generatedId = null;
+		String insertSQL = "INSERT INTO " + IndirizzoDAO.TABLE_NAME
+				+ " (idIndirizzo,VIA, Citta, provincia, n_civico) VALUES (?,?, ?, ?, ?)";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(insertSQL,Statement.RETURN_GENERATED_KEYS);
+			preparedStatement.setInt(1, product.getIdIndirizzo());
+			preparedStatement.setString(2, product.getVia());
+			preparedStatement.setString(3, product.getCitta());
+			preparedStatement.setString(4, product.getProvincia());
+			preparedStatement.setString(5, product.getN_civico());
+
+			preparedStatement.executeUpdate();
+
+	        generatedKeys = preparedStatement.getGeneratedKeys();
+	        if (generatedKeys.next()) {
+	             generatedId = generatedKeys.getInt(1);
+	            // Puoi utilizzare l'id generato per ulteriori operazioni
+	            System.out.println("Id dell'ordine inserito: " + generatedId);
+	        }
+			//connection.commit();
+		} finally {
+			try {
+				if (generatedKeys != null)
+	                generatedKeys.close();
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return generatedId;
 	}
 
 	@Override

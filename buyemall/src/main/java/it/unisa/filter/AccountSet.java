@@ -15,6 +15,7 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 
 import it.unisa.DAO.AccountDAO;
+import it.unisa.DAO.AdminDAO;
 import it.unisa.bean.Account;
 
 /**
@@ -49,6 +50,9 @@ public class AccountSet extends HttpFilter implements Filter {
         Cookie account=null;
         Account accountBean=null;
         
+        
+        
+        
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("Account")) {
@@ -57,7 +61,6 @@ public class AccountSet extends HttpFilter implements Filter {
                     try {
 						accountBean=conn.doRetrieveByKey(account.getValue());
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 						accountBean=null;
 					}
@@ -66,16 +69,44 @@ public class AccountSet extends HttpFilter implements Filter {
                 }
             }
         }
-        //System.out.println("Something");
+        String o=null;
+        
+        if(httpRequest.getSession().getAttribute("Account")!=null)
+        	o=(String) httpRequest.getSession().getAttribute("Account");
+        
+        if(o!=null && accountBean==null) {
+        	try {
+				accountBean=conn.doRetrieveByKey(o);
+				
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+				accountBean=null;
+			}
+        }
+        
+        Boolean isAdmin=false;
+        if(accountBean!=null) {
+        	try {
+				isAdmin=new AdminDAO().doRetrieveByKey(accountBean.getUsername());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				isAdmin=false;
+			}
+        }
+        
+        request.setAttribute("isAdmin", isAdmin);
         request.setAttribute("accountBean", accountBean);
 		chain.doFilter(request, response);
+        //System.out.println("Something");
+        
 	}
 
 	/**
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
 	}
 
 }

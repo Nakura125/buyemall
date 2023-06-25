@@ -20,17 +20,17 @@
 		                        <tr>
 		                            <th>image</th>
 		                            <th>Data</th>
-		                            <th>Prezzo</th>
 		                            <th>Stato</th>
+		                            <th>Prezzo</th>
 		                            <th>Azione</th>
 		                        </tr>
 		                    </thead>
 		                    
 		                    <tbody class="align-middle">
 		                    <%for(int i=0;i<orco.size();i++) {%>
-		                    <%String image=null;if(orco.get(i).getList().size()!=0){image=orco.get(i).getList().get(0).getSprites().get(0).getLink();} %>
+		                    <%String image=null;if(orco.get(i).getList().size()!=0 ){image=orco.get(i).getList().get(0).getSprites().get(0).getLink();} %>
 		                    	<tr>
-		                    		<td class="align-middle" ><img style="width: 50px;" alt=<%=Prodotto.nullProduct()%> src=<%=orco.get(i).getList().get(0).getSprites().get(0).getLink() %>></td>
+		                    		<td class="align-middle" ><img style="width: 50px;" alt=<%=Prodotto.nullProduct()%> src=<%=image %>></td>
 		                    		<td class="align-middle"><%= orco.get(i).getData().toString() %></td>
 		                    		<td class="align-middle"><%= orco.get(i).getStato().toString()%></td>
 		                    		<td class="align-middle"><%= orco.get(i).getPrezzo()%></td>

@@ -86,7 +86,7 @@ public class Admin extends HttpServlet {
         request.getSession().invalidate();
         
         // Reindirizza alla pagina di login
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("Logout");
     }
     
 

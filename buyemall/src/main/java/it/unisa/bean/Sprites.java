@@ -10,7 +10,7 @@ public class Sprites {
 	
 	public static Sprites nullSprites() {
 		Sprites p=new Sprites();
-		
+		p.setIdSprites(20000);
 		String urlimgnull="https://www.pngall.com/wp-content/uploads/2/Question-Mark-PNG.png";
 		p.setLink(urlimgnull);
 		return p;

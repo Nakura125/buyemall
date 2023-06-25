@@ -19,6 +19,7 @@ import javax.sql.DataSource;
 import it.unisa.bean.Account;
 import it.unisa.bean.Ordine;
 import it.unisa.bean.Prodotto;
+import it.unisa.bean.Sprites;
 import it.unisa.bean.Stato;
 
 import it.unisa.interfaces.IBeanDao;
@@ -81,7 +82,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO composto"
-				+ " (idordine,username,idProdotto) VALUES (?,?,?)";
+				+ " (idordine,username,idProdotto,nome,prezzo,idSprite) VALUES (?,?,?,?,?,?)";
 
 		try {
 			connection = ds.getConnection();
@@ -89,7 +90,9 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 			preparedStatement.setInt(1, product.getIdOrdine());
 			preparedStatement.setString(2, a.getUsername());
 			preparedStatement.setInt(3, pd.getIdProdotto());
-
+			preparedStatement.setString(4, pd.getNome());
+			preparedStatement.setFloat(5, pd.getPrezzo());
+			preparedStatement.setInt(6, pd.getSprites().get(0).getIdSprites());
 			preparedStatement.executeUpdate();
 
 			//connection.commit();
@@ -123,8 +126,10 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 				Prodotto bean=new Prodotto();
 				
 				bean.setIdProdotto((rs.getInt("idProdotto")));
-				bean=new ProdottoDAO().doRetrieveByKey(bean.getIdProdotto());
-				
+				bean.setNome(rs.getString("nome"));
+				bean.setPrezzo((rs.getFloat("prezzo")));
+				bean.addSprites(new SpritesDAO().doRetrieveByKey(rs.getInt("idSprite")));
+				bean.addSprites(Sprites.nullSprites());
 				products.add(bean);
 			}
 			

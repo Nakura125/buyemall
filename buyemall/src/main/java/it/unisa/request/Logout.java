@@ -33,6 +33,7 @@ public class Logout extends HttpServlet {
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);
 		
+		request.getSession().invalidate();
 		//request.setAttribute("pageName", "Home");
 		//RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
 		//dispatcher.forward(request, response);

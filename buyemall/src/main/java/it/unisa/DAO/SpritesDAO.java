@@ -105,7 +105,7 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 
 		Sprites bean = new Sprites();
 
-		String selectSQL = "SELECT * FROM " + SpritesDAO.TABLE_NAME + " WHERE CODE = ?";
+		String selectSQL = "SELECT * FROM " + SpritesDAO.TABLE_NAME + " WHERE idsprites = ?";
 
 		try {
 			connection = ds.getConnection();

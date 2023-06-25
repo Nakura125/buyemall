@@ -53,7 +53,7 @@
         </div>
         <div class=".back row align-items-center py-3 px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
-                <a href="index.html" class="text-decoration-none">
+                <a href="Home" class="text-decoration-none">
                     <img src="img/Logo Grande.png" width="300" height="90">
                 </a>
             </div>
@@ -85,6 +85,7 @@
                                 count =accountBean.getCarrello().size();
                                 
                             }catch(NullPointerException e) {
+                            	cs=false;
                             	e.printStackTrace();
                             	accountBean=null;
                             }
@@ -171,14 +172,9 @@
                             <a href="Home" class="nav-item nav-link <%if(pageName.equals("Home")){%> active<%} %>">Home</a>
                             <a href="Shop" class="nav-item nav-link <%if(pageName.equals("Shop")){%> active<%} %>">Shop</a>
                             <a href="Detail" class="nav-item nav-link <%if(pageName.equals("Detail")){%> active<%} %>">Shop Detail</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle " data-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    <a href="cart.html" class="dropdown-item <%if(pageName.equals("Cart")){%> active<%} %>">Shopping Cart</a>
-                                    <a href="checkout.html" class="dropdown-item <%if(pageName.equals("Checkout")){%> active<%} %>">Checkout</a>
-                                </div>
-                            </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <% if((Boolean)request.getAttribute("isAdmin")){%>
+                            <a href="Admin" class="nav-item nav-link">Admin</a>
+                            <%} %>
                         </div>
                         
                     </div>
