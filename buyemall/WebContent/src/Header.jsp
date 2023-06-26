@@ -33,19 +33,19 @@
             </div>
             <div class="col-lg-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
-                    <a class="text-dark px-2" href="">
+                    <a class="text-dark px-2" href="https://www.facebook.com/marketplace/item/821154436093731/?ref=browse_tab&referral_code=marketplace_top_picks&referral_story_type=top_picks">
                         <i class="fab fa-facebook-f"></i>
                     </a>
-                    <a class="text-dark px-2" href="">
+                    <a class="text-dark px-2" href="https://twitter.com/elonmusk/status/1672795483712913410/photo/1">
                         <i class="fab fa-twitter"></i>
                     </a>
-                    <a class="text-dark px-2" href="">
+                    <a class="text-dark px-2" href="https://it.linkedin.com/in/christianesposito">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
-                    <a class="text-dark px-2" href="">
+                    <a class="text-dark px-2" href="https://www.instagram.com/giorgione_ortoecucina/">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a class="text-dark pl-2" href="">
+                    <a class="text-dark pl-2" href="https://www.youtube.com/watch?v=pN6jk0uUrD8&list=PLlasXeu85E9cQ32gLCvAvr9vNaUccPVNP">
                         <i class="fab fa-youtube"></i>
                     </a>
                 </div>

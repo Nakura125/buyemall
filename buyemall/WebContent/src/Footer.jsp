@@ -31,7 +31,7 @@
                 <p class="mb-md-0 text-center text-md-left text-dark">
                     &copy; <a class="text-dark font-weight-semi-bold" href="#">Buy'em All</a>. All Rights Reserved. Designed
                     by
-                    <a class="text-dark font-weight-semi-bold" href="https://htmlcodex.com">30 Politico</a><br>
+                    <a class="text-dark font-weight-semi-bold" href="https://twitter.com/30politico/status/1672577748395610113?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Etweet">30 Politico</a><br>
                     
                 </p>
             </div>
