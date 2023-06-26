@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 
 public class Prodotto {
 	private int idProdotto, Quantita, generazione, visitato;
@@ -80,9 +83,16 @@ public class Prodotto {
 		return prezzo;
 	}
 
+
+	
 	public void setPrezzo(float prezzo) {
-		this.prezzo = (float) (prezzo * 1.22);
+	    BigDecimal prezzoDecimal = BigDecimal.valueOf(prezzo);
+	    BigDecimal prezzoConIva = prezzoDecimal.multiply(BigDecimal.valueOf(1.22));
+	    BigDecimal prezzoArrotondato = prezzoConIva.setScale(2, RoundingMode.DOWN);
+	    this.prezzo = prezzoArrotondato.floatValue();
 	}
+
+	
 	public void setPrezzoWithoutIVA(float prezzo) {
 		this.prezzo = prezzo;
 	}
