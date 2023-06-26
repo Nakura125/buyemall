@@ -41,7 +41,6 @@ public class AccountSet extends HttpFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		//AccountDAO conn=new AccountDAO();
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		String requestURI = httpRequest.getRequestURI();
 		if (!requestURI.equals("FilterRequest.java")) {
@@ -50,7 +49,6 @@ public class AccountSet extends HttpFilter implements Filter {
 			Cookie account = null;
 			String accountBean = null;
 
-			//System.out.println("Richiamo");
 
 			if (cookies != null) {
 				for (Cookie cookie : cookies) {
