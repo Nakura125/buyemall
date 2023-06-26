@@ -28,7 +28,6 @@ public class Register extends HttpServlet {
      */
     public Register() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -44,7 +43,7 @@ public class Register extends HttpServlet {
 		
 		AccountDAO conn=new AccountDAO();
 		
-		if (!Validator.hasOnlyAlphanumeric(username) || username == null) {
+		if (!Validator.hasOnlyAlphanumericWithoutSPace(username) || username == null) {
 		    request.setAttribute("errorMsg", "Username non valido. Inserire solo caratteri alfanumerici.");
 		    request.setAttribute("pageName", "RgForward");
 		    RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
@@ -64,7 +63,7 @@ public class Register extends HttpServlet {
 		    request.setAttribute("pageName", "RgForward");
 		    RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 		    dispatcher.forward(request, response);
-		} else if (!Validator.hasOnlyAlphanumeric(passwordCheck)|| passwordCheck == null || !passwordCheck.equals(password)) {
+		} else if ( passwordCheck == null || !passwordCheck.equals(password)) {
 		    request.setAttribute("errorMsg", "Conferma password non valida. Inserire solo caratteri alfanumerici.");
 		    request.setAttribute("pageName", "RgForward");
 		    RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
@@ -79,7 +78,6 @@ public class Register extends HttpServlet {
 			
 			try {
 				Account ac=conn.doRetrieveByKey(username);
-				System.out.println(ac);
 				if(ac!=null && ac.getUsername()!=null) {
 					request.setAttribute("errorMsg", "Lo username è già usato");
 					request.setAttribute("pageName", "RgForward");
@@ -89,7 +87,7 @@ public class Register extends HttpServlet {
 			} catch (SQLException e) {
 				request.setAttribute("errorMsg", "è avvenuto un errore nel server riprova più tardi");
 				request.setAttribute("pageName", "RgForward");
-				e.printStackTrace();
+				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 				dispatcher.forward(request, response);
 			}
@@ -105,7 +103,7 @@ public class Register extends HttpServlet {
 			} catch (SQLException e) {
 				request.setAttribute("errorMsg", "è avvenuto un errore nel server riprova più tardi");
 				request.setAttribute("pageName", "RgForward");
-				e.printStackTrace();
+				
 				RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 				dispatcher.forward(request, response);
 			}
@@ -125,7 +123,7 @@ public class Register extends HttpServlet {
 				conn.doSave(daSalvare);
 			} catch (SQLException e) {
 				request.setAttribute("errorMsg", "è avvenuto un errore nel server riprova più tardi");
-				e.printStackTrace();
+				
 				request.setAttribute("pageName", "RgForward");
 				RequestDispatcher dispatcher = request.getRequestDispatcher("RgForward");
 				dispatcher.forward(request, response);
@@ -143,7 +141,6 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

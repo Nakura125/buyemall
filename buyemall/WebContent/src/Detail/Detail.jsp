@@ -4,5 +4,3 @@
     
 <%@ include file="ProductDetail.jsp"%>
 
-    
-<%@ include file="ProductAdvice.jsp"%>

@@ -11,7 +11,7 @@
                         <p style="color: red"><%=errMsg %></p>
                         <%} %>
                     </div>
-                    <form action="Register" >
+                    <form action="Register" onsubmit="return validateRegister()">
                         <div class="control-group">
                             <input name="nome" type="text" class="form-control" id="nome" placeholder="Nome"
                                 required="required" data-validation-required-message="Inserisci il tuo nome"/>
@@ -51,5 +51,5 @@
                 </div>
             </div>
         </div>
-   
+   <script type="text/javascript" src="js/validatorEmail.js"></script>
     <!-- Register End -->

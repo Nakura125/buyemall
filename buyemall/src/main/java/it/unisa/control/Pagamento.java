@@ -8,17 +8,17 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import it.unisa.DAO.AccountDAO;
 import it.unisa.DAO.MetodiPagamentoDAO;
-import it.unisa.DAO.ProdottoDAO;
+
 import it.unisa.bean.Account;
 import it.unisa.bean.MetodiPagamento;
-import it.unisa.bean.Prodotto;
+
 
 /**
  * Servlet implementation class Pagamento
@@ -41,13 +41,17 @@ public class Pagamento extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		
-Account accountBean=null;
-try {
-accountBean=(Account)request.getAttribute("accountBean");
-}catch(NullPointerException e) {
-	e.printStackTrace();
-	accountBean=null;
-}
+		AccountDAO conn=new AccountDAO();
+		Account accountBean=null;
+		String account=(String)request.getAttribute("accountBean");
+		if (account != null) {
+			try {
+				accountBean = conn.doRetrieveByKey(account);
+			} catch (SQLException e) {
+
+				accountBean = null;
+			}
+		}
 		
 		
 		
@@ -60,7 +64,7 @@ accountBean=(Account)request.getAttribute("accountBean");
 				mt=new MetodiPagamentoDAO().doRetrieveByUsername(accountBean.getUsername());
 			} catch (SQLException e) {
 				
-				e.printStackTrace();
+				
 			}
 			
 			request.setAttribute("MetodiPag", mt);

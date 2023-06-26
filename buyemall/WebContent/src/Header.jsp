@@ -76,20 +76,22 @@
                         <td>
                             <div class="nav-item dropdown" style="width: min-content">
                             <%
-                            Account accountBean=null;
-                            Boolean cs=false;
+                            
+                            AccountDAO conn=new AccountDAO();
+                    		Account accountBean=null;
+                    		Boolean cs=false;
                             Integer count=0;
-                            try {
-                            	accountBean=(Account)request.getAttribute("accountBean");
-                            	cs=true;
-                            	
-                                count =accountBean.getCarrello().size();
-                                
-                            }catch(NullPointerException e) {
-                            	cs=false;
-                            	e.printStackTrace();
-                            	accountBean=null;
-                            }
+                    		String account=(String)request.getAttribute("accountBean");
+                    		if (account != null) {
+                    			try {
+                    				accountBean = conn.doRetrieveByKey(account);
+                    				count=accountBean.getCarrello().size();
+                    				cs=true;
+                    			} catch (SQLException e) {
+									cs=false;
+                    				accountBean = null;
+                    			}
+                    		}
                             
                              %>
                             

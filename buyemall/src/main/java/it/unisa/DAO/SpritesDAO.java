@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -18,6 +20,7 @@ import it.unisa.bean.Sprites;
 import it.unisa.interfaces.IBeanDao;
 
 public class SpritesDAO implements IBeanDao<Sprites,Integer>{
+	private static final Logger LOGGER = Logger.getLogger(SpritesDAO.class.getName());
 
 	private static DataSource ds;
 	
@@ -31,7 +34,7 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.err.println("Error:" + e.getMessage());
+			LOGGER.log(Level.INFO,"Error:",e);
 		}
 	}
 
@@ -156,7 +159,7 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 				bean.setIdSprites(rs.getInt("idSprites"));
 				bean.setLink(rs.getString("link"));
 				bean.setLink_small(rs.getString("link_small"));
-				//bean.setProdotto(new ProdottoDAO().doRetrieveByKey((rs.getInt("idProdotto"))));
+				
 				products.add(bean);
 			}
 

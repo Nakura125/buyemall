@@ -35,69 +35,59 @@ public class AccountSet extends HttpFilter implements Filter {
 	/**
 	 * @see Filter#destroy()
 	 */
-	public void destroy() {
-
-	}
+	
 
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		AccountDAO conn=new AccountDAO();
-		
+		//AccountDAO conn=new AccountDAO();
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		Cookie[] cookies = httpRequest.getCookies();
-        Cookie account=null;
-        Account accountBean=null;
-        
-        
-        
-        
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("Account")) {
-                    // Il cookie desiderato è presente
-                    account=cookie;
-                    try {
-						accountBean=conn.doRetrieveByKey(account.getValue());
-					} catch (SQLException e) {
-						e.printStackTrace();
-						accountBean=null;
-					}
-                    break;  // Esci dal ciclo, poiché hai trovato il cookie
-                    
-                }
-            }
-        }
-        String o=null;
-        
-        if(httpRequest.getSession().getAttribute("Account")!=null)
-        	o=(String) httpRequest.getSession().getAttribute("Account");
-        
-        if(o!=null && accountBean==null) {
-        	try {
-				accountBean=conn.doRetrieveByKey(o);
-				
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
-				accountBean=null;
-			}
-        }
-        
-        Boolean isAdmin=false;
-        if(accountBean!=null) {
-        	try {
-				isAdmin=new AdminDAO().doRetrieveByKey(accountBean.getUsername());
-			} catch (SQLException e) {
+		String requestURI = httpRequest.getRequestURI();
+		if (!requestURI.equals("FilterRequest.java")) {
+			
+			Cookie[] cookies = httpRequest.getCookies();
+			Cookie account = null;
+			String accountBean = null;
 
-				e.printStackTrace();
-				isAdmin=false;
+			//System.out.println("Richiamo");
+
+			if (cookies != null) {
+				for (Cookie cookie : cookies) {
+					if (cookie.getName().equals("Account")) {
+						// Il cookie desiderato è presente
+						account = cookie;
+
+						accountBean = account.getValue();
+
+						break; // Esci dal ciclo, poiché hai trovato il cookie
+
+					}
+				}
 			}
-        }
+			String o = null;
+
+			if (httpRequest.getSession().getAttribute("Account") != null)
+				o = (String) httpRequest.getSession().getAttribute("Account");
+
+			if (o != null && accountBean == null) {
+				accountBean = o;
+			}
+
+			Boolean isAdmin = false;
+			if (accountBean != null) {
+				try {
+					isAdmin = new AdminDAO().doRetrieveByKey(accountBean);
+				} catch (SQLException e) {
+
+					isAdmin = false;
+				}
+			}
+
+			request.setAttribute("isAdmin", isAdmin);
+			request.setAttribute("accountBean", accountBean);
+		}
         
-        request.setAttribute("isAdmin", isAdmin);
-        request.setAttribute("accountBean", accountBean);
 		chain.doFilter(request, response);
 
         

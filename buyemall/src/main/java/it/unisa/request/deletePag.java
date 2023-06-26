@@ -36,12 +36,16 @@ public class deletePag extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		
+		AccountDAO conn=new AccountDAO();
 		Account accountBean=null;
-		try {
-		accountBean=(Account)request.getAttribute("accountBean");
-		}catch(NullPointerException e) {
-			e.printStackTrace();
-			accountBean=null;
+		String account=(String)request.getAttribute("accountBean");
+		if (account != null) {
+			try {
+				accountBean = conn.doRetrieveByKey(account);
+			} catch (SQLException e) {
+
+				accountBean = null;
+			}
 		}
         
         //redirect if not logged
@@ -58,7 +62,7 @@ public class deletePag extends HttpServlet {
 				new MetodiPagamentoDAO().doDelete(o.getNumero_carta());
 			} catch (SQLException e) {
 				
-				e.printStackTrace();
+				
 			}
         }
         

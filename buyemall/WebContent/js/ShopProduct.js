@@ -4,10 +4,8 @@
 
  function handleFilter(request){
             	
-            		//console.log(request.responseText);
             		let response = JSON.parse(request.responseText);
             		
-            		//console.log(response)
             		let search = document.querySelector('input[type="text"][name="SearchForm"]');
         			console.log(search)
             		
@@ -46,7 +44,7 @@
             		    	    '        </div>' +
             		    	    '        <div class="card-footer d-flex justify-content-between bg-light border borderbottomproduct">' +
             		    	    '            <a href="Detail?idProdotto='+element.idProdotto+'" class="btn btn-sm text-dark p-0"><i class="far mr-1"><img src="img/lente.png" width="25" height="25" style="padding: 10%;"></i>Dettagli</a>' +
-            		    	    '            <a href="" class="btn btn-sm text-dark p-0"><i class="far mr-1"><img src="img/cart.png" width="25" height="25"></i>Acquista</a>' +
+            		    	    '            <a href="Detail?idProdotto='+element.idProdotto+'" class="btn btn-sm text-dark p-0"><i class="far mr-1"><img src="img/cart.png" width="25" height="25"></i>Acquista</a>' +
             		    	    '        </div>' +
             		    	    '    </div>' +
             		    	    '</div>';

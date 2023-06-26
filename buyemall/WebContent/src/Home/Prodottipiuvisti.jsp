@@ -37,7 +37,7 @@
                     </div>
                     <div class="card-footer d-flex justify-content-between bg-light border borderbottomproduct">
                         <a href="Detail?idProdotto=<%=p.getIdProdotto() %>" class="btn btn-sm text-dark p-0"><i class="far mr-1"><img src="img/lente.png" alt = "lente" width="25" height="25" style="padding: 10%;"></i>Dettagli</a>
-                        <a href="" class="btn btn-sm text-dark p-0"><i class="far mr-1"><img src="img/cart.png" alt = "cart" width="25" height="25"></i>Acquista</a>
+                        <a href="Detail?idProdotto=<%=p.getIdProdotto() %>" class="btn btn-sm text-dark p-0"><i class="far mr-1"><img src="img/cart.png" alt = "cart" width="25" height="25"></i>Acquista</a>
                     </div>
                 </div>
             </div>

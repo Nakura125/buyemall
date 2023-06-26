@@ -46,7 +46,7 @@ public class Home extends HttpServlet {
 			
 		} catch (SQLException e) {
 	
-			e.printStackTrace();
+			
 		}
 		
 		
@@ -55,7 +55,7 @@ public class Home extends HttpServlet {
 			List<Prodotto> visitato=(List<Prodotto>) new ProdottoDAO().doRetrieveAllClient("visitato");
 			request.setAttribute("visitato", visitato);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 		}
 		
 		
@@ -77,7 +77,7 @@ public class Home extends HttpServlet {
 			request.setAttribute("prCategoriesRom", prCategoriesRom);
 			request.setAttribute("prCategoriesBox", prCategoriesBox);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			
 		}
 		
 		

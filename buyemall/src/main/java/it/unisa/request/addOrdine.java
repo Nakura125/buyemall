@@ -46,13 +46,17 @@ public class addOrdine extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		
-Account accountBean=null;
-try {
-accountBean=(Account)request.getAttribute("accountBean");
-}catch(NullPointerException e) {
-	e.printStackTrace();
-	accountBean=null;
-}
+		AccountDAO conn=new AccountDAO();
+		Account accountBean=null;
+		String account=(String)request.getAttribute("accountBean");
+		if (account != null) {
+			try {
+				accountBean = conn.doRetrieveByKey(account);
+			} catch (SQLException e) {
+
+				accountBean = null;
+			}
+		}
         
         String numerocarta=request.getParameter("numcarta");
         
@@ -110,7 +114,7 @@ accountBean=(Account)request.getAttribute("accountBean");
 				new AccountDAO().DeleteCart(accountBean);
 				response.sendRedirect("Home");
 			} catch (SQLException e) {
-				e.printStackTrace();
+				
 				request.setAttribute("errorMsg", "l'ordine ha un errore");
 			    request.setAttribute("pageName", "Pagamento");
 			    RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");

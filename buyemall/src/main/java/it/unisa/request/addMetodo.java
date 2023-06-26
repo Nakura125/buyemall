@@ -39,13 +39,17 @@ public class addMetodo extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		
-Account accountBean=null;
-try {
-accountBean=(Account)request.getAttribute("accountBean");
-}catch(NullPointerException e) {
-	e.printStackTrace();
-	accountBean=null;
-}
+		AccountDAO conn=new AccountDAO();
+		Account accountBean=null;
+		String account=(String)request.getAttribute("accountBean");
+		if (account != null) {
+			try {
+				accountBean = conn.doRetrieveByKey(account);
+			} catch (SQLException e) {
+
+				accountBean = null;
+			}
+		}
         
         String numerocarta=request.getParameter("numcarta");
         
@@ -79,11 +83,11 @@ accountBean=(Account)request.getAttribute("accountBean");
         	try {
 				new MetodiPagamentoDAO().doSave(pg);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				
 			}
         }
         
-        response.sendRedirect("Profilo");
+        response.sendRedirect("Profilo#linkMetodiPagamento");
         
 	}
 

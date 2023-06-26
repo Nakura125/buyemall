@@ -83,6 +83,9 @@ public class Prodotto {
 	public void setPrezzo(float prezzo) {
 		this.prezzo = (float) (prezzo * 1.22);
 	}
+	public void setPrezzoWithoutIVA(float prezzo) {
+		this.prezzo = prezzo;
+	}
 
 	public String getNome() {
 		return nome;

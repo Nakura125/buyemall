@@ -7,16 +7,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import it.unisa.bean.Indirizzo;
-import it.unisa.bean.Ordine;
+
 import it.unisa.interfaces.IBeanDao;
 
 public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
+	private static final Logger LOGGER = Logger.getLogger(IndirizzoDAO.class.getName());
 
 	private static DataSource ds;
 
@@ -28,7 +31,7 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.err.println("Error:" + e.getMessage());
+			LOGGER.log(Level.INFO,"Error:",e);
 		}
 	}
 
@@ -89,8 +92,7 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
 	             generatedId = generatedKeys.getInt(1);
-	            // Puoi utilizzare l'id generato per ulteriori operazioni
-	            System.err.println("Id dell'ordine inserito: " + generatedId);
+	            
 	        }
 			
 		} finally {

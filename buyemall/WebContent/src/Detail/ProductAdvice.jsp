@@ -9,6 +9,7 @@
     
     	if(prAdvice==null || prAdvice.size()<8)
     	{
+    		
     		prAdvice=new LinkedList<>();
     		List<Prodotto> g=(List<Prodotto>) new ProdottoDAO().doRetrieveAllRAND();
     		for(int i=0;i<8-prAdvice.size();i++)
@@ -26,6 +27,7 @@
                 <div class="owl-carousel related-carousel">
                 	<% for(int i=0;i<prAdvice.size();i++){ 
                 		Prodotto ad=prAdvice.get(i);
+                		
                 	%>
                     <div class="card product-item border-0">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0 bordertopproduct">
@@ -38,8 +40,8 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border borderbottomproduct">
-                            <a href=Detail?idProdotto=<%=ad.getIdProdotto() %> class="btn btn-sm text-dark p-0"><i class="far mr-1"><img src="img/lente.png" alt="lente" width="25" height="25" style="padding: 10%;"></i>Dettagli</a>
-                            <a href="" class="btn btn-sm text-dark p-0"><i class="far mr-1"><img src="img/cart.png" alt="cart" width="25" height="25"></i>Acquista</a>
+                            <a href="Detail?idProdotto=<%=ad.getIdProdotto() %>" class="btn btn-sm text-dark p-0"><i class="far mr-1"><img src="img/lente.png" alt="lente" width="25" height="25" style="padding: 10%;"></i>Dettagli</a>
+                            <a href="Detail?idProdotto=<%=ad.getIdProdotto() %>" class="btn btn-sm text-dark p-0"><i class="far mr-1"><img src="img/cart.png" alt="cart" width="25" height="25"></i>Acquista</a>
                         </div>
                     </div>
                     <%} %>

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -25,7 +27,8 @@ import it.unisa.bean.Stato;
 import it.unisa.interfaces.IBeanDao;
 
 public class OrdineDAO implements IBeanDao<Ordine,Integer>{
-	
+	private static final Logger LOGGER = Logger.getLogger(OrdineDAO.class.getName());
+
 	private static DataSource ds;
 
 	static {
@@ -36,7 +39,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.err.println("Error:" + e.getMessage());
+			LOGGER.log(Level.INFO,"Error:",e);
 		}
 	}
 
@@ -171,8 +174,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
 	             generatedId = generatedKeys.getInt(1);
-	            // Puoi utilizzare l'id generato per ulteriori operazioni
-	            System.err.println("Id dell'ordine inserito: " + generatedId);
+	            
 	        }
 			
 		} finally {

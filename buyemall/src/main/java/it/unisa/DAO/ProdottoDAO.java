@@ -8,21 +8,24 @@ import java.sql.Statement;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import it.unisa.bean.Ordine;
+
 import it.unisa.bean.Prodotto;
 import it.unisa.bean.Sprites;
-import it.unisa.bean.Stato;
+
 import it.unisa.bean.Tipo;
 import it.unisa.interfaces.IBeanDao;
 
 public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
-	
+	private static final Logger LOGGER = Logger.getLogger(ProdottoDAO.class.getName());
+
 	private static DataSource ds;
 
 	static {
@@ -33,7 +36,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.err.println("Error:" + e.getMessage());
+			LOGGER.log(Level.INFO,"Error:",e);
 		}
 	}
 
@@ -360,7 +363,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 			selectSQL+=" nazione = ? AND";
 		}
 
-		selectSQL+="  Quantita > 0 order by visitato DESC limit 100";
+		selectSQL+="  Quantita > 0 order by visitato DESC limit 20";
 		
 
 		try {
@@ -488,7 +491,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 
 		Collection<Prodotto> products = new LinkedList<>();
 
-		String selectSQL = "SELECT * FROM " + ProdottoDAO.TABLE_NAME + " WHERE Quantita >0 ORDER BY visitato DESC Limit 100";
+		String selectSQL = "SELECT * FROM " + ProdottoDAO.TABLE_NAME + " WHERE Quantita >0 ORDER BY visitato DESC Limit 20";
 
 		if (order == null || order.equals("")) {
 			order="idProdotto";
@@ -541,7 +544,7 @@ public class ProdottoDAO implements IBeanDao<Prodotto,Integer>{
 
 		Collection<Prodotto> products = new LinkedList<>();
 
-		String selectSQL = "SELECT * FROM " + ProdottoDAO.TABLE_NAME + " WHERE Quantita >0 ORDER BY RAND() DESC Limit 100";
+		String selectSQL = "SELECT * FROM " + ProdottoDAO.TABLE_NAME + " WHERE Quantita >0 ORDER BY RAND() DESC Limit 20";
 
 		
 		

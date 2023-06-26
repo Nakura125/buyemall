@@ -6,17 +6,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import it.unisa.bean.MetodiPagamento;
 import it.unisa.bean.PagamentoOrdine;
 import it.unisa.interfaces.IBeanDao;
 
 public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
+	private static final Logger LOGGER = Logger.getLogger(PagamentoOrdineDAO.class.getName());
 
 	private static DataSource ds;
 
@@ -28,7 +30,7 @@ public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.err.println("Error:" + e.getMessage());
+			LOGGER.log(Level.INFO,"Error:",e);
 		}
 	}
 

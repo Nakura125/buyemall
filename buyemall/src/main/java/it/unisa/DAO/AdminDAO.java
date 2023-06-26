@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -14,7 +16,7 @@ import javax.sql.DataSource;
 
 public class AdminDAO {
 	private static DataSource ds;
-
+	private static final Logger LOGGER = Logger.getLogger(AdminDAO.class.getName());
 	static {
 		try {
 			Context initCtx = new InitialContext();
@@ -23,7 +25,7 @@ public class AdminDAO {
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.err.println("Error:" + e.getMessage());
+			LOGGER.log(Level.INFO,"Error:",e);
 		}
 	}
 

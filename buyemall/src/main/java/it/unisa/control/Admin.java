@@ -31,52 +31,62 @@ public class Admin extends HttpServlet {
 
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
-        if (action != null) {
-            try {
+		
+		boolean isAdmin = (boolean) request.getAttribute("isAdmin");
+		if (!isAdmin) {
+			response.sendRedirect("Home");
+		}
+		else {
+			String action = request.getParameter("action");
+			if (action != null) {
+				try {
 
-                switch (action) {
-                    case "addProduct":
-                        addProduct(request, response);
-                        break;
-                    case "modificaProdotto":
-                        modificaProdotto(request, response);
-                        break;
-                    case "deleteProduct":
-                        deleteProduct(request, response);
-                        break;
-                    case "searchProduct":
-                        searchProduct(request, response);
-                        break;
-                    case "visualizzaOrdiniPerStato":
-                        visualizzaOrdiniPerStato(request, response);
-                        break;
-                    case "deleteOrdine":
-                    	deleteOrdine(request, response);
-                        break;
-                    case "confermaOrdiniCompletati":
-                    	confermaOrdiniCompletati(request, response);
-                        break;
-                    case "visualizzaOrdiniFiltrati":
-                    	visualizzaOrdiniFiltrati(request, response);
-                        break;
-                    case "logout":
-                        logout(request, response);
-                        break;
-                    default:
-                		RequestDispatcher dispatcher =getServletContext().getRequestDispatcher("/admin/DashboardAdmin.jsp");
-                		dispatcher.forward(request, response);
-                        break;
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                response.sendRedirect("admin/error.jsp");
-            }
-        } else {
-    		RequestDispatcher dispatcher =getServletContext().getRequestDispatcher("/admin/DashboardAdmin.jsp");
-    		dispatcher.forward(request, response);
-        }
-    }
+					switch (action) {
+					case "addProduct":
+						addProduct(request, response);
+						break;
+					case "modificaProdotto":
+						modificaProdotto(request, response);
+						break;
+					case "deleteProduct":
+						deleteProduct(request, response);
+						break;
+					case "searchProduct":
+						searchProduct(request, response);
+						break;
+					case "visualizzaOrdiniPerStato":
+						visualizzaOrdiniPerStato(request, response);
+						break;
+					case "deleteOrdine":
+						deleteOrdine(request, response);
+						break;
+					case "confermaOrdiniCompletati":
+						confermaOrdiniCompletati(request, response);
+						break;
+					case "visualizzaOrdiniFiltrati":
+						visualizzaOrdiniFiltrati(request, response);
+						break;
+					case "logout":
+						logout(request, response);
+						break;
+					default:
+						RequestDispatcher dispatcher = getServletContext()
+								.getRequestDispatcher("/admin/DashboardAdmin.jsp");
+						dispatcher.forward(request, response);
+						break;
+					}
+				} catch (SQLException e) {
+
+					response.sendRedirect("admin/error.jsp");
+				}
+			} else {
+				
+				RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin/DashboardAdmin.jsp");
+				dispatcher.forward(request, response);
+			}
+		}
+	}
+    
 
     
   //effettua il logout
@@ -100,7 +110,7 @@ public class Admin extends HttpServlet {
             product.setQuantita(Integer.parseInt(request.getParameter("quantita")));
             product.setNome(request.getParameter("nome"));
             product.setDescrizione(request.getParameter("descrizione"));
-            product.setPrezzo(Float.parseFloat(request.getParameter("prezzo")));
+            product.setPrezzoWithoutIVA(Float.parseFloat(request.getParameter("prezzo")));
             product.setGenerazione(Integer.parseInt(request.getParameter("generazione")));
             product.setNazionalita(request.getParameter("nazionalita"));
 
@@ -133,15 +143,15 @@ public class Admin extends HttpServlet {
             dispatcher.forward(request, response);
         } catch (NumberFormatException e) {
             // Gestione dell'errore di parsing dei numeri
-            e.printStackTrace();
+            
             response.sendRedirect("admin/error.jsp");
         } catch (IllegalArgumentException e) {
             // Gestione dell'errore di valore non valido per l'enum Tipo
-            e.printStackTrace();
+            
             response.sendRedirect("admin/error.jsp");
         } catch (SQLException e) {
             // Gestione dell'errore del database
-            e.printStackTrace();
+            
             response.sendRedirect("admin/error.jsp");
         }
     }
@@ -221,13 +231,13 @@ public class Admin extends HttpServlet {
             }
 
         } catch (NumberFormatException e) {
-        	e.printStackTrace();
+        	
             response.sendRedirect("admin/error.jsp");
         } catch (SQLException e) {
-        	e.printStackTrace();
+        	
             response.sendRedirect("admin/error.jsp");
         } catch (Exception e) {
-        	e.printStackTrace();
+        	
             response.sendRedirect("admin/error.jsp");
         }
     }
@@ -340,13 +350,13 @@ public class Admin extends HttpServlet {
                 dispatcher.forward(request, response);
             }
         } catch (NumberFormatException e) {
-        	e.printStackTrace();
+        	
             response.sendRedirect("admin/error.jsp");
         } catch (SQLException e) {
-        	e.printStackTrace();
+        	
             response.sendRedirect("admin/error.jsp");
         } catch (Exception e) {
-        	e.printStackTrace();
+        	
             response.sendRedirect("admin/error.jsp");
         }
     }
@@ -361,7 +371,7 @@ public class Admin extends HttpServlet {
         	data1 = Date.valueOf(data1String);
         	data2 = Date.valueOf(data2String);
         }catch(IllegalArgumentException e) {
-        	e.printStackTrace();
+        	
             response.sendRedirect("admin/error.jsp");
         }
         

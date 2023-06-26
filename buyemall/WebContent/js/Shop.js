@@ -6,6 +6,7 @@
         			console.log(page)
         			let params=""
         			if(page !=undefined){
+						
         				params+="pageForm="+page+"&";
         			}else{
         				params+="pageForm=1"+"&";
@@ -15,11 +16,9 @@
         				let currentCheckbox = checkboxes[i];
         				if(currentCheckbox.value!="null")
 	                    	params += currentCheckbox.name+'=' + currentCheckbox.value+"&";
-	                	//console.log(params);
         			}
         			
-        			var search = document.querySelectorAll('input[type="text"][name="SearchForm"]');
-        			//console.log(search[0])
+        			let search = document.querySelectorAll('input[type="text"][name="SearchForm"]');
         			let pr=""
         			for(let i=0; i< search.length; i++){
         				let currentSearch=search[i]

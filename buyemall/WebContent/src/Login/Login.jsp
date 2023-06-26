@@ -7,13 +7,13 @@
         <div class="text-center mb-4">
             <h2 class="section-title px-5"><span class="px-2">Login</span></h2>
             <div class="contact-form">
-                <div id="success">
+                <div id="success" >
                 <%String errMsg;
                         if((errMsg=(String) request.getAttribute("errorMsg"))!=null){ %>
                         <p style="color: red"><%=errMsg %></p>
                         <%} %>
                 </div>
-                <form action="Login">
+                <form action="Login" onsubmit="return validateLogin()">
                     <div class="control-group">
                         <input name="email" type="email" class="form-control" id="email" placeholder="Email" required="required"
                             data-validation-required-message="Inserisci la tua email" />
@@ -36,5 +36,8 @@
                 </form>
             </div>
         </div>
+        
+        
+        <script type="text/javascript" src="js/validatorEmail.js"></script>
     </div>
     <!-- Login End -->

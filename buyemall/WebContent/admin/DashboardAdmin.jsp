@@ -315,7 +315,7 @@
  				orco=new LinkedList<>();
  		}catch( ClassCastException  e){
  			orco=new LinkedList<>();
- 			e.printStackTrace();
+ 			
  		}
 		
 		

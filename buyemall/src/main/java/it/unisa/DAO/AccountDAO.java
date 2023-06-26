@@ -4,9 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -16,11 +17,11 @@ import javax.sql.DataSource;
 import it.unisa.bean.Account;
 import it.unisa.bean.Indirizzo;
 import it.unisa.bean.Prodotto;
-import it.unisa.bean.Tipo;
 import it.unisa.interfaces.IBeanDao;
 
 public class AccountDAO implements IBeanDao<Account,String>{
 	private static DataSource ds;
+    private static final Logger LOGGER = Logger.getLogger(AccountDAO.class.getName());
 
 	static {
 		try {
@@ -30,7 +31,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.err.println("Error:" + e.getMessage());
+			LOGGER.log(Level.INFO,"Error:",e);
 		}
 	}
 

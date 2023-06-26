@@ -36,11 +36,14 @@ public class DeleteCart extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccountDAO conn=new AccountDAO();
 		Account accountBean=null;
-		try {
-		accountBean=(Account)request.getAttribute("accountBean");
-		}catch(NullPointerException e) {
-			e.printStackTrace();
-			accountBean=null;
+		String account=(String)request.getAttribute("accountBean");
+		if (account != null) {
+			try {
+				accountBean = conn.doRetrieveByKey(account);
+			} catch (SQLException e) {
+
+				accountBean = null;
+			}
 		}
 		
 		
@@ -50,7 +53,7 @@ public class DeleteCart extends HttpServlet {
 			try {
 				idProdotto=Integer.parseInt(parameter);
 			}catch(NumberFormatException e){
-				e.printStackTrace();
+				
 				idProdotto=null;
 			}
 		}
@@ -62,7 +65,7 @@ public class DeleteCart extends HttpServlet {
 				pd=connPr.doRetrieveByKey(idProdotto);
 			} catch (SQLException e) {
 				pd=null;
-				e.printStackTrace();
+				
 			}
 		}
 		
@@ -71,7 +74,7 @@ public class DeleteCart extends HttpServlet {
 				conn.DeleteCart(pd, accountBean);
 	
 			} catch (SQLException e) {
-				e.printStackTrace();
+				
 			}
             
             

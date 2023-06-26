@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import it.unisa.DAO.ProdottoDAO;
 import it.unisa.bean.Prodotto;
-import it.unisa.bean.Tipo;
+
 
 /**
  * Servlet implementation class Detail
@@ -52,14 +52,14 @@ public class Detail extends HttpServlet {
 				new ProdottoDAO().UpdateVisit(p.getVisitato()+1, p);
 			} catch (SQLException e) {
 				p=Prodotto.nullProduct();
-				e.printStackTrace();
+				
 			}
 		}else {
 			try {
 				p=((List<Prodotto>) new ProdottoDAO().doRetrieveAllRAND()).get(0);
 			} catch (SQLException e) {
 				p=Prodotto.nullProduct();
-				e.printStackTrace();
+				
 			}
 		}
 
@@ -77,7 +77,7 @@ public class Detail extends HttpServlet {
 			prAdvice=new LinkedList<>();
 			prAdvice.add(Prodotto.nullProduct());
 			
-			e.printStackTrace();
+			
 		}
 		
 		if(prAdvice.size()==0)

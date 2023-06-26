@@ -36,11 +36,14 @@ public class updateIndirizzo extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccountDAO conn=new AccountDAO();
 		Account accountBean=null;
-		try {
-		accountBean=(Account)request.getAttribute("accountBean");
-		}catch(NullPointerException e) {
-			e.printStackTrace();
-			accountBean=null;
+		String account=(String)request.getAttribute("accountBean");
+		if (account != null) {
+			try {
+				accountBean = conn.doRetrieveByKey(account);
+			} catch (SQLException e) {
+
+				accountBean = null;
+			}
 		}
 		
 		String provincia=request.getParameter("provincia");
@@ -84,7 +87,7 @@ public class updateIndirizzo extends HttpServlet {
 				
 				
 			} catch (SQLException e) {
-				e.printStackTrace();
+				
 			}
         }
         

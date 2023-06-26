@@ -22,68 +22,72 @@ import it.unisa.bean.Stato;
 @WebServlet("/updateOrdineStato")
 public class updateOrdineStato extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public updateOrdineStato() {
-        super();
-   
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public updateOrdineStato() {
+		super();
 
-		
-Account accountBean=null;
-try {
-accountBean=(Account)request.getAttribute("accountBean");
-}catch(NullPointerException e) {
-	e.printStackTrace();
-	accountBean=null;
-}
-        
-        if (accountBean==null) response.sendRedirect("Home");
-        
-        String idstr=request.getParameter("idordine");
-        Integer id=null;
-        try {
-        id=Integer.parseInt(idstr);
-        }catch(IllegalArgumentException e) {
-        	id=null;
-        }
-        Ordine o = null;
-		try {
-			if(id!=null)
-			o = new OrdineDAO().doRetrieveByKey(id);
-		} catch (SQLException e) {
-
-			e.printStackTrace();
-		}
-        if(o!=null) {
-        	try {
-				new OrdineDAO().UpdateStato(Stato.rimborsato,o );
-				response.sendRedirect("Profilo");
-			} catch (SQLException e) {
-				response.sendRedirect("Home");
-				e.printStackTrace();
-			}
-        	
-        }else {
-        	response.sendRedirect("Home");
-        }
-        
-        
-       
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		AccountDAO conn=new AccountDAO();
+		Account accountBean=null;
+		String account=(String)request.getAttribute("accountBean");
+		if (account != null) {
+			try {
+				accountBean = conn.doRetrieveByKey(account);
+			} catch (SQLException e) {
+
+				accountBean = null;
+			}
+		}
+
+		if (accountBean == null)
+			response.sendRedirect("Home");
+
+		String idstr = request.getParameter("idordine");
+		Integer id = null;
+		try {
+			id = Integer.parseInt(idstr);
+		} catch (IllegalArgumentException e) {
+			id = null;
+		}
+		Ordine o = null;
+		try {
+			if (id != null)
+				o = new OrdineDAO().doRetrieveByKey(id);
+		} catch (SQLException e) {
+
+		}
+		if (o != null) {
+			try {
+				new OrdineDAO().UpdateStato(Stato.rimborsato, o);
+				response.sendRedirect("Profilo");
+			} catch (SQLException e) {
+				response.sendRedirect("Home");
+
+			}
+
+		} else {
+			response.sendRedirect("Home");
+		}
+
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 
