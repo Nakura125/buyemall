@@ -4,17 +4,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import it.unisa.bean.Indirizzo;
+
 import it.unisa.interfaces.IBeanDao;
 
 public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
+	private static final Logger LOGGER = Logger.getLogger(IndirizzoDAO.class.getName());
 
 	private static DataSource ds;
 
@@ -26,7 +31,7 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
+			LOGGER.log(Level.INFO,"Error:",e);
 		}
 	}
 
@@ -52,7 +57,7 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -63,6 +68,45 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 			}
 		}
 		
+	}
+	
+	public synchronized Integer doSaveGenerator(Indirizzo product) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet generatedKeys = null;
+		Integer generatedId = null;
+		String insertSQL = "INSERT INTO " + IndirizzoDAO.TABLE_NAME
+				+ " (idIndirizzo,VIA, Citta, provincia, n_civico) VALUES (?,?, ?, ?, ?)";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(insertSQL,Statement.RETURN_GENERATED_KEYS);
+			preparedStatement.setInt(1, product.getIdIndirizzo());
+			preparedStatement.setString(2, product.getVia());
+			preparedStatement.setString(3, product.getCitta());
+			preparedStatement.setString(4, product.getProvincia());
+			preparedStatement.setString(5, product.getN_civico());
+
+			preparedStatement.executeUpdate();
+
+	        generatedKeys = preparedStatement.getGeneratedKeys();
+	        if (generatedKeys.next()) {
+	             generatedId = generatedKeys.getInt(1);
+	            
+	        }
+			
+		} finally {
+			try {
+				if (generatedKeys != null)
+	                generatedKeys.close();
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return generatedId;
 	}
 
 	@Override
@@ -134,7 +178,7 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<Indirizzo> products = new LinkedList<Indirizzo>();
+		Collection<Indirizzo> products = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + IndirizzoDAO.TABLE_NAME + " ORDER BY ? Limit 100";
 

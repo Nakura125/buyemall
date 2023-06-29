@@ -28,7 +28,7 @@ public class addCart extends HttpServlet {
      */
     public addCart() {
         super();
-        // TODO Auto-generated constructor stub
+  
     }
 
 	/**
@@ -36,36 +36,23 @@ public class addCart extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccountDAO conn=new AccountDAO();
-		
-		Cookie[] cookies = request.getCookies();
-        Cookie account=null;
-        Account accountBean=null;
-        
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("Account")) {
-                    // Il cookie desiderato è presente
-                    account=cookie;
-                    try {
-						accountBean=conn.doRetrieveByKey(account.getValue());
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						accountBean=null;
-					}
-                    break;  // Esci dal ciclo, poiché hai trovato il cookie
-                    
-                }
-            }
-        }
-		
+		Account accountBean=null;
+		String account=(String)request.getAttribute("accountBean");
+		if (account != null) {
+			try {
+				accountBean = conn.doRetrieveByKey(account);
+			} catch (SQLException e) {
+
+				accountBean = null;
+			}
+		}
 		String parameter=request.getParameter("idProdotto");
 		Integer idProdotto=null;
 		if(parameter!=null) {
 			try {
 				idProdotto=Integer.parseInt(parameter);
 			}catch(NumberFormatException e){
-				e.printStackTrace();
+				
 				idProdotto=null;
 			}
 		}
@@ -77,25 +64,23 @@ public class addCart extends HttpServlet {
 				pd=connPr.doRetrieveByKey(idProdotto);
 			} catch (SQLException e) {
 				pd=null;
-				e.printStackTrace();
+				
 			}
 		}
-		//System.out.println(pd);
-		//System.out.println(accountBean);
+
 		if(pd!=null && pd.getTipo() != null && accountBean!=null && accountBean.getUsername()!=null) {
 			try {
 				conn.doSaveCart(accountBean,pd );
-				//System.out.println("Query fatta");
+		
 			} catch (SQLException e) {
-				e.printStackTrace();
+				
 			}
             
             
 		}
 		
-		//request.setAttribute("pageName", "Shop");
-		//RequestDispatcher dispatcher =getServletContext().getRequestDispatcher("/index.jsp");
-		//dispatcher.forward(request, response);
+
+
 		
 		response.sendRedirect("Detail?idProdotto="+parameter);
 	}
@@ -104,7 +89,7 @@ public class addCart extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		doGet(request, response);
 	}
 

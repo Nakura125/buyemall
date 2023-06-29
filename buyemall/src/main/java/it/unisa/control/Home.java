@@ -44,10 +44,9 @@ public class Home extends HttpServlet {
 			List<Prodotto> carousel=(List<Prodotto>) new ProdottoDAO().doRetrieveAllRAND();
 			request.setAttribute("carousel", carousel);
 			
-			//carousel.stream().map(Prodotto::getNome).forEach(System.out::println);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	
+			
 		}
 		
 		
@@ -56,8 +55,7 @@ public class Home extends HttpServlet {
 			List<Prodotto> visitato=(List<Prodotto>) new ProdottoDAO().doRetrieveAllClient("visitato");
 			request.setAttribute("visitato", visitato);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
 		
 		
@@ -79,8 +77,7 @@ public class Home extends HttpServlet {
 			request.setAttribute("prCategoriesRom", prCategoriesRom);
 			request.setAttribute("prCategoriesBox", prCategoriesBox);
 		} catch (SQLException e) {
-			System.out.println("iao");
-			e.printStackTrace();
+			
 		}
 		
 		
@@ -97,7 +94,7 @@ public class Home extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		doGet(request, response);
 	}
 

@@ -30,41 +30,31 @@ public class addMetodo extends HttpServlet {
      */
     public addMetodo() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-AccountDAO conn=new AccountDAO();
+
 		
-		Cookie[] cookies = request.getCookies();
-        Cookie account=null;
-        Account accountBean=null;
-        
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("Account")) {
-                    // Il cookie desiderato è presente
-                    account=cookie;
-                    try {
-						accountBean=conn.doRetrieveByKey(account.getValue());
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						accountBean=null;
-					}
-                    break;  // Esci dal ciclo, poiché hai trovato il cookie
-                    
-                }
-            }
-        }
+		AccountDAO conn=new AccountDAO();
+		Account accountBean=null;
+		String account=(String)request.getAttribute("accountBean");
+		if (account != null) {
+			try {
+				accountBean = conn.doRetrieveByKey(account);
+			} catch (SQLException e) {
+
+				accountBean = null;
+			}
+		}
         
         String numerocarta=request.getParameter("numcarta");
         
         if(!Validator.isCardNumberValid(numerocarta)) {
-        	System.out.println("pesce");
+       
         	numerocarta=null;
         }
         
@@ -93,11 +83,11 @@ AccountDAO conn=new AccountDAO();
         	try {
 				new MetodiPagamentoDAO().doSave(pg);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				
 			}
         }
         
-        response.sendRedirect("Profilo");
+        response.sendRedirect("Profilo#linkMetodiPagamento");
         
 	}
 
@@ -105,7 +95,7 @@ AccountDAO conn=new AccountDAO();
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		doGet(request, response);
 	}
 

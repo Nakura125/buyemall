@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import it.unisa.DAO.ProdottoDAO;
 import it.unisa.bean.Prodotto;
-import it.unisa.bean.Tipo;
+
 
 /**
  * Servlet implementation class Detail
@@ -29,7 +29,7 @@ public class Detail extends HttpServlet {
      */
     public Detail() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
@@ -52,16 +52,16 @@ public class Detail extends HttpServlet {
 				new ProdottoDAO().UpdateVisit(p.getVisitato()+1, p);
 			} catch (SQLException e) {
 				p=Prodotto.nullProduct();
-				e.printStackTrace();
+				
 			}
 		}else {
 			try {
 				p=((List<Prodotto>) new ProdottoDAO().doRetrieveAllRAND()).get(0);
 			} catch (SQLException e) {
 				p=Prodotto.nullProduct();
-				e.printStackTrace();
+				
 			}
-		};
+		}
 
 		
 		request.setAttribute("ProductDetail",p);
@@ -72,12 +72,12 @@ public class Detail extends HttpServlet {
 		try {
 			prAdvice=new ProdottoDAO().RetrieveByFilters(null, p.getGenerazione(), p.getTipo(), null, null);
 			
-			//prAdvice.stream().forEach(System.out::println);
+			
 		} catch (SQLException e) {
 			prAdvice=new LinkedList<>();
 			prAdvice.add(Prodotto.nullProduct());
-			//System.out.println("Questo è l'errore:");
-			e.printStackTrace();
+			
+			
 		}
 		
 		if(prAdvice.size()==0)
@@ -97,7 +97,7 @@ public class Detail extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 

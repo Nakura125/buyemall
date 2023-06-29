@@ -27,37 +27,26 @@ public class deletePag extends HttpServlet {
      */
     public deletePag() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		AccountDAO conn=new AccountDAO();
+
 		
-		Cookie[] cookies = request.getCookies();
-        Cookie account=null;
-        Account accountBean=null;
-        
-        //ccheck Logged
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("Account")) {
-                    // Il cookie desiderato è presente
-                    account=cookie;
-                    try {
-						accountBean=conn.doRetrieveByKey(account.getValue());
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						accountBean=null;
-					}
-                    break;  // Esci dal ciclo, poiché hai trovato il cookie
-                    
-                }
-            }
-        }
+		AccountDAO conn=new AccountDAO();
+		Account accountBean=null;
+		String account=(String)request.getAttribute("accountBean");
+		if (account != null) {
+			try {
+				accountBean = conn.doRetrieveByKey(account);
+			} catch (SQLException e) {
+
+				accountBean = null;
+			}
+		}
         
         //redirect if not logged
         if(accountBean==null) {
@@ -65,15 +54,15 @@ public class deletePag extends HttpServlet {
         }
         
         String num=request.getParameter("num");
-        //System.out.println(num);
+       
         if(accountBean!=null && accountBean.getUsername()!=null && num!=null) {
         	try {
 				MetodiPagamento o=new MetodiPagamentoDAO().doRetrieveByKey(num, accountBean.getUsername());
-				System.out.println(o);
+				
 				new MetodiPagamentoDAO().doDelete(o.getNumero_carta());
 			} catch (SQLException e) {
 				
-				e.printStackTrace();
+				
 			}
         }
         
@@ -84,7 +73,7 @@ public class deletePag extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 

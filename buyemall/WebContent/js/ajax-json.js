@@ -2,7 +2,7 @@
  * 
  */
 function createXMLHttpRequest() {
-	var request;
+	let request;
 	try {
 		// Firefox 1+, Chrome 1+, Opera 8+, Safari 1.2+, Edge 12+, Internet Explorer 7+
 		request = new XMLHttpRequest();
@@ -23,7 +23,7 @@ function createXMLHttpRequest() {
 }
 
 function loadAjaxDoc(url, method, params, cFuction) {
-	var request = createXMLHttpRequest();
+	let request = createXMLHttpRequest();
 	if(request){
 		
 		request.onreadystatechange = function() {

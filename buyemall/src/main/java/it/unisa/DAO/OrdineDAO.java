@@ -1,13 +1,17 @@
 package it.unisa.DAO;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -17,12 +21,14 @@ import javax.sql.DataSource;
 import it.unisa.bean.Account;
 import it.unisa.bean.Ordine;
 import it.unisa.bean.Prodotto;
+import it.unisa.bean.Sprites;
 import it.unisa.bean.Stato;
-import it.unisa.bean.Tipo;
+
 import it.unisa.interfaces.IBeanDao;
 
 public class OrdineDAO implements IBeanDao<Ordine,Integer>{
-	
+	private static final Logger LOGGER = Logger.getLogger(OrdineDAO.class.getName());
+
 	private static DataSource ds;
 
 	static {
@@ -33,7 +39,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
+			LOGGER.log(Level.INFO,"Error:",e);
 		}
 	}
 
@@ -61,7 +67,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -79,7 +85,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO composto"
-				+ " (idordine,username,idProdotto) VALUES (?,?,?)";
+				+ " (idordine,username,idProdotto,nome,prezzo,idSprite) VALUES (?,?,?,?,?,?)";
 
 		try {
 			connection = ds.getConnection();
@@ -87,10 +93,12 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 			preparedStatement.setInt(1, product.getIdOrdine());
 			preparedStatement.setString(2, a.getUsername());
 			preparedStatement.setInt(3, pd.getIdProdotto());
-
+			preparedStatement.setString(4, pd.getNome());
+			preparedStatement.setFloat(5, pd.getPrezzo());
+			preparedStatement.setInt(6, pd.getSprites().get(0).getIdSprites());
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -108,7 +116,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 
 		List<Prodotto> products = new LinkedList<>();
 
-		//TODO
+		
 		String selectSQL = "select * from composto where idordine= ?";
 		try {
 			connection = ds.getConnection();
@@ -121,8 +129,10 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 				Prodotto bean=new Prodotto();
 				
 				bean.setIdProdotto((rs.getInt("idProdotto")));
-				bean=new ProdottoDAO().doRetrieveByKey(bean.getIdProdotto());
-				
+				bean.setNome(rs.getString("nome"));
+				bean.setPrezzo((rs.getFloat("prezzo")));
+				bean.addSprites(new SpritesDAO().doRetrieveByKey(rs.getInt("idSprite")));
+				bean.addSprites(Sprites.nullSprites());
 				products.add(bean);
 			}
 			
@@ -164,10 +174,9 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 	        generatedKeys = preparedStatement.getGeneratedKeys();
 	        if (generatedKeys.next()) {
 	             generatedId = generatedKeys.getInt(1);
-	            // Puoi utilizzare l'id generato per ulteriori operazioni
-	            System.out.println("Id dell'ordine inserito: " + generatedId);
+	            
 	        }
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (generatedKeys != null)
@@ -257,7 +266,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		List<Ordine> ls = new LinkedList<Ordine>();
+		List<Ordine> ls = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + OrdineDAO.TABLE_NAME + " WHERE username = ? order by `data` DESC";
 
@@ -315,7 +324,7 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 					preparedStatement.setString(3, ordine.getU().getUsername());
 					preparedStatement.executeUpdate();
 
-					//connection.commit();
+				
 				} finally {
 					try {
 						if (preparedStatement != null)
@@ -331,8 +340,135 @@ public class OrdineDAO implements IBeanDao<Ordine,Integer>{
 
 	@Override
 	public synchronized Collection<Ordine> doRetrieveAll(String order) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		 List<Ordine> ordini = new ArrayList<>();
+
+		    Connection connection = null;
+		    PreparedStatement preparedStatement = null;
+
+		    String selectSQL = "SELECT * FROM " + TABLE_NAME;
+
+		    try {
+		        connection = ds.getConnection();
+		        preparedStatement = connection.prepareStatement(selectSQL);
+		        ResultSet rs = preparedStatement.executeQuery();
+
+		        while (rs.next()) {
+		            Ordine ordine = new Ordine();
+		            ordine.setIdOrdine(rs.getInt("idOrdine"));
+		            ordine.setStato(Stato.valueOf(rs.getString("stato")));
+		            ordine.setPrezzo(rs.getFloat("prezzo"));
+		            ordine.setData(rs.getDate("Data"));
+		            ordine.setIndirizzo(new IndirizzoDAO().doRetrieveByKey(rs.getInt("idindirizzo")));
+		            ordine.setU(new AccountDAO().doRetrieveByKey(rs.getString("username")));
+		            ordine.addList(new ProdottoDAO().doRetrieveByKey(rs.getInt("idindirizzo")));
+
+		            ordini.add(ordine);
+		        }
+		    } finally {
+		        try {
+		            if (preparedStatement != null)
+		                preparedStatement.close();
+		        } finally {
+		            if (connection != null)
+		                connection.close();
+		        }
+		    }
+
+		    return ordini;
 	}
+	
+	public List<Ordine> visualizzaOrdiniPerStato(Stato stato, String order) throws SQLException {
+	    List<Ordine> ordini = new ArrayList<>();
+
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+
+	    String selectSQL = "SELECT * FROM " + TABLE_NAME + " WHERE stato = ?";
+
+	    if (order != null && !order.isEmpty()) {
+	        selectSQL += " ORDER BY stato";
+	        if (order.equalsIgnoreCase("completati")) {
+	            selectSQL += " DESC";
+	        }
+	    }
+
+	    try {
+	        connection = ds.getConnection();
+	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement.setString(1, stato.toString());
+	        ResultSet rs = preparedStatement.executeQuery();
+
+	        while (rs.next()) {
+	            Ordine ordine = new Ordine();
+	            ordine.setIdOrdine(rs.getInt("idOrdine"));
+	            ordine.setStato(Stato.valueOf(rs.getString("stato")));
+	            ordine.setPrezzo(rs.getFloat("prezzo"));
+	            ordine.setData(rs.getDate("Data"));
+	            ordine.setIndirizzo(new IndirizzoDAO().doRetrieveByKey(rs.getInt("idindirizzo")));
+	            ordine.setU(new AccountDAO().doRetrieveByKey(rs.getString("username")));
+	            ordine.addList(new ProdottoDAO().doRetrieveByKey(rs.getInt("idindirizzo")));
+
+	            ordini.add(ordine);
+	        }
+	    } finally {
+	        try {
+	            if (preparedStatement != null)
+	                preparedStatement.close();
+	        } finally {
+	            if (connection != null)
+	                connection.close();
+	        }
+	    }
+
+	    return ordini;
+	}
+	
+	
+	public synchronized List<Ordine> doRetrieveByData(Date data1,Date data2) throws SQLException{
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		List<Ordine> ls = new LinkedList<>();
+
+		String selectSQL = "SELECT * FROM " + OrdineDAO.TABLE_NAME + " WHERE data >= ? AND data<=?";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setDate(1, data1);
+			preparedStatement.setDate(2, data2);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				
+				Ordine bean = new Ordine();
+				bean.setIdOrdine((rs.getInt("idordine")));
+				bean.setStato(Stato.valueOf(rs.getString("stato")));
+				bean.setPrezzo(rs.getFloat("prezzo"));
+				bean.setData(rs.getDate("Data"));
+				bean.setIndirizzo(new IndirizzoDAO().doRetrieveByKey(rs.getInt("idindirizzo")));
+
+				bean.setU(new AccountDAO().doRetrieveByKey(rs.getString("username")));
+				
+				bean.setPo(new PagamentoOrdineDAO().doRetrieveByKey(bean.getIdOrdine()));
+				bean.addList(OrdineDAO.recoverProdotti(bean));
+				
+				ls.add(bean);
+
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return ls;
+		
+	}
+	
 
 }

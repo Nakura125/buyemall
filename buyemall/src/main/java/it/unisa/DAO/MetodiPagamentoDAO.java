@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -17,6 +19,7 @@ import it.unisa.bean.MetodiPagamento;
 import it.unisa.interfaces.IBeanDao;
 
 public class MetodiPagamentoDAO implements IBeanDao<MetodiPagamento, String>{
+	private static final Logger LOGGER = Logger.getLogger(MetodiPagamentoDAO.class.getName());
 
 	private static DataSource ds;
 
@@ -28,7 +31,7 @@ public class MetodiPagamentoDAO implements IBeanDao<MetodiPagamento, String>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
+			LOGGER.log(Level.INFO,"Error:",e);
 		}
 	}
 
@@ -55,7 +58,7 @@ public class MetodiPagamentoDAO implements IBeanDao<MetodiPagamento, String>{
 
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -209,7 +212,7 @@ public class MetodiPagamentoDAO implements IBeanDao<MetodiPagamento, String>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<MetodiPagamento> products = new LinkedList<MetodiPagamento>();
+		Collection<MetodiPagamento> products = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + MetodiPagamentoDAO.TABLE_NAME + " ORDER BY ?";
 
@@ -251,7 +254,7 @@ public class MetodiPagamentoDAO implements IBeanDao<MetodiPagamento, String>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<MetodiPagamento> products = new LinkedList<MetodiPagamento>();
+		Collection<MetodiPagamento> products = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + MetodiPagamentoDAO.TABLE_NAME +" where username= ?";
 

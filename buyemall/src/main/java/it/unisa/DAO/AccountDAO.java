@@ -4,9 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -16,11 +17,11 @@ import javax.sql.DataSource;
 import it.unisa.bean.Account;
 import it.unisa.bean.Indirizzo;
 import it.unisa.bean.Prodotto;
-import it.unisa.bean.Tipo;
 import it.unisa.interfaces.IBeanDao;
 
 public class AccountDAO implements IBeanDao<Account,String>{
 	private static DataSource ds;
+    private static final Logger LOGGER = Logger.getLogger(AccountDAO.class.getName());
 
 	static {
 		try {
@@ -30,7 +31,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
+			LOGGER.log(Level.INFO,"Error:",e);
 		}
 	}
 
@@ -57,7 +58,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -84,7 +85,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -208,7 +209,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 					preparedStatement.setString(4, pr.getUsername());
 					preparedStatement.executeUpdate();
 
-					//connection.commit();
+					
 				} finally {
 					try {
 						if (preparedStatement != null)
@@ -239,7 +240,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 					preparedStatement.setString(2, pr.getUsername());
 					preparedStatement.executeUpdate();
 
-					//connection.commit();
+					
 				} finally {
 					try {
 						if (preparedStatement != null)
@@ -255,7 +256,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		
-		String insertSQL ="UPDATE account"
+		String insertSQL ="UPDATE account "
 				+ "SET idindirizzo=? "
 				+ "WHERE username = ? ";
 				
@@ -270,7 +271,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 					preparedStatement.setString(2, pr.getUsername());
 					preparedStatement.executeUpdate();
 
-					//connection.commit();
+					
 				} finally {
 					try {
 						if (preparedStatement != null)
@@ -301,7 +302,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 					preparedStatement.setString(2, pr.getUsername());
 					preparedStatement.executeUpdate();
 
-					//connection.commit();
+					
 				} finally {
 					try {
 						if (preparedStatement != null)
@@ -315,7 +316,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 	
 	@Override
 	public synchronized boolean doDelete(String code) throws SQLException {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
@@ -405,13 +406,13 @@ public class AccountDAO implements IBeanDao<Account,String>{
 		}
 		return bean;
 	}
-	public synchronized static List<Prodotto> recoverCart(String username) throws SQLException {
+	public static synchronized List<Prodotto> recoverCart(String username) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
 		List<Prodotto> products = new LinkedList<>();
 
-		//TODO
+		
 		String selectSQL = "select idProdotti,tipo,P.nome,quantita,descrizione,prezzo,Nazionalita,Generazione from carrello as C, `account` as AC,prodotti as P\r\n"
 				+ "where ac.username=c.username and p.idProdotti=c.idprodotto  and AC.username= ?;";
 		try {
@@ -450,7 +451,7 @@ public class AccountDAO implements IBeanDao<Account,String>{
 
 	@Override
 	public synchronized List<Account> doRetrieveAll(String order) throws SQLException {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 	

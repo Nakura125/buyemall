@@ -37,36 +37,26 @@ public class addOrdine extends HttpServlet {
      */
     public addOrdine() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-AccountDAO conn=new AccountDAO();
+
 		
-		Cookie[] cookies = request.getCookies();
-        Cookie account=null;
-        Account accountBean=null;
-        
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("Account")) {
-                    // Il cookie desiderato è presente
-                    account=cookie;
-                    try {
-						accountBean=conn.doRetrieveByKey(account.getValue());
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						accountBean=null;
-					}
-                    break;  // Esci dal ciclo, poiché hai trovato il cookie
-                    
-                }
-            }
-        }
+		AccountDAO conn=new AccountDAO();
+		Account accountBean=null;
+		String account=(String)request.getAttribute("accountBean");
+		if (account != null) {
+			try {
+				accountBean = conn.doRetrieveByKey(account);
+			} catch (SQLException e) {
+
+				accountBean = null;
+			}
+		}
         
         String numerocarta=request.getParameter("numcarta");
         
@@ -86,10 +76,10 @@ AccountDAO conn=new AccountDAO();
         	date = Date.valueOf(dataString);
         	
         }catch(IllegalArgumentException e) {
-        	//System.out.println("Pesce2");
+
         	date=null;
         }
-        //System.out.println(date+"\n"+accountBean+"\n"+numerocarta+"\n"+cvc);
+
         if(date!=null && accountBean!=null && accountBean.getUsername()!=null && numerocarta!=null && cvc!=null) {
 			try {
 				
@@ -124,7 +114,7 @@ AccountDAO conn=new AccountDAO();
 				new AccountDAO().DeleteCart(accountBean);
 				response.sendRedirect("Home");
 			} catch (SQLException e) {
-				e.printStackTrace();
+				
 				request.setAttribute("errorMsg", "l'ordine ha un errore");
 			    request.setAttribute("pageName", "Pagamento");
 			    RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
@@ -146,7 +136,7 @@ AccountDAO conn=new AccountDAO();
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		doGet(request, response);
 	}
 

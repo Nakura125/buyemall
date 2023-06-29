@@ -28,7 +28,6 @@ public class Login extends HttpServlet {
      */
     public Login() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -56,8 +55,7 @@ public class Login extends HttpServlet {
 				
 				ac=conn.LoginEmail(email, PasswordHash.hashPassword(password));
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
 				
 				request.setAttribute("errorMsg", "Server ha dato un errore riprova più tardi");
 			    request.setAttribute("pageName", "LgForward");
@@ -74,21 +72,18 @@ public class Login extends HttpServlet {
 			
 			String ricordami = request.getParameter("Ricordami");
 			if (ricordami != null && ricordami.equals("on")) {
-		        // Il checkbox è stato selezionato
-				// Imposta un cookie con durata lunga (es. 7 giorni)
-		        Cookie cookie = new Cookie("Account", ac.getUsername());
+		        
+				request.getSession().setAttribute("Account", ac.getUsername());
+				Cookie cookie = new Cookie("Account", ac.getUsername());
 		        cookie.setMaxAge(7 * 24 * 60 * 60); // Durata in secondi
 		        response.addCookie(cookie);
 
 		    } else {
 		        // Il checkbox non è stato selezionato
-		    	Cookie cookie = new Cookie("Account", ac.getUsername());
-		        response.addCookie(cookie);
+		    	request.getSession().setAttribute("Account", ac.getUsername());
 		    }
 			
-			//request.setAttribute("pageName", "Home");
-			//RequestDispatcher dispatcher = request.getRequestDispatcher("Home");
-			//dispatcher.forward(request, response);
+			
 			
 			response.sendRedirect("Home");
 		}
@@ -98,7 +93,6 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

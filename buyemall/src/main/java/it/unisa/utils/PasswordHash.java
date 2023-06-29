@@ -2,9 +2,14 @@ package it.unisa.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import it.unisa.DAO.AccountDAO;
 
 public class PasswordHash {
 	private String sha512;
+    private static final Logger LOGGER = Logger.getLogger(PasswordHash.class.getName());
 	
 	public PasswordHash(String string) {
 		try {
@@ -23,8 +28,8 @@ public class PasswordHash {
             // Restituzione dell'hash come stringa
             this.sha512= hashBuilder.toString();
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Hash non eseguito");
+
+			LOGGER.log(Level.INFO,"Error:",e);
 		}
 	}
 	
@@ -48,7 +53,7 @@ public class PasswordHash {
             return hashBuilder.toString();
             
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("Algoritmo di hash non supportato: " + e.getMessage());
+        	LOGGER.log(Level.INFO,"Error:",e);
         }
         
         return null;

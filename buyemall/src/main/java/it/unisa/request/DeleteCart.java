@@ -27,7 +27,7 @@ public class DeleteCart extends HttpServlet {
      */
     public DeleteCart() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
@@ -35,26 +35,16 @@ public class DeleteCart extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AccountDAO conn=new AccountDAO();
-		Cookie account=null;
 		Account accountBean=null;
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("Account")) {
-                    // Il cookie desiderato è presente
-                    account=cookie;
-                    try {
-						accountBean=conn.doRetrieveByKey(account.getValue());
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						accountBean=null;
-					}
-                    break;  // Esci dal ciclo, poiché hai trovato il cookie
-                    
-                }
-            }
-        }
+		String account=(String)request.getAttribute("accountBean");
+		if (account != null) {
+			try {
+				accountBean = conn.doRetrieveByKey(account);
+			} catch (SQLException e) {
+
+				accountBean = null;
+			}
+		}
 		
 		
 		String parameter=request.getParameter("idProdotto");
@@ -63,7 +53,7 @@ public class DeleteCart extends HttpServlet {
 			try {
 				idProdotto=Integer.parseInt(parameter);
 			}catch(NumberFormatException e){
-				e.printStackTrace();
+				
 				idProdotto=null;
 			}
 		}
@@ -75,16 +65,16 @@ public class DeleteCart extends HttpServlet {
 				pd=connPr.doRetrieveByKey(idProdotto);
 			} catch (SQLException e) {
 				pd=null;
-				e.printStackTrace();
+				
 			}
 		}
 		
 		if(pd!=null && pd.getTipo() != null && accountBean!=null && accountBean.getUsername()!=null) {
 			try {
 				conn.DeleteCart(pd, accountBean);
-				//System.out.println("Query fatta");
+	
 			} catch (SQLException e) {
-				e.printStackTrace();
+				
 			}
             
             
@@ -97,7 +87,7 @@ public class DeleteCart extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		doGet(request, response);
 	}
 

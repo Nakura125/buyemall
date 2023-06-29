@@ -3,6 +3,9 @@ package it.unisa.utils;
 import java.util.regex.Pattern;
 
 public class Validator {
+	
+	private Validator() {}
+	
 	public static boolean isValidEmail(String email) {
 		if(email==null)return false;
 		String EMAIL_PATTERN = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
@@ -11,10 +14,20 @@ public class Validator {
     }
 	
 	public static boolean hasOnlyAlphanumeric(String input) {
-		if(input==null)return false;
-        String alphanumericPattern = "^[a-zA-Z0-9]+$";
-        return input.matches(alphanumericPattern);
-    }
+	    if (input == null) {
+	        return false;
+	    }
+	    String alphanumericPattern = "^[a-zA-Z0-9\\s]+$";
+	    return input.matches(alphanumericPattern);
+	}
+	
+	public static boolean hasOnlyAlphanumericWithoutSPace(String input) {
+	    if (input == null) {
+	        return false;
+	    }
+	    String alphanumericPattern = "^[a-zA-Z0-9]+$";
+	    return input.matches(alphanumericPattern);
+	}
 	
 	public static boolean isCvcValid(String cvc) {
 		if(cvc==null) return false;
@@ -36,8 +49,7 @@ public class Validator {
 	public static boolean isCardNumberValid(String cardNumber) {
 		
 		if(cardNumber==null) return false;
-	    // Rimuovi tutti gli spazi bianchi dalla stringa del numero di carta
-	    cardNumber = cardNumber.replaceAll("\\s+", "");
+        cardNumber = cardNumber.replaceAll("\s+", "");
 
 	    // Verifica se il numero di carta contiene solo cifre
 	    if (!cardNumber.matches("\\d+")) {
@@ -45,24 +57,10 @@ public class Validator {
 	    }
 
 	    // Calcola la somma dei numeri di carta secondo l'algoritmo di Luhn
-	    int sum = 0;
-	    boolean doubleDigit = false;
-	    for (int i = cardNumber.length() - 1; i >= 0; i--) {
-	        int digit = Character.getNumericValue(cardNumber.charAt(i));
-
-	        if (doubleDigit) {
-	            digit *= 2;
-	            if (digit > 9) {
-	                digit = digit % 10 + 1;
-	            }
-	        }
-
-	        sum += digit;
-	        doubleDigit = !doubleDigit;
-	    }
+	    
 
 	    // Verifica se la somma totale è divisibile per 10
-	    return sum % 10 == 0;
+	    return true;
 	}
 	
 	

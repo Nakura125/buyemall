@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import it.unisa.DAO.ProdottoDAO;
-import it.unisa.bean.Prodotto;
+
 import it.unisa.bean.Tipo;
 
 /**
@@ -28,7 +28,7 @@ public class Shop extends HttpServlet {
      */
     public Shop() {
         super();
-        // TODO Auto-generated constructor stub
+
     }
 
 	/**
@@ -43,7 +43,7 @@ public class Shop extends HttpServlet {
 			generation=conn.selectAllGeneration();
 		} catch (SQLException e) {
 			generation=null;
-			e.printStackTrace();
+			
 		}
 		List<Integer> countGeneration=new LinkedList<>();
 		if(generation!=null) {
@@ -52,7 +52,7 @@ public class Shop extends HttpServlet {
 					countGeneration.add(conn.countForFilter(null, generation.get(i), null, null, null));
 				} catch (SQLException e) {
 					countGeneration.add(0);
-					e.printStackTrace();
+					
 				}
 		}
 		
@@ -66,7 +66,7 @@ public class Shop extends HttpServlet {
 			type=conn.selectAllType();
 		} catch (SQLException e) {
 			type=null;
-			e.printStackTrace();
+			
 		}
 		
 		List<Integer> countType=new LinkedList<>();
@@ -76,7 +76,7 @@ public class Shop extends HttpServlet {
 					countType.add(conn.countForFilter(null, null, Tipo.valueOf(type.get(i)), null, null));
 				} catch (SQLException e) {
 					countType.add(0);
-					e.printStackTrace();
+					
 				}
 		}
 		request.setAttribute("type", type);
@@ -92,7 +92,7 @@ public class Shop extends HttpServlet {
 			 count=conn.countForFilter(null, null, null, null, null);
 		} catch (SQLException e) {
 			count=0;
-			e.printStackTrace();
+			
 		}
 		
 		request.setAttribute("count", count);
@@ -109,7 +109,7 @@ public class Shop extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	
 		doGet(request, response);
 	}
 

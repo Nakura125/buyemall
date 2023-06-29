@@ -14,6 +14,7 @@
                         <a href="#linkProfilo" class="nav-item nav-link">Profilo</a>
                         <a href="#linkOrdini" class="nav-item nav-link">Ordini</a>
                         <a href="#linkMetodoPagamento" class="nav-item nav-link">Metodi di Pagamento</a>
+                        <a href="#linkIndirizzo" class="nav-item nav-link">Indirizzo</a>
                     </div>
                 </nav>
             </div>
@@ -23,6 +24,7 @@
             
             
             <%@ include file="metodipagamento.jsp" %>
+            <%@ include file="indirizzo.jsp" %>
        
        		<script src="js/Profilo.js"></script>
         </div>

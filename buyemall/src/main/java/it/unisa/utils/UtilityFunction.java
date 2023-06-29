@@ -4,6 +4,9 @@ import java.sql.Date;
 import java.util.Calendar;
 
 public class UtilityFunction {
+	
+	private UtilityFunction() {}
+	
 	public static Date getToday() {
 		// Ottieni la data corrente
 		java.util.Date today = new java.util.Date();
@@ -18,8 +21,8 @@ public class UtilityFunction {
 		int day = calendar.get(Calendar.DAY_OF_MONTH);
 
 		// Creazione di un oggetto java.sql.Date dalla data corrente
-		Date sqlDate = new Date(year - 1900, month, day);
+		return new Date(year - 1900, month, day);
 		
-		return sqlDate;
+		
 	}
 }

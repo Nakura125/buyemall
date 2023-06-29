@@ -6,17 +6,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import it.unisa.bean.MetodiPagamento;
 import it.unisa.bean.PagamentoOrdine;
 import it.unisa.interfaces.IBeanDao;
 
 public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
+	private static final Logger LOGGER = Logger.getLogger(PagamentoOrdineDAO.class.getName());
 
 	private static DataSource ds;
 
@@ -28,7 +30,7 @@ public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
+			LOGGER.log(Level.INFO,"Error:",e);
 		}
 	}
 
@@ -55,7 +57,7 @@ public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
 
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -70,7 +72,7 @@ public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
 
 	@Override
 	public synchronized boolean doDelete(Integer code) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
@@ -113,7 +115,7 @@ public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<PagamentoOrdine> products = new LinkedList<PagamentoOrdine>();
+		Collection<PagamentoOrdine> products = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM " + PagamentoOrdineDAO.TABLE_NAME +" where idordine= ?";
 
@@ -149,7 +151,7 @@ public class PagamentoOrdineDAO implements IBeanDao<PagamentoOrdine,Integer>{
 	
 	@Override
 	public synchronized Collection<PagamentoOrdine> doRetrieveAll(String order) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

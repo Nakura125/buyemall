@@ -3,12 +3,10 @@
  */
 
  function handleFilter(request){
-            		//alert("Risposta: \n" + request.responseText);
-            		//console.log(request.responseText);
-            		var response = JSON.parse(request.responseText);
-            		//alert("Risposta: \n" + request.responseText);
-            		//console.log(response)
-            		var search = document.querySelector('input[type="text"][name="SearchForm"]');
+            	
+            		let response = JSON.parse(request.responseText);
+            		
+            		let search = document.querySelector('input[type="text"][name="SearchForm"]');
         			console.log(search)
             		
             		document.getElementById("Selettore").innerHTML=""
@@ -29,9 +27,9 @@
             		    '    </div>' +
             		    '</div>';
             		    
-            		    for(var i=0; i< response.result.length; i++){
-            		    	var element=response.result[i];
-            		    	//console.log(element);
+            		    for(let i=0; i< response.result.length; i++){
+            		    	let element=response.result[i];
+            		    	
             		    	document.getElementById("Selettore").innerHTML+=
             		    		'<div class="col-lg-4 col-md-6 col-sm-12 pb-1">' +
             		    	    '    <div class="card product-item border-0 mb-4">' +
@@ -46,7 +44,7 @@
             		    	    '        </div>' +
             		    	    '        <div class="card-footer d-flex justify-content-between bg-light border borderbottomproduct">' +
             		    	    '            <a href="Detail?idProdotto='+element.idProdotto+'" class="btn btn-sm text-dark p-0"><i class="far mr-1"><img src="img/lente.png" width="25" height="25" style="padding: 10%;"></i>Dettagli</a>' +
-            		    	    '            <a href="" class="btn btn-sm text-dark p-0"><i class="far mr-1"><img src="img/cart.png" width="25" height="25"></i>Acquista</a>' +
+            		    	    '            <a href="Detail?idProdotto='+element.idProdotto+'" class="btn btn-sm text-dark p-0"><i class="far mr-1"><img src="img/cart.png" width="25" height="25"></i>Acquista</a>' +
             		    	    '        </div>' +
             		    	    '    </div>' +
             		    	    '</div>';
@@ -64,16 +62,18 @@
                             '  </nav>' +
                             '</div>';
             		    
-            		    var count=response.count;
+            		    let count=response.count;
             		    
             		    document.getElementById("Trivia").innerHTML=""
-            		    for(var i=response.page-1; i< count/8 && i < (response.page+2) ; i++){
+            		    for(let i=response.page-1; i< count/8 && i < (response.page+2) ; i++){
             		    	if(response.page==i)
             		    		document.getElementById("Trivia").innerHTML+=
             		    			'<li class="page-item active"><a class="page-link" onclick=pageSwap(this) >'+(i+1)+'</a></li>';
             		    	else
+            		    		if(i!=-1){
             		    		document.getElementById("Trivia").innerHTML+=
-            		    			'<li class="page-item "><a class="page-link"  onclick=pageSwap(this)>'+(i+1)+'</a></li>';
+            		    			'<li class="page-item "><a class="page-link" onclick=pageSwap(this)>'+(i+1)+'</a></li>';
+            		    		}
             		    }
             		    	
             		    
@@ -81,9 +81,9 @@
             	}
             	
             	function pageSwap(event){
-            		//event.preventDefault();
+            		
             		//console.log(event.textContent)
             		callRequest(event.textContent)
-            		btn=document.querySelector(".back-to-top");
+            		let btn=document.querySelector(".back-to-top");
             		btn.click();
             	}

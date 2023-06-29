@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -18,6 +20,7 @@ import it.unisa.bean.Sprites;
 import it.unisa.interfaces.IBeanDao;
 
 public class SpritesDAO implements IBeanDao<Sprites,Integer>{
+	private static final Logger LOGGER = Logger.getLogger(SpritesDAO.class.getName());
 
 	private static DataSource ds;
 	
@@ -31,7 +34,7 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
+			LOGGER.log(Level.INFO,"Error:",e);
 		}
 	}
 
@@ -44,20 +47,20 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO " + SpritesDAO.TABLE_NAME
-				+ " (idSprites,link,link_small,idprodotto) VALUES (?,?,?,?)";
+				+ " (link,link_small,idprodotto) VALUES (?,?,?)";
 
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(insertSQL);
-			preparedStatement.setInt(1, product.getIdSprites());
-			preparedStatement.setString(2, product.getLink());
-			preparedStatement.setString(3, product.getLink_small());
+			
+			preparedStatement.setString(1, product.getLink());
+			preparedStatement.setString(2, product.getLink_small());
 
-			preparedStatement.setInt(4, product.getProdotto().getIdProdotto());
+			preparedStatement.setInt(3, product.getProdotto().getIdProdotto());
 
 			preparedStatement.executeUpdate();
 
-			//connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -105,7 +108,7 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 
 		Sprites bean = new Sprites();
 
-		String selectSQL = "SELECT * FROM " + SpritesDAO.TABLE_NAME + " WHERE CODE = ?";
+		String selectSQL = "SELECT * FROM " + SpritesDAO.TABLE_NAME + " WHERE idsprites = ?";
 
 		try {
 			connection = ds.getConnection();
@@ -156,7 +159,7 @@ public class SpritesDAO implements IBeanDao<Sprites,Integer>{
 				bean.setIdSprites(rs.getInt("idSprites"));
 				bean.setLink(rs.getString("link"));
 				bean.setLink_small(rs.getString("link_small"));
-				//bean.setProdotto(new ProdottoDAO().doRetrieveByKey((rs.getInt("idProdotto"))));
+				
 				products.add(bean);
 			}
 
