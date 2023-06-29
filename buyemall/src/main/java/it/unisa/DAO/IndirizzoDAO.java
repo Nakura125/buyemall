@@ -4,17 +4,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import it.unisa.bean.Indirizzo;
+
 import it.unisa.interfaces.IBeanDao;
 
-public class IndirizzoDAO implements IBeanDao<Indirizzo> {
+
+public class IndirizzoDAO implements IBeanDao<Indirizzo,Integer>{
+	private static final Logger LOGGER = Logger.getLogger(IndirizzoDAO.class.getName());
 
 	private static DataSource ds;
 
@@ -26,14 +32,17 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo> {
 			ds = (DataSource) envCtx.lookup("jdbc/storage");
 
 		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
+			LOGGER.log(Level.INFO,"Error:",e);
 		}
 	}
 
-	private static final String TABLE_NAME = "Indirizzo";
+
+	private static final String TABLE_NAME = "indirizzo";
+	
+	
 
 	@Override
-	public void doSave(Indirizzo product) throws SQLException {
+	public synchronized void doSave(Indirizzo product) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -51,7 +60,7 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo> {
 
 			preparedStatement.executeUpdate();
 
-			connection.commit();
+			
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -63,15 +72,54 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo> {
 		}
 
 	}
+	
+	public synchronized Integer doSaveGenerator(Indirizzo product) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet generatedKeys = null;
+		Integer generatedId = null;
+		String insertSQL = "INSERT INTO " + IndirizzoDAO.TABLE_NAME
+				+ " (idIndirizzo,VIA, Citta, provincia, n_civico) VALUES (?,?, ?, ?, ?)";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(insertSQL,Statement.RETURN_GENERATED_KEYS);
+			preparedStatement.setInt(1, product.getIdIndirizzo());
+			preparedStatement.setString(2, product.getVia());
+			preparedStatement.setString(3, product.getCitta());
+			preparedStatement.setString(4, product.getProvincia());
+			preparedStatement.setString(5, product.getN_civico());
+
+			preparedStatement.executeUpdate();
+
+	        generatedKeys = preparedStatement.getGeneratedKeys();
+	        if (generatedKeys.next()) {
+	             generatedId = generatedKeys.getInt(1);
+	            
+	        }
+			
+		} finally {
+			try {
+				if (generatedKeys != null)
+	                generatedKeys.close();
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return generatedId;
+	}
 
 	@Override
-	public boolean doDelete(int code) throws SQLException {
+	public synchronized boolean doDelete(Integer code) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
 		int result = 0;
 
-		String deleteSQL = "DELETE FROM " + IndirizzoDAO.TABLE_NAME + " WHERE CODE = ?";
+		String deleteSQL = "DELETE FROM " + IndirizzoDAO.TABLE_NAME + " WHERE idindirizzo = ?";
 
 		try {
 			connection = ds.getConnection();
@@ -93,13 +141,13 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo> {
 	}
 
 	@Override
-	public Indirizzo doRetrieveByKey(int code) throws SQLException {
+	public synchronized Indirizzo doRetrieveByKey(Integer code) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
 		Indirizzo bean = new Indirizzo();
 
-		String selectSQL = "SELECT * FROM " + IndirizzoDAO.TABLE_NAME + " WHERE CODE = ?";
+		String selectSQL = "SELECT * FROM " + IndirizzoDAO.TABLE_NAME + " WHERE idindirizzo = ?";
 
 		try {
 			connection = ds.getConnection();
@@ -130,21 +178,23 @@ public class IndirizzoDAO implements IBeanDao<Indirizzo> {
 	}
 
 	@Override
-	public Collection<Indirizzo> doRetrieveAll(String order) throws SQLException {
+	public synchronized Collection<Indirizzo> doRetrieveAll(String order) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
 		Collection<Indirizzo> products = new LinkedList<>();
 
-		String selectSQL = "SELECT * FROM " + IndirizzoDAO.TABLE_NAME;
+		String selectSQL = "SELECT * FROM " + IndirizzoDAO.TABLE_NAME + " ORDER BY ? Limit 100";
 
-		if (order != null && !order.equals("")) {
-			selectSQL += " ORDER BY " + order;
+		if (order == null || order.equals("")) {
+			order="idindirizzo";
 		}
+		
 
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, order);
 
 			ResultSet rs = preparedStatement.executeQuery();
 

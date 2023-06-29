@@ -1,8 +1,12 @@
 package it.unisa.bean;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 
 public class Prodotto {
 	private int idProdotto, Quantita, generazione, visitato;
@@ -10,7 +14,26 @@ public class Prodotto {
 	private float prezzo;
 	private String nome, descrizione;
 	private Tipo tipo;
+	private String Nazionalita;
 	private List<Sprites> sprites;
+
+
+	public static Prodotto nullProduct() {
+		Prodotto nullpr = new Prodotto();
+		nullpr.setIdProdotto(0);
+		nullpr.setNome("Not Found");
+		nullpr.setDescrizione("Error not FOund Product");
+		nullpr.setGenerazione(0);
+		nullpr.setQuantita(0);
+		nullpr.setTipo(Tipo.none);
+		String urlimgnull = "https://www.pngall.com/wp-content/uploads/2/Question-Mark-PNG.png";
+		Sprites sp = new Sprites();
+		sp.setLink(urlimgnull);
+		nullpr.addSprites(sp);
+
+		return nullpr;
+	}
+
 
 	public Prodotto() {
 		sprites = new ArrayList<>();
@@ -19,6 +42,16 @@ public class Prodotto {
 	public void addSprites(Sprites pr) {
 		sprites.add(pr);
 	}
+
+
+	public void addSprites(Collection<Sprites> pr) {
+		sprites.addAll(pr);
+	}
+
+	public void setIdProdotto(int idProdotto) {
+		this.idProdotto = idProdotto;
+	}
+
 
 	public Tipo getTipo() {
 		return tipo;
@@ -54,7 +87,16 @@ public class Prodotto {
 		return prezzo;
 	}
 
+
 	public void setPrezzo(float prezzo) {
+	    BigDecimal prezzoDecimal = BigDecimal.valueOf(prezzo);
+	    BigDecimal prezzoConIva = prezzoDecimal.multiply(BigDecimal.valueOf(1.22));
+	    BigDecimal prezzoArrotondato = prezzoConIva.setScale(2, RoundingMode.DOWN);
+	    this.prezzo = prezzoArrotondato.floatValue();
+	}
+
+	
+	public void setPrezzoWithoutIVA(float prezzo) {
 		this.prezzo = prezzo;
 	}
 
@@ -98,5 +140,13 @@ public class Prodotto {
 
 	public void setData(Date data) {
 		this.data = data;
+	}
+
+	public String getNazionalita() {
+		return Nazionalita;
+	}
+
+	public void setNazionalita(String nazionalita) {
+		Nazionalita = nazionalita;
 	}
 }

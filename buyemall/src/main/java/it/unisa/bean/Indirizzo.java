@@ -4,6 +4,20 @@ public class Indirizzo {
 	private int idIndirizzo;
 	private String via, citta, provincia, n_civico;
 
+
+	public static Indirizzo nullIndirizzo() {
+		Indirizzo n = new Indirizzo();
+		n.setIdIndirizzo(1);
+		n.setCitta("CIttà");
+
+		n.setProvincia("provincia");
+
+		n.setN_civico("civ");
+		n.setVia("via");
+		return n;
+	}
+
+
 	public String getVia() {
 		return via;
 	}
@@ -48,6 +62,9 @@ public class Indirizzo {
 	public void setN_civico(String n_civico) {
 		if (n_civico.length() <= 3)
 			this.n_civico = n_civico;
+
+
+		this.n_civico = n_civico;
 	}
 
 	public int getIdIndirizzo() {
